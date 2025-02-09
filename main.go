@@ -123,7 +123,7 @@ func deleteMonster(id int) {
 }
 
 func getRandomBuff() string {
-	buffs := []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)"}
+	buffs := []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)", "Random Weapon"}
 	return buffs[rand.Intn(len(buffs))]
 }
 
@@ -162,6 +162,42 @@ func getRandomMonster() *Monster {
 		return &monster
 	}
 	return nil
+}
+
+func changeWeapon(player *Player) {
+	rows, err := db.Query("SELECT weaponType, damage FROM weapons")
+	if err != nil {
+		log.Fatal("Error fetching weapons:", err)
+	}
+	defer rows.Close()
+
+	var weapons []string
+	var weaponMap = make(map[string]int)
+	for rows.Next() {
+		var weaponType string
+		var damage int
+		err := rows.Scan(&weaponType, &damage)
+		if err != nil {
+			log.Fatal("Error scanning weapon row:", err)
+		}
+		weapons = append(weapons, weaponType)
+		weaponMap[weaponType] = damage
+	}
+
+	prompt := promptui.Select{
+		Label: "Select a New Weapon",
+		Items: weapons,
+	}
+
+	_, result, err := prompt.Run()
+	if err != nil {
+		log.Fatal("Prompt failed:", err)
+	}
+
+	player.WeaponType = result
+	player.Damage = weaponMap[result]
+	fmt.Println(termenv.String(fmt.Sprintf(" Weapon Changed! You now wield a %s dealing %d damage.", player.WeaponType, player.Damage)).
+		Foreground(termenv.ANSIGreen))
 }
 
 func fight(player *Player) {
@@ -250,10 +286,11 @@ func buffsAction(player *Player) {
 
 	baff1 := getRandomBuff()
 	baff2 := getRandomBuff()
+	baff3 := getRandomBuff()
 
 	prompt := promptui.Select{
-		Label: "Select a Buff",
-		Items: []string{baff1, baff2},
+		Label: "Select a Buff/Weapon (Upgrade)",
+		Items: []string{baff1, baff2, baff3},
 	}
 
 	_, result, err := prompt.Run()
@@ -279,6 +316,8 @@ func buffsAction(player *Player) {
 		}
 		fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! Damage: %d, HP: %d", player.Damage, player.HP)).
 			Foreground(termenv.ANSIGreen))
+	} else if result == "Random Weapon" {
+		changeWeapon(player)
 	} else {
 		fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
 	}
