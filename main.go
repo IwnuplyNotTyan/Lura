@@ -72,10 +72,17 @@ func seedData() {
 	addMonster("Goblin", 20, 5)
 	addMonster("Troll", 60, 20)
 	addMonster("Warrior", 100, 15)
+	addMonster("Golem", 200, 20)
+	addMonster("Ogre", 80, 25)
+	addMonster("Skeleton", 30, 10)
 
-	addWeapon("Sword", 10)
-	addWeapon("Spear", 7)
-	addWeapon("Axe", 12)
+	addWeapon("Sword", 7)
+	addWeapon("Spear", 6)
+	addWeapon("Axe", 9)
+	addWeapon("Longsword", 8)
+	addWeapon("Dagger", 5)
+	addWeapon("Crossbow", 6)
+	addWeapon("Bow", 5)
 }
 
 func rng() int {
@@ -113,6 +120,11 @@ func deleteMonster(id int) {
 	if err != nil {
 		log.Fatal("Error deleting defeated monster:", err)
 	}
+}
+
+func getRandomBuff() string {
+	buffs := []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)"}
+	return buffs[rand.Intn(len(buffs))]
 }
 
 func getRandomWeapon() (string, int) {
@@ -153,7 +165,6 @@ func getRandomMonster() *Monster {
 }
 
 func fight(player *Player) {
-	// Loop infinitely until the player dies
 	for player.HP > 0 {
 		monster := getRandomMonster()
 		if monster == nil {
@@ -229,7 +240,6 @@ func fight(player *Player) {
 			time.Sleep(time.Second)
 		}
 
-		// Even if the monster is defeated, spawn a new monster
 		fmt.Println(termenv.String(fmt.Sprintf("The %s has been defeated!", monster.MonsterType)).
 			Foreground(termenv.ANSIGreen).Bold())
 		buffsAction(player)
@@ -237,9 +247,13 @@ func fight(player *Player) {
 }
 
 func buffsAction(player *Player) {
+
+	baff1 := getRandomBuff()
+	baff2 := getRandomBuff()
+
 	prompt := promptui.Select{
 		Label: "Select a Buff",
-		Items: []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (*2) & Reduce HP (/2)", "Skip Buff"},
+		Items: []string{baff1, baff2},
 	}
 
 	_, result, err := prompt.Run()
@@ -256,9 +270,13 @@ func buffsAction(player *Player) {
 		}
 		fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! HP: %d, Damage: %d", player.HP, player.Damage)).
 			Foreground(termenv.ANSIGreen))
-	} else if result == "Increase Damage (*2) & Reduce HP (/2)" {
-		player.Damage *= 2
-		player.HP /= 2
+	} else if result == "Increase Damage (+5) & Reduce HP (-5)" {
+		player.Damage += 5
+		if player.HP > 5 {
+			player.HP -= 5
+		} else {
+			player.HP = 0
+		}
 		fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! Damage: %d, HP: %d", player.Damage, player.HP)).
 			Foreground(termenv.ANSIGreen))
 	} else {
@@ -281,7 +299,7 @@ func promptAction() string {
 }
 
 func enemyTurn(monster *Monster) string {
-	rngChoice := rng() % 3 // Generates 0, 1, or 2
+	rngChoice := rng() % 3
 
 	switch rngChoice {
 	case 0:
