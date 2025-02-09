@@ -153,88 +153,86 @@ func getRandomMonster() *Monster {
 }
 
 func fight(player *Player) {
-	monster := getRandomMonster()
-	if monster == nil {
-		fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
-		return
-	}
+	// Loop infinitely until the player dies
+	for player.HP > 0 {
+		monster := getRandomMonster()
+		if monster == nil {
+			fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
+			return
+		}
 
-	fmt.Println(termenv.String(fmt.Sprintf("A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).
-		Foreground(termenv.ANSICyan))
-	fmt.Println(termenv.String(fmt.Sprintf("You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).
-		Foreground(termenv.ANSIGreen))
+		// Display the monster and player information
+		fmt.Println(termenv.String(fmt.Sprintf("A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).
+			Foreground(termenv.ANSICyan))
+		fmt.Println(termenv.String(fmt.Sprintf("You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).
+			Foreground(termenv.ANSIGreen))
 
-	playerDefending := false
-	monsterDefending := false
+		playerDefending := false
+		monsterDefending := false
 
-	for monster.HP > 0 && player.HP > 0 {
-		// --- Player's Turn ---
-		playerAction := promptAction()
+		for monster.HP > 0 && player.HP > 0 {
+			playerAction := promptAction()
 
-		if playerAction == "Defend" {
-			fmt.Println(termenv.String(" You block the attack!").Foreground(termenv.ANSIYellow))
-			playerDefending = true
-		} else if playerAction == "Heal" {
-			player.HP = min(player.HP+20, player.HP)
-			fmt.Println(termenv.String(fmt.Sprintf(" You heal! Your HP is now %d.", player.HP)).Foreground(termenv.ANSIGreen))
-			playerDefending = false
-		} else if playerAction == "Attack" {
-			playerDamage := player.Damage + rng()
-			if monsterDefending {
-				fmt.Println(termenv.String(fmt.Sprintf(" The %s blocked your attack!", monster.MonsterType)).
+			if playerAction == "Defend" {
+				fmt.Println(termenv.String(" You block the attack!").Foreground(termenv.ANSIYellow))
+				playerDefending = true
+			} else if playerAction == "Heal" {
+				player.HP = min(player.HP+20, 100)
+				fmt.Println(termenv.String(fmt.Sprintf(" You heal! Your HP is now %d.", player.HP)).Foreground(termenv.ANSIGreen))
+				playerDefending = false
+			} else if playerAction == "Attack" {
+				playerDamage := player.Damage + rng()
+				if monsterDefending {
+					fmt.Println(termenv.String(fmt.Sprintf(" The %s blocked your attack!", monster.MonsterType)).
+						Foreground(termenv.ANSIYellow))
+					monsterDefending = false // Reset defense after blocking
+				} else {
+					monster.HP -= playerDamage
+					fmt.Println(termenv.String(fmt.Sprintf("󰓥 You attack the %s for %d damage! It now has %d HP.", monster.MonsterType, playerDamage, monster.HP)).
+						Foreground(termenv.ANSIBlue))
+				}
+			}
+
+			monsterAction := enemyTurn(monster)
+
+			if monsterAction == "Defend" {
+				fmt.Println(termenv.String(fmt.Sprintf(" The %s prepares to block!", monster.MonsterType)).
 					Foreground(termenv.ANSIYellow))
-				monsterDefending = false // Reset defense after blocking
+				monsterDefending = true
+			} else if monsterAction == "Heal" {
+				maxHP := 100 // Default max HP
+				if monster.MonsterType == "Dragon" {
+					maxHP = 150
+				}
+				monster.HP = min(monster.HP+15, maxHP)
+				fmt.Println(termenv.String(fmt.Sprintf(" The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).
+					Foreground(termenv.ANSIGreen))
+				monsterDefending = false
 			} else {
-				monster.HP -= playerDamage
-				fmt.Println(termenv.String(fmt.Sprintf("󰓥 You attack the %s for %d damage! It now has %d HP.", monster.MonsterType, playerDamage, monster.HP)).
-					Foreground(termenv.ANSIBlue))
+				monsterDamage := monster.Damage + rng()
+				if playerDefending {
+					fmt.Println(termenv.String(" You blocked the enemy's attack!").Foreground(termenv.ANSIYellow))
+					playerDefending = false // Reset defense after blocking
+				} else {
+					player.HP -= monsterDamage
+					fmt.Println(termenv.String(fmt.Sprintf("󰓥 The %s attacks you for %d damage! You now have %d HP.", monster.MonsterType, monsterDamage, player.HP)).
+						Foreground(termenv.ANSIRed))
+				}
 			}
-		}
 
-		if monster.HP <= 0 {
-			fmt.Println(termenv.String(fmt.Sprintf("\n You defeated the %s!", monster.MonsterType)).
-				Foreground(termenv.ANSIGreen).Bold())
-			deleteMonster(monster.ID)
-			buffsAction(player)
-			fight(player)
-			return
-		}
-
-		// --- Enemy's Turn ---
-		monsterAction := enemyTurn(monster)
-
-		if monsterAction == "Defend" {
-			fmt.Println(termenv.String(fmt.Sprintf(" The %s prepares to block!", monster.MonsterType)).
-				Foreground(termenv.ANSIYellow))
-			monsterDefending = true
-		} else if monsterAction == "Heal" {
-			maxHP := 100 // Default max HP
-			if monster.MonsterType == "Dragon" {
-				maxHP = 150
+			if player.HP <= 0 {
+				fmt.Println(termenv.String(" You died!").Foreground(termenv.ANSIBrightRed).Bold())
+				endGame()
+				return
 			}
-			monster.HP = min(monster.HP+15, maxHP)
-			fmt.Println(termenv.String(fmt.Sprintf(" The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).
-				Foreground(termenv.ANSIGreen))
-			monsterDefending = false
-		} else {
-			monsterDamage := monster.Damage + rng()
-			if playerDefending {
-				fmt.Println(termenv.String(" You blocked the enemy's attack!").Foreground(termenv.ANSIYellow))
-				playerDefending = false // Reset defense after blocking
-			} else {
-				player.HP -= monsterDamage
-				fmt.Println(termenv.String(fmt.Sprintf("󰓥 The %s attacks you for %d damage! You now have %d HP.", monster.MonsterType, monsterDamage, player.HP)).
-					Foreground(termenv.ANSIRed))
-			}
+
+			time.Sleep(time.Second)
 		}
 
-		if player.HP <= 0 {
-			fmt.Println(termenv.String(" You died!").Foreground(termenv.ANSIBrightRed).Bold())
-			endGame()
-			return
-		}
-
-		time.Sleep(time.Second)
+		// Even if the monster is defeated, spawn a new monster
+		fmt.Println(termenv.String(fmt.Sprintf("The %s has been defeated!", monster.MonsterType)).
+			Foreground(termenv.ANSIGreen).Bold())
+		buffsAction(player)
 	}
 }
 
