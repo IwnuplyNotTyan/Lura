@@ -43,7 +43,7 @@ func main() {
 	weaponType, weaponDamage := getRandomWeapon()
 	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100}
 
-	fight(player)
+	fight(&player)
 }
 
 func createTables() {
@@ -152,7 +152,7 @@ func getRandomMonster() *Monster {
 	return nil
 }
 
-func fight(player Player) {
+func fight(player *Player) {
 	monster := getRandomMonster()
 	if monster == nil {
 		fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
@@ -175,7 +175,7 @@ func fight(player Player) {
 			fmt.Println(termenv.String(" You block the attack!").Foreground(termenv.ANSIYellow))
 			playerDefending = true
 		} else if playerAction == "Heal" {
-			player.HP = min(player.HP+20, 100)
+			player.HP = min(player.HP+20, player.HP)
 			fmt.Println(termenv.String(fmt.Sprintf(" You heal! Your HP is now %d.", player.HP)).Foreground(termenv.ANSIGreen))
 			playerDefending = false
 		} else if playerAction == "Attack" {
@@ -192,9 +192,10 @@ func fight(player Player) {
 		}
 
 		if monster.HP <= 0 {
-			fmt.Println(termenv.String(fmt.Sprintf(" You defeated the %s!", monster.MonsterType)).
+			fmt.Println(termenv.String(fmt.Sprintf("\n You defeated the %s!", monster.MonsterType)).
 				Foreground(termenv.ANSIGreen).Bold())
 			deleteMonster(monster.ID)
+			buffsAction(player)
 			fight(player)
 			return
 		}
@@ -207,8 +208,12 @@ func fight(player Player) {
 				Foreground(termenv.ANSIYellow))
 			monsterDefending = true
 		} else if monsterAction == "Heal" {
-			monster.HP = min(monster.HP+15, 100)
-			fmt.Println(termenv.String(fmt.Sprintf("  The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).
+			maxHP := 100 // Default max HP
+			if monster.MonsterType == "Dragon" {
+				maxHP = 150
+			}
+			monster.HP = min(monster.HP+15, maxHP)
+			fmt.Println(termenv.String(fmt.Sprintf(" The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).
 				Foreground(termenv.ANSIGreen))
 			monsterDefending = false
 		} else {
@@ -230,6 +235,36 @@ func fight(player Player) {
 		}
 
 		time.Sleep(time.Second)
+	}
+}
+
+func buffsAction(player *Player) {
+	prompt := promptui.Select{
+		Label: "Select a Buff",
+		Items: []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (*2) & Reduce HP (/2)", "Skip Buff"},
+	}
+
+	_, result, err := prompt.Run()
+	if err != nil {
+		log.Fatal("Prompt failed: %v", err)
+	}
+
+	if result == "Increase HP (+2) & Reduce Damage (-1)" {
+		player.HP += 2
+		if player.Damage > 1 {
+			player.Damage -= 1
+		} else {
+			fmt.Println(termenv.String(" Damage cannot be reduced further!").Foreground(termenv.ANSIRed))
+		}
+		fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! HP: %d, Damage: %d", player.HP, player.Damage)).
+			Foreground(termenv.ANSIGreen))
+	} else if result == "Increase Damage (*2) & Reduce HP (/2)" {
+		player.Damage *= 2
+		player.HP /= 2
+		fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! Damage: %d, HP: %d", player.Damage, player.HP)).
+			Foreground(termenv.ANSIGreen))
+	} else {
+		fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
 	}
 }
 
