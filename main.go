@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/charmbracelet/log"
+	"github.com/manifoldco/promptui"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/muesli/termenv"
 )
@@ -35,24 +36,16 @@ func main() {
 	}
 	defer db.Close()
 
-	// Creating tables if they don't exist
 	createTables()
-
-	// Seeding data
 	seedData()
-
-	// Initialize random seed (call only once)
 	rand.Seed(time.Now().UnixNano())
 
-	// Assign a random weapon to the player
 	weaponType, weaponDamage := getRandomWeapon()
 	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100}
 
-	// Start the game
-	attack(player)
+	fight(player)
 }
 
-// createTables ensures the tables exist before inserting data
 func createTables() {
 	_, err := db.Exec(`
 		CREATE TABLE IF NOT EXISTS monsters (
@@ -72,11 +65,13 @@ func createTables() {
 	}
 }
 
-// seedData populates the tables with initial data
 func seedData() {
 	addMonster("Dragon", 150, 30)
-	addMonster("Human", 50, 5)
-	addMonster("Cat", 5, 0)
+	addMonster("Human", 50, 10)
+	addMonster("Ork", 40, 15)
+	addMonster("Goblin", 20, 5)
+	addMonster("Troll", 60, 20)
+	addMonster("Warrior", 100, 15)
 
 	addWeapon("Sword", 10)
 	addWeapon("Spear", 7)
@@ -84,7 +79,7 @@ func seedData() {
 }
 
 func rng() int {
-	return rand.Intn(6) + 1 // Random number between 1 and 6
+	return rand.Intn(6) + 1
 }
 
 func addWeapon(weaponType string, damage int) {
@@ -129,7 +124,7 @@ func getRandomWeapon() (string, int) {
 		}
 		return weaponType, damage
 	}
-	return "Fists", 2 // Default weapon
+	return "Fists", 2
 }
 
 func getRandomMonster() *Monster {
@@ -150,47 +145,120 @@ func getRandomMonster() *Monster {
 	return nil
 }
 
-func attack(player Player) {
+func fight(player Player) {
 	monster := getRandomMonster()
 	if monster == nil {
 		fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
 		return
 	}
 
-	fmt.Println(termenv.String(fmt.Sprintf(" A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).
+	fmt.Println(termenv.String(fmt.Sprintf("A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).
 		Foreground(termenv.ANSICyan))
-
-	fmt.Println(termenv.String(fmt.Sprintf(" You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).
+	fmt.Println(termenv.String(fmt.Sprintf("You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).
 		Foreground(termenv.ANSIGreen))
 
+	playerDefending := false
+	monsterDefending := false
+
 	for monster.HP > 0 && player.HP > 0 {
-		// Player attacks
-		playerDamage := player.Damage + rng()
-		monster.HP -= playerDamage
-		fmt.Println(termenv.String(fmt.Sprintf("󰓥 You hit the %s for %d damage! It now has %d HP left.", monster.MonsterType, playerDamage, monster.HP)).
-			Foreground(termenv.ANSIBlue))
+		// --- Player's Turn ---
+		playerAction := promptAction()
+
+		if playerAction == "Defend" {
+			fmt.Println(termenv.String(" You block the attack!").Foreground(termenv.ANSIYellow))
+			playerDefending = true
+		} else if playerAction == "Heal" {
+			player.HP = min(player.HP+20, 100)
+			fmt.Println(termenv.String(fmt.Sprintf(" You heal! Your HP is now %d.", player.HP)).Foreground(termenv.ANSIGreen))
+			playerDefending = false
+		} else if playerAction == "Attack" {
+			playerDamage := player.Damage + rng()
+			if monsterDefending {
+				fmt.Println(termenv.String(fmt.Sprintf(" The %s blocked your attack!", monster.MonsterType)).
+					Foreground(termenv.ANSIYellow))
+				monsterDefending = false // Reset defense after blocking
+			} else {
+				monster.HP -= playerDamage
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥 You attack the %s for %d damage! It now has %d HP.", monster.MonsterType, playerDamage, monster.HP)).
+					Foreground(termenv.ANSIBlue))
+			}
+		}
 
 		if monster.HP <= 0 {
-			fmt.Println(termenv.String(fmt.Sprintf(" You defeated the %s!", monster.MonsterType)).
+			fmt.Println(termenv.String(fmt.Sprintf(" You defeated the %s!", monster.MonsterType)).
 				Foreground(termenv.ANSIGreen).Bold())
-			endGame()
+			fight(player)
 			return
 		}
 
-		// Monster attacks
-		monsterDamage := monster.Damage + rng()
-		player.HP -= monsterDamage
-		fmt.Println(termenv.String(fmt.Sprintf("󰓥 The %s hits you for %d damage! You now have %d HP left.", monster.MonsterType, monsterDamage, player.HP)).
-			Foreground(termenv.ANSIRed).Italic())
+		// --- Enemy's Turn ---
+		monsterAction := enemyTurn(monster)
+
+		if monsterAction == "Defend" {
+			fmt.Println(termenv.String(fmt.Sprintf(" The %s prepares to block!", monster.MonsterType)).
+				Foreground(termenv.ANSIYellow))
+			monsterDefending = true
+		} else if monsterAction == "Heal" {
+			monster.HP = min(monster.HP+15, 100)
+			fmt.Println(termenv.String(fmt.Sprintf("  The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).
+				Foreground(termenv.ANSIGreen))
+			monsterDefending = false
+		} else {
+			monsterDamage := monster.Damage + rng()
+			if playerDefending {
+				fmt.Println(termenv.String(" You blocked the enemy's attack!").Foreground(termenv.ANSIYellow))
+				playerDefending = false // Reset defense after blocking
+			} else {
+				player.HP -= monsterDamage
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥 The %s attacks you for %d damage! You now have %d HP.", monster.MonsterType, monsterDamage, player.HP)).
+					Foreground(termenv.ANSIRed))
+			}
+		}
 
 		if player.HP <= 0 {
-			fmt.Println(termenv.String(" You died!").Foreground(termenv.ANSIBrightRed).Bold())
+			fmt.Println(termenv.String(" You died!").Foreground(termenv.ANSIBrightRed).Bold())
 			endGame()
 			return
 		}
 
 		time.Sleep(time.Second)
 	}
+}
+
+func promptAction() string {
+	prompt := promptui.Select{
+		Label: "Select an action",
+		Items: []string{"Attack", "Defend", "Heal"},
+	}
+
+	_, result, err := prompt.Run()
+	if err != nil {
+		log.Fatal("Prompt failed: %v", err)
+	}
+
+	return result
+}
+
+func enemyTurn(monster *Monster) string {
+	rngChoice := rng() % 3 // Generates 0, 1, or 2
+
+	switch rngChoice {
+	case 0:
+		return "Attack"
+	case 1:
+		return "Defend"
+	case 2:
+		return "Heal"
+	default:
+		return "Attack"
+	}
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 func endGame() {
