@@ -108,6 +108,13 @@ func addMonster(monsterType string, hp int, damage int) {
 	}
 }
 
+func deleteMonster(id int) {
+	_, err := db.Exec("DELETE FROM monsters WHERE id = ?", id)
+	if err != nil {
+		log.Fatal("Error deleting defeated monster:", err)
+	}
+}
+
 func getRandomWeapon() (string, int) {
 	rows, err := db.Query("SELECT weaponType, damage FROM weapons ORDER BY RANDOM() LIMIT 1")
 	if err != nil {
@@ -187,6 +194,7 @@ func fight(player Player) {
 		if monster.HP <= 0 {
 			fmt.Println(termenv.String(fmt.Sprintf(" You defeated the %s!", monster.MonsterType)).
 				Foreground(termenv.ANSIGreen).Bold())
+			deleteMonster(monster.ID)
 			fight(player)
 			return
 		}
