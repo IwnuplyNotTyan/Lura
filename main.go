@@ -324,7 +324,7 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 			if lang == "en" {
 				fmt.Println(termenv.String(fmt.Sprintf("󰓥 The %s attacks you for %d damage! You now have %d HP.", monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
 			} else {
-				fmt.Println(termenv.String(fmt.Sprintf("󰓥 Ти атакував %s з силою %d! Тепер в тебе %d здоров'я.", monster.MonsterType, player.Damage, monster.HP)).Foreground(termenv.ANSIBlue))
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥 Ти атакував %s з силою %d! Тепер в тебе %d здоров'я.", monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
 			}
 		}
 	}
