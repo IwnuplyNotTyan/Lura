@@ -97,7 +97,7 @@ func seedData() {
 		addMonster("Golem", 200, 20)
 		addMonster("Ogre", 80, 25)
 		addMonster("Skeleton", 30, 10)
-
+		addMonster("Zombie", 40, 15)
 		addWeapon("Sword", 7)
 		addWeapon("Spear", 6)
 		addWeapon("Axe", 9)
@@ -115,7 +115,7 @@ func seedData() {
 		addMonster("Голем", 200, 20)
 		addMonster("Огр", 80, 25)
 		addMonster("Скелет", 30, 10)
-
+		addMonster("Зомбі", 40, 15)
 		addWeapon("Меч", 7)
 		addWeapon("Спис", 6)
 		addWeapon("Топор", 9)
@@ -167,9 +167,9 @@ func getRandomBuff() string {
 	var buffs []string
 
 	if lang == "en" {
-		buffs = []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)"}
+		buffs = []string{"Increase Armor (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)", "Add Armor (+50)", "Upgrade Weapon"}
 	} else {
-		buffs = []string{"Додано здоров'я (+2) & Зменшено пошкодження (-1)", "Додано пошкодження (+5) & Зменшено здоров'я (-5)"}
+		buffs = []string{"Додано захисту (+2) & Зменшено пошкодження (-1)", "Додано пошкодження (+5) & Зменшено здоров'я (-5)", "Добавити захисту (+50)", "Покращити зброю"}
 	}
 	return buffs[rand.Intn(len(buffs))]
 }
@@ -346,15 +346,14 @@ func buffsAction(player *Player) {
 			Label: "Виберіть бонус або зброю (покращення)",
 			Items: []string{baff1, baff2, "Випадкова зброя"},
 		}
-	} // <-- Moved closing brace here
+	}
 
 	_, result, err := prompt.Run()
 	if err != nil {
 		log.Fatal("Prompt failed:", err)
 	}
 
-	// Apply buffs based on user selection
-	if result == "Increase HP (+2) & Reduce Damage (-1)" || result == "Додано здоров'я (+2) & Зменшено пошкодження (-1)" {
+	if result == "Increase Armor (+2) & Reduce Damage (-1)" || result == "Додано захисту (+2) & Зменшено пошкодження (-1)" {
 		player.HP += 2
 		if player.Damage > 1 {
 			player.Damage -= 1
@@ -379,7 +378,10 @@ func buffsAction(player *Player) {
 		weaponType, weaponDamage := getRandomWeapon()
 		player.WeaponType = weaponType
 		player.Damage = weaponDamage
-
+	} else if result == "Add Armor (+50)" || result == "Добавити захисту (+50)" {
+		player.HP += 50
+	} else if result == "Upgrade Weapon" || result == "Покращити зброю" {
+		player.Damage *= 2
 	} else {
 		fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
 	}
