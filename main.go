@@ -26,6 +26,7 @@ type Player struct {
 	Damage     int
 	HP         int
 	maxHP      int
+	Coins      int
 }
 
 var (
@@ -46,7 +47,7 @@ func main() {
 	seedData()
 
 	weaponType, weaponDamage := getRandomWeapon()
-	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100}
+	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100, Coins: 0}
 
 	fight(&player)
 }
@@ -84,13 +85,13 @@ func seedData() {
 			{MonsterType: "Zombie", HP: 70, Damage: 15},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Sword", Damage: 7},
-			{WeaponType: "Spear", Damage: 6},
-			{WeaponType: "Axe", Damage: 9},
-			{WeaponType: "Longsword", Damage: 8},
-			{WeaponType: "Dagger", Damage: 5},
-			{WeaponType: "Crossbow", Damage: 6},
-			{WeaponType: "Bow", Damage: 5},
+			{WeaponType: "Sword", Damage: 10},
+			{WeaponType: "Spear", Damage: 9},
+			{WeaponType: "Axe", Damage: 12},
+			{WeaponType: "Longsword", Damage: 11},
+			{WeaponType: "Dagger", Damage: 8},
+			{WeaponType: "Crossbow", Damage: 9},
+			{WeaponType: "Bow", Damage: 8},
 		}
 	} else {
 		monsters = []Monster{
@@ -106,13 +107,13 @@ func seedData() {
 			{MonsterType: "Зомбі", HP: 70, Damage: 15},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Меч", Damage: 7},
-			{WeaponType: "Спис", Damage: 6},
-			{WeaponType: "Топор", Damage: 9},
-			{WeaponType: "Довгий Меч", Damage: 8},
-			{WeaponType: "Кинджал", Damage: 5},
-			{WeaponType: "Арбалет", Damage: 6},
-			{WeaponType: "Лук", Damage: 5},
+			{WeaponType: "Меч", Damage: 10},
+			{WeaponType: "Спис", Damage: 9},
+			{WeaponType: "Топор", Damage: 12},
+			{WeaponType: "Довгий Меч", Damage: 11},
+			{WeaponType: "Кинджал", Damage: 8},
+			{WeaponType: "Арбалет", Damage: 9},
+			{WeaponType: "Лук", Damage: 8},
 		}
 	}
 }
@@ -271,6 +272,13 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 }
 
 func buffsAction(player *Player) {
+	player.Coins += 10
+	if lang == "en" {
+		fmt.Printf("\n You have %d coins\n", player.Coins)
+	} else {
+		fmt.Printf("\n У тебе %d копiйок\n", player.Coins)
+	}
+
 	baff1 := getRandomBuff()
 	baff2 := getRandomBuff()
 
@@ -326,7 +334,14 @@ func buffsAction(player *Player) {
 	} else if result == "Add Armor (+50)" || result == "Добавити захисту (+50)" {
 		player.HP += 50
 	} else if result == "Upgrade Weapon" || result == "Покращити зброю" {
-		player.Damage += 10
+		if player.Coins > 20 {
+			player.Damage += 10
+			player.Coins -= 30
+		} else if lang == "en" {
+			fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
+		}
+	} else if lang == "ua" {
+		fmt.Println(termenv.String(" Бафф не застосовано.").Foreground(termenv.ANSIYellow))
 	} else {
 		fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
 	}
