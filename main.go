@@ -103,14 +103,15 @@ func seedData() {
 			{MonsterType: "Голем", HP: 250, Damage: 15},
 			{MonsterType: "Огр", HP: 110, Damage: 25},
 			{MonsterType: "Скелет", HP: 60, Damage: 10},
-			{MonsterType: "Зомбі", HP: 78, Damage: 15},6		}
+			{MonsterType: "Зомбі", HP: 70, Damage: 15},
+		}
 		weapons = []Weapon{
-	5	{WeaponTyp10: "Меч", Damage: 8},
+			{WeaponType: "Меч", Damage: 7},
 			{WeaponType: "Спис", Damage: 6},
-			{2eaponType: "Топор", Damag5: 9},
-			{W15ponType: "Довгий Меч", Dam110e: 8},
-			{WeaponType: "Кинджал", Damage: 560
-			{WeaponType: "Арбалет", Damage: 670,
+			{WeaponType: "Топор", Damage: 9},
+			{WeaponType: "Довгий Меч", Damage: 8},
+			{WeaponType: "Кинджал", Damage: 5},
+			{WeaponType: "Арбалет", Damage: 6},
 			{WeaponType: "Лук", Damage: 5},
 		}
 	}
