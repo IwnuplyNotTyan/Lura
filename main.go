@@ -1,18 +1,15 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"math/rand"
 	"time"
 
 	"github.com/manifoldco/promptui"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/muesli/termenv"
 )
 
-var db *sql.DB
 var term = termenv.EnvColorProfile()
 
 type Monster struct {
@@ -31,45 +28,28 @@ type Player struct {
 	maxHP      int
 }
 
-func main() {
-	var err error
-	db, err = sql.Open("sqlite3", "./.yasg.db")
-	if err != nil {
-		log.Fatal("Error opening database:", err)
-	}
-	defer db.Close()
+var (
+	monsters []Monster
+	weapons  []Weapon
+	lang     string
+)
 
-	createTables()
-	seedData()
+type Weapon struct {
+	WeaponType string
+	Damage     int
+}
+
+func main() {
 	rand.Seed(time.Now().UnixNano())
+
+	selectLanguage()
+	seedData()
 
 	weaponType, weaponDamage := getRandomWeapon()
 	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100}
 
-	selectLanguage()
 	fight(&player)
 }
-
-func createTables() {
-	_, err := db.Exec(`
-		CREATE TABLE IF NOT EXISTS monsters (
-			id INTEGER PRIMARY KEY,
-			monsterType TEXT,
-			hp INTEGER,
-			damage INTEGER
-		);
-		CREATE TABLE IF NOT EXISTS weapons (
-			id INTEGER PRIMARY KEY,
-			weaponType TEXT,
-			damage INTEGER
-		);
-	`)
-	if err != nil {
-		log.Fatal("Error creating tables:", err)
-	}
-}
-
-var lang string
 
 func selectLanguage() {
 	prompt := promptui.Select{
@@ -91,41 +71,49 @@ func selectLanguage() {
 
 func seedData() {
 	if lang == "en" {
-		addMonster("Dragon", 150, 30)
-		addMonster("Human", 50, 10)
-		addMonster("Ork", 40, 15)
-		addMonster("Goblin", 20, 5)
-		addMonster("Troll", 60, 20)
-		addMonster("Warrior", 100, 15)
-		addMonster("Golem", 200, 20)
-		addMonster("Ogre", 80, 25)
-		addMonster("Skeleton", 30, 10)
-		addMonster("Zombie", 40, 15)
-		addWeapon("Sword", 7)
-		addWeapon("Spear", 6)
-		addWeapon("Axe", 9)
-		addWeapon("Longsword", 8)
-		addWeapon("Dagger", 5)
-		addWeapon("Crossbow", 6)
-		addWeapon("Bow", 5)
+		monsters = []Monster{
+			{MonsterType: "Dragon", HP: 150, Damage: 30},
+			{MonsterType: "Human", HP: 50, Damage: 10},
+			{MonsterType: "Ork", HP: 40, Damage: 15},
+			{MonsterType: "Goblin", HP: 20, Damage: 5},
+			{MonsterType: "Troll", HP: 60, Damage: 20},
+			{MonsterType: "Warrior", HP: 100, Damage: 15},
+			{MonsterType: "Golem", HP: 200, Damage: 20},
+			{MonsterType: "Ogre", HP: 80, Damage: 25},
+			{MonsterType: "Skeleton", HP: 30, Damage: 10},
+			{MonsterType: "Zombie", HP: 40, Damage: 15},
+		}
+		weapons = []Weapon{
+			{WeaponType: "Sword", Damage: 7},
+			{WeaponType: "Spear", Damage: 6},
+			{WeaponType: "Axe", Damage: 9},
+			{WeaponType: "Longsword", Damage: 8},
+			{WeaponType: "Dagger", Damage: 5},
+			{WeaponType: "Crossbow", Damage: 6},
+			{WeaponType: "Bow", Damage: 5},
+		}
 	} else {
-		addMonster("Дракон", 150, 30)
-		addMonster("Людина", 50, 10)
-		addMonster("Орк", 40, 15)
-		addMonster("Гоблін", 20, 5)
-		addMonster("Троль", 60, 20)
-		addMonster("Воїн", 100, 15)
-		addMonster("Голем", 200, 20)
-		addMonster("Огр", 80, 25)
-		addMonster("Скелет", 30, 10)
-		addMonster("Зомбі", 40, 15)
-		addWeapon("Меч", 7)
-		addWeapon("Спис", 6)
-		addWeapon("Топор", 9)
-		addWeapon("Довгий Меч", 8)
-		addWeapon("Кинджал", 5)
-		addWeapon("Арбалет", 6)
-		addWeapon("Лук", 5)
+		monsters = []Monster{
+			{MonsterType: "Дракон", HP: 150, Damage: 30},
+			{MonsterType: "Людина", HP: 50, Damage: 10},
+			{MonsterType: "Орк", HP: 40, Damage: 15},
+			{MonsterType: "Гоблін", HP: 20, Damage: 5},
+			{MonsterType: "Троль", HP: 60, Damage: 20},
+			{MonsterType: "Воїн", HP: 100, Damage: 15},
+			{MonsterType: "Голем", HP: 200, Damage: 20},
+			{MonsterType: "Огр", HP: 80, Damage: 25},
+			{MonsterType: "Скелет", HP: 30, Damage: 10},
+			{MonsterType: "Зомбі", HP: 40, Damage: 15},
+		}
+		weapons = []Weapon{
+			{WeaponType: "Меч", Damage: 7},
+			{WeaponType: "Спис", Damage: 6},
+			{WeaponType: "Топор", Damage: 9},
+			{WeaponType: "Довгий Меч", Damage: 8},
+			{WeaponType: "Кинджал", Damage: 5},
+			{WeaponType: "Арбалет", Damage: 6},
+			{WeaponType: "Лук", Damage: 5},
+		}
 	}
 }
 
@@ -133,37 +121,22 @@ func rng() int {
 	return rand.Intn(6) + 1
 }
 
-func addWeapon(weaponType string, damage int) {
-	stmt, err := db.Prepare("INSERT INTO weapons (weaponType, damage) VALUES (?, ?)")
-	if err != nil {
-		log.Fatal("Error preparing weapon insert:", err)
+func getRandomWeapon() (string, int) {
+	if len(weapons) == 0 {
+		return "Fists", 2 // Default weapon if no weapons are available
 	}
-	defer stmt.Close()
-
-	_, err = stmt.Exec(weaponType, damage)
-	if err != nil {
-		log.Fatal("Error inserting weapon:", err)
-	}
+	weapon := weapons[rand.Intn(len(weapons))]
+	return weapon.WeaponType, weapon.Damage
 }
 
-func addMonster(monsterType string, hp int, damage int) {
-	stmt, err := db.Prepare("INSERT INTO monsters (monsterType, hp, damage) VALUES (?, ?, ?)")
-	if err != nil {
-		log.Fatal("Error preparing monster insert:", err)
+func getRandomMonster() *Monster {
+	if len(monsters) == 0 {
+		return nil
 	}
-	defer stmt.Close()
-
-	_, err = stmt.Exec(monsterType, hp, damage)
-	if err != nil {
-		log.Fatal("Error inserting monster:", err)
-	}
-}
-
-func deleteMonster(id int) {
-	_, err := db.Exec("DELETE FROM monsters WHERE id = ?", id)
-	if err != nil {
-		log.Fatal("Error deleting defeated monster:", err)
-	}
+	monster := monsters[rand.Intn(len(monsters))]
+	monster.LVL = rand.Intn(5) + 1
+	monster.maxHP = monster.HP + (monster.LVL * 10)
+	return &monster
 }
 
 func getRandomBuff() string {
@@ -175,47 +148,6 @@ func getRandomBuff() string {
 		buffs = []string{"Додано здоров'я (+2) & Зменшено пошкодження (-1)", "Додано пошкодження (+5) & Зменшено здоров'я (-5)", "Добавити захисту (+50)", "Покращити зброю"}
 	}
 	return buffs[rand.Intn(len(buffs))]
-}
-
-func getRandomWeapon() (string, int) {
-	rows, err := db.Query("SELECT weaponType, damage FROM weapons ORDER BY RANDOM() LIMIT 1")
-	if err != nil {
-		log.Fatal("Error fetching weapon:", err)
-	}
-	defer rows.Close()
-
-	var weaponType string
-	var damage int
-	if rows.Next() {
-		err := rows.Scan(&weaponType, &damage)
-		if err != nil {
-			log.Fatal("Error scanning weapon row:", err)
-		}
-		return weaponType, damage
-	}
-	return "Fists", 2
-}
-
-func getRandomMonster() *Monster {
-	rows, err := db.Query("SELECT id, monsterType, hp, damage FROM monsters ORDER BY RANDOM() LIMIT 1")
-	if err != nil {
-		log.Fatal("Error fetching monster:", err)
-	}
-	defer rows.Close()
-
-	var monster Monster
-	if rows.Next() {
-		err := rows.Scan(&monster.ID, &monster.MonsterType, &monster.HP, &monster.Damage)
-		if err != nil {
-			log.Fatal("Error scanning monster row:", err)
-		}
-
-		monster.LVL = rand.Intn(5) + 1
-		monster.maxHP = monster.HP + (monster.LVL * 10)
-
-		return &monster
-	}
-	return nil
 }
 
 func fight(player *Player) {
@@ -252,7 +184,6 @@ func fight(player *Player) {
 			// Check if player died
 			if player.HP <= 0 {
 				fmt.Println(termenv.String(" You died!").Foreground(termenv.ANSIBrightRed).Bold())
-				endGame()
 				return
 			}
 
@@ -446,11 +377,4 @@ func min(a, b int) int {
 		return a
 	}
 	return b
-}
-
-func endGame() {
-	_, err := db.Exec("DROP TABLE IF EXISTS monsters; DROP TABLE IF EXISTS weapons")
-	if err != nil {
-		log.Fatal("Error cleaning up database:", err)
-	}
 }
