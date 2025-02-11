@@ -73,15 +73,15 @@ func seedData() {
 	if lang == "en" {
 		monsters = []Monster{
 			{MonsterType: "Dragon", HP: 150, Damage: 30},
-			{MonsterType: "Human", HP: 50, Damage: 10},
-			{MonsterType: "Ork", HP: 40, Damage: 15},
-			{MonsterType: "Goblin", HP: 20, Damage: 5},
-			{MonsterType: "Troll", HP: 60, Damage: 20},
-			{MonsterType: "Warrior", HP: 100, Damage: 15},
-			{MonsterType: "Golem", HP: 200, Damage: 20},
-			{MonsterType: "Ogre", HP: 80, Damage: 25},
-			{MonsterType: "Skeleton", HP: 30, Damage: 10},
-			{MonsterType: "Zombie", HP: 40, Damage: 15},
+			{MonsterType: "Human", HP: 80, Damage: 10},
+			{MonsterType: "Ork", HP: 60, Damage: 15},
+			{MonsterType: "Goblin", HP: 50, Damage: 10},
+			{MonsterType: "Troll", HP: 80, Damage: 20},
+			{MonsterType: "Warrior", HP: 100, Damage: 25},
+			{MonsterType: "Golem", HP: 250, Damage: 15},
+			{MonsterType: "Ogre", HP: 110, Damage: 25},
+			{MonsterType: "Skeleton", HP: 60, Damage: 10},
+			{MonsterType: "Zombie", HP: 70, Damage: 15},
 		}
 		weapons = []Weapon{
 			{WeaponType: "Sword", Damage: 7},
@@ -95,23 +95,22 @@ func seedData() {
 	} else {
 		monsters = []Monster{
 			{MonsterType: "Дракон", HP: 150, Damage: 30},
-			{MonsterType: "Людина", HP: 50, Damage: 10},
-			{MonsterType: "Орк", HP: 40, Damage: 15},
-			{MonsterType: "Гоблін", HP: 20, Damage: 5},
-			{MonsterType: "Троль", HP: 60, Damage: 20},
-			{MonsterType: "Воїн", HP: 100, Damage: 15},
-			{MonsterType: "Голем", HP: 200, Damage: 20},
-			{MonsterType: "Огр", HP: 80, Damage: 25},
-			{MonsterType: "Скелет", HP: 30, Damage: 10},
-			{MonsterType: "Зомбі", HP: 40, Damage: 15},
-		}
+			{MonsterType: "Людина", HP: 80, Damage: 10},
+			{MonsterType: "Орк", HP: 60, Damage: 15},
+			{MonsterType: "Гоблін", HP: 50, Damage: 10},
+			{MonsterType: "Троль", HP: 80, Damage: 20},
+			{MonsterType: "Воїн", HP: 100, Damage: 25},
+			{MonsterType: "Голем", HP: 250, Damage: 15},
+			{MonsterType: "Огр", HP: 110, Damage: 25},
+			{MonsterType: "Скелет", HP: 60, Damage: 10},
+			{MonsterType: "Зомбі", HP: 78, Damage: 15},6		}
 		weapons = []Weapon{
-			{WeaponType: "Меч", Damage: 7},
+	5	{WeaponTyp10: "Меч", Damage: 8},
 			{WeaponType: "Спис", Damage: 6},
-			{WeaponType: "Топор", Damage: 9},
-			{WeaponType: "Довгий Меч", Damage: 8},
-			{WeaponType: "Кинджал", Damage: 5},
-			{WeaponType: "Арбалет", Damage: 6},
+			{2eaponType: "Топор", Damag5: 9},
+			{W15ponType: "Довгий Меч", Dam110e: 8},
+			{WeaponType: "Кинджал", Damage: 560
+			{WeaponType: "Арбалет", Damage: 670,
 			{WeaponType: "Лук", Damage: 5},
 		}
 	}
@@ -264,7 +263,7 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 			if lang == "en" {
 				fmt.Println(termenv.String(fmt.Sprintf("󰓥 The %s attacks you for %d damage! You now have %d HP.", monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
 			} else {
-				fmt.Println(termenv.String(fmt.Sprintf("󰓥 Ти атакував %s з силою %d! Тепер в тебе %d здоров'я.", monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥 Тебе атакував %s з силою %d! Тепер в тебе %d здоров'я.", monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
 			}
 		}
 	}
@@ -283,7 +282,7 @@ func buffsAction(player *Player) {
 		}
 	} else if lang == "ua" {
 		prompt = promptui.Select{
-			Label: "Виберіть бонус або зброю (покращення)",
+			Label: "Виберіть бонус або зброю",
 			Items: []string{baff1, baff2, "Випадкова зброя"},
 		}
 	}
