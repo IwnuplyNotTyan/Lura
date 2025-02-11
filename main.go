@@ -3,10 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"math/rand"
 	"time"
 
-	"github.com/charmbracelet/log"
 	"github.com/manifoldco/promptui"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/muesli/termenv"
@@ -20,12 +20,15 @@ type Monster struct {
 	MonsterType string
 	HP          int
 	Damage      int
+	LVL         int
+	maxHP       int
 }
 
 type Player struct {
 	WeaponType string
 	Damage     int
 	HP         int
+	maxHP      int
 }
 
 func main() {
@@ -41,7 +44,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	weaponType, weaponDamage := getRandomWeapon()
-	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100}
+	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100}
 
 	selectLanguage()
 	fight(&player)
@@ -167,9 +170,9 @@ func getRandomBuff() string {
 	var buffs []string
 
 	if lang == "en" {
-		buffs = []string{"Increase Armor (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)", "Add Armor (+50)", "Upgrade Weapon"}
+		buffs = []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)", "Add Armor (+50)", "Upgrade Weapon"}
 	} else {
-		buffs = []string{"Додано захисту (+2) & Зменшено пошкодження (-1)", "Додано пошкодження (+5) & Зменшено здоров'я (-5)", "Добавити захисту (+50)", "Покращити зброю"}
+		buffs = []string{"Додано здоров'я (+2) & Зменшено пошкодження (-1)", "Додано пошкодження (+5) & Зменшено здоров'я (-5)", "Добавити захисту (+50)", "Покращити зброю"}
 	}
 	return buffs[rand.Intn(len(buffs))]
 }
@@ -206,6 +209,10 @@ func getRandomMonster() *Monster {
 		if err != nil {
 			log.Fatal("Error scanning monster row:", err)
 		}
+
+		monster.LVL = rand.Intn(5) + 1
+		monster.maxHP = monster.HP + (monster.LVL * 10)
+
 		return &monster
 	}
 	return nil
@@ -252,10 +259,11 @@ func fight(player *Player) {
 			time.Sleep(time.Second)
 		}
 
-		// Monster defeated, apply buffs
-		fmt.Println(termenv.String(fmt.Sprintf("The %s has been defeated!", monster.MonsterType)).
-			Foreground(termenv.ANSIGreen).Bold())
-
+		if lang == "en" {
+			fmt.Println(termenv.String(fmt.Sprintf("The %s has been defeated!\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
+		} else if lang == "ua" {
+			fmt.Println(termenv.String(fmt.Sprintf("%s був переможений\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
+		}
 		buffsAction(player)
 	}
 }
@@ -279,7 +287,7 @@ func printDefendMessage(englishMessage, ukrainianMessage string) {
 }
 
 func healPlayer(player *Player) {
-	player.HP = min(player.HP+15, 100)
+	player.HP = min(player.HP+15, player.maxHP)
 	if lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf(" You heal! Your HP is now %d.", player.HP)).Foreground(termenv.ANSIGreen))
 	} else {
@@ -307,7 +315,8 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 		printDefendMessage("The monster prepares to block!", "Монстр готується заблокувати!")
 		*monsterDefending = true
 	} else if monsterAction == "Heal" {
-		monster.HP = min(monster.HP+15, 200) // Fixed monster healing limit
+		monster.HP = min(monster.HP+15, monster.maxHP)
+		monster.HP = min(monster.HP+15, monster.maxHP)
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf(" The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIGreen))
 		} else {
@@ -315,7 +324,7 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 		}
 		*monsterDefending = false
 	} else {
-		monsterDamage := monster.Damage + rng()
+		monsterDamage := monster.Damage + rng() + monster.LVL
 		if *playerDefending {
 			printDefendMessage("You blocked the enemy's attack!", "Ти заблокував атаку ворога!")
 			*playerDefending = false // Reset defense after blocking
@@ -353,21 +362,26 @@ func buffsAction(player *Player) {
 		log.Fatal("Prompt failed:", err)
 	}
 
-	if result == "Increase Armor (+2) & Reduce Damage (-1)" || result == "Додано захисту (+2) & Зменшено пошкодження (-1)" {
+	if result == "Increase HP (+2) & Reduce Damage (-1)" || result == "Додано здоров'я (+2) & Зменшено пошкодження (-1)" {
 		player.HP += 2
 		if player.Damage > 1 {
 			player.Damage -= 1
+			player.maxHP += 2
 		} else {
 			fmt.Println(termenv.String(" Damage cannot be reduced further!").Foreground(termenv.ANSIRed))
 		}
-		fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! HP: %d, Damage: %d", player.HP, player.Damage)).Foreground(termenv.ANSIGreen))
-
+		if lang == "en" {
+			fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! Damage: %d, HP: %d", player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
+		} else {
+			fmt.Println(termenv.String(fmt.Sprintf(" Бафф застосовано! Здоров'я: %d, Пошкодження: %d", player.HP, player.Damage)).Foreground(termenv.ANSIGreen))
+		}
 	} else if result == "Increase Damage (+5) & Reduce HP (-5)" || result == "Додано пошкодження (+5) & Зменшено здоров'я (-5)" {
 		player.Damage += 5
-		if player.HP > 5 {
+		if player.maxHP > 5 {
+			player.maxHP -= 5
 			player.HP -= 5
 		} else {
-			player.HP = 0
+			player.maxHP = 1
 		}
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf(" Buff Applied! Damage: %d, HP: %d", player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
@@ -381,7 +395,7 @@ func buffsAction(player *Player) {
 	} else if result == "Add Armor (+50)" || result == "Добавити захисту (+50)" {
 		player.HP += 50
 	} else if result == "Upgrade Weapon" || result == "Покращити зброю" {
-		player.Damage *= 2
+		player.Damage += 10
 	} else {
 		fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
 	}
@@ -435,7 +449,7 @@ func min(a, b int) int {
 }
 
 func endGame() {
-	_, err := db.Exec("DROP TABLE IF EXISTS monsters; DROP TABLE IF EXISTS weapons;")
+	_, err := db.Exec("DROP TABLE IF EXISTS monsters; DROP TABLE IF EXISTS weapons")
 	if err != nil {
 		log.Fatal("Error cleaning up database:", err)
 	}
