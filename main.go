@@ -27,6 +27,7 @@ type Player struct {
 	HP         int
 	maxHP      int
 	Coins      int
+	Stamina    int
 }
 
 var (
@@ -38,6 +39,7 @@ var (
 type Weapon struct {
 	WeaponType string
 	Damage     int
+	Stamina    int
 }
 
 func main() {
@@ -47,7 +49,7 @@ func main() {
 	seedData()
 
 	weaponType, weaponDamage := getRandomWeapon()
-	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100, Coins: 0}
+	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100, Coins: 0, Stamina: 100}
 
 	fight(&player)
 }
@@ -60,7 +62,7 @@ func selectLanguage() {
 
 	_, result, err := prompt.Run()
 	if err != nil {
-		log.Fatal("Prompt failed: %v", err)
+		log.Fatal(err)
 	}
 
 	if result == "Українська" {
@@ -85,13 +87,13 @@ func seedData() {
 			{MonsterType: "Zombie", HP: 70, Damage: 15},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Sword", Damage: 10},
-			{WeaponType: "Spear", Damage: 9},
-			{WeaponType: "Axe", Damage: 12},
-			{WeaponType: "Longsword", Damage: 11},
-			{WeaponType: "Dagger", Damage: 8},
-			{WeaponType: "Crossbow", Damage: 9},
-			{WeaponType: "Bow", Damage: 8},
+			{WeaponType: "Sword", Damage: 10, Stamina: 10},
+			{WeaponType: "Spear", Damage: 9, Stamina: 7},
+			{WeaponType: "Axe", Damage: 12, Stamina: 15},
+			{WeaponType: "Longsword", Damage: 11, Stamina: 13},
+			{WeaponType: "Dagger", Damage: 8, Stamina: 5},
+			{WeaponType: "Crossbow", Damage: 9, Stamina: 11},
+			{WeaponType: "Bow", Damage: 8, Stamina: 9},
 		}
 	} else {
 		monsters = []Monster{
@@ -107,13 +109,13 @@ func seedData() {
 			{MonsterType: "Зомбі", HP: 70, Damage: 15},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Меч", Damage: 10},
-			{WeaponType: "Спис", Damage: 9},
-			{WeaponType: "Топор", Damage: 12},
-			{WeaponType: "Довгий Меч", Damage: 11},
-			{WeaponType: "Кинджал", Damage: 8},
-			{WeaponType: "Арбалет", Damage: 9},
-			{WeaponType: "Лук", Damage: 8},
+			{WeaponType: "Меч", Damage: 10, Stamina: 10},
+			{WeaponType: "Спис", Damage: 9, Stamina: 7},
+			{WeaponType: "Топор", Damage: 12, Stamina: 15},
+			{WeaponType: "Довгий Меч", Damage: 11, Stamina: 13},
+			{WeaponType: "Кинджал", Damage: 8, Stamina: 5},
+			{WeaponType: "Арбалет", Damage: 9, Stamina: 11},
+			{WeaponType: "Лук", Damage: 8, Stamina: 9},
 		}
 	}
 }
@@ -124,7 +126,7 @@ func rng() int {
 
 func getRandomWeapon() (string, int) {
 	if len(weapons) == 0 {
-		return "Fists", 2 // Default weapon if no weapons are available
+		return "Fists", 2
 	}
 	weapon := weapons[rand.Intn(len(weapons))]
 	return weapon.WeaponType, weapon.Damage
@@ -176,6 +178,8 @@ func fight(player *Player) {
 				playerDefending = false
 			} else if playerAction == "Attack" || playerAction == "Атакувати" {
 				playerAttack(player, monster, &playerDefending, &monsterDefending)
+			} else if playerAction == "Skip" || playerAction == "Пропустити" {
+				playerSkip(player)
 			}
 
 			// Monster's turn
@@ -202,11 +206,11 @@ func fight(player *Player) {
 
 func displayFightIntro(player *Player, monster *Monster) {
 	if lang == "en" {
-		fmt.Println(termenv.String(fmt.Sprintf("A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
-		fmt.Println(termenv.String(fmt.Sprintf("You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
+		fmt.Println(termenv.String(fmt.Sprintf(" A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
+		fmt.Println(termenv.String(fmt.Sprintf(" You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
 	} else {
-		fmt.Println(termenv.String(fmt.Sprintf("Дикий %s з'являється з %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
-		fmt.Println(termenv.String(fmt.Sprintf("Ти володієш %s, наносиш %d пошкодження, у тебе %d здоров'я.", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
+		fmt.Println(termenv.String(fmt.Sprintf(" Дикий %s з'являється з %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
+		fmt.Println(termenv.String(fmt.Sprintf(" Ти володієш %s, наносиш %d пошкодження, у тебе %d здоров'я.", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
 	}
 }
 
@@ -228,17 +232,46 @@ func healPlayer(player *Player) {
 }
 
 func playerAttack(player *Player, monster *Monster, playerDefending *bool, monsterDefending *bool) {
+	// Find the equipped weapon
+	var weapon *Weapon
+	for _, w := range weapons {
+		if w.WeaponType == player.WeaponType {
+			weapon = &w
+			break
+		}
+	}
+
+	if weapon == nil {
+		weapon = &Weapon{WeaponType: "Fists", Damage: 2, Stamina: 0}
+	}
+
 	playerDamage := player.Damage + rng()
 	if *monsterDefending {
 		printDefendMessage("The monster blocked your attack!", "Монстр заблокував твою атаку!")
-		*monsterDefending = false // Reset defense after blocking
-	} else {
+		*monsterDefending = false
+	} else if player.Stamina >= weapon.Stamina {
+		player.Stamina -= weapon.Stamina
 		monster.HP -= playerDamage
 		if lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥 You attack the %s for %d damage! It now has %d HP.", monster.MonsterType, playerDamage, monster.HP)).Foreground(termenv.ANSIBlue))
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥 You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥 Ти атакував %s з силою %d! Тепер в нього %d здоров'я.", monster.MonsterType, playerDamage, monster.HP)).Foreground(termenv.ANSIBlue))
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥 Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		}
+	} else {
+		if lang == "en" {
+			fmt.Println(termenv.String(" Not enough stamina to attack!").Foreground(termenv.ANSIRed))
+		} else {
+			fmt.Println(termenv.String(" Недостатньо витривалості для атаки!").Foreground(termenv.ANSIRed))
+		}
+	}
+}
+
+func playerSkip(player *Player) {
+	if player.Stamina < 100 {
+		player.Stamina = min(player.Stamina+20, 100)
+	}
+	if lang == "en" {
+		fmt.Println(termenv.String(fmt.Sprintf(" You have %d stamina left", player.Stamina)).Foreground(termenv.ANSIGreen))
 	}
 }
 
@@ -350,16 +383,15 @@ func buffsAction(player *Player) {
 func promptAction() string {
 	var prompt promptui.Select
 
-	// Set the prompt based on language
 	if lang == "en" {
 		prompt = promptui.Select{
 			Label: "Select an action",
-			Items: []string{"Attack", "Defend", "Heal"},
+			Items: []string{"Attack", "Defend", "Heal", "Skip"},
 		}
 	} else {
 		prompt = promptui.Select{
 			Label: "Вибери дію",
-			Items: []string{"Атакувати", "Захищатися", "Лікуватися"},
+			Items: []string{"Атакувати", "Захищатися", "Лікуватися", "Пропустити"},
 		}
 	}
 
