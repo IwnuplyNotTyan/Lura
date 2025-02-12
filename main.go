@@ -28,6 +28,7 @@ type Player struct {
 	maxHP      int
 	Coins      int
 	Stamina    int
+	maxStamina int
 }
 
 var (
@@ -49,7 +50,7 @@ func main() {
 	seedData()
 
 	weaponType, weaponDamage := getRandomWeapon()
-	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100, Coins: 0, Stamina: 100}
+	player := Player{WeaponType: weaponType, Damage: weaponDamage * rng(), HP: 100, maxHP: 100, Coins: 0, Stamina: 100, maxStamina: 100}
 
 	fight(&player)
 }
@@ -75,14 +76,14 @@ func selectLanguage() {
 func seedData() {
 	if lang == "en" {
 		monsters = []Monster{
-			{MonsterType: "Dragon", HP: 150, Damage: 30},
-			{MonsterType: "Human", HP: 80, Damage: 10},
+			{MonsterType: "Dragon", HP: 150, Damage: 25},
+			{MonsterType: "Human", HP: 70, Damage: 10},
 			{MonsterType: "Ork", HP: 60, Damage: 15},
 			{MonsterType: "Goblin", HP: 50, Damage: 10},
 			{MonsterType: "Troll", HP: 80, Damage: 20},
-			{MonsterType: "Warrior", HP: 100, Damage: 25},
-			{MonsterType: "Golem", HP: 250, Damage: 15},
-			{MonsterType: "Ogre", HP: 110, Damage: 25},
+			{MonsterType: "Warrior", HP: 100, Damage: 20},
+			{MonsterType: "Golem", HP: 200, Damage: 10},
+			{MonsterType: "Ogre", HP: 100, Damage: 20},
 			{MonsterType: "Skeleton", HP: 60, Damage: 10},
 			{MonsterType: "Zombie", HP: 70, Damage: 15},
 		}
@@ -98,12 +99,12 @@ func seedData() {
 	} else {
 		monsters = []Monster{
 			{MonsterType: "Дракон", HP: 150, Damage: 30},
-			{MonsterType: "Людина", HP: 80, Damage: 10},
+			{MonsterType: "Людина", HP: 70, Damage: 10},
 			{MonsterType: "Орк", HP: 60, Damage: 15},
 			{MonsterType: "Гоблін", HP: 50, Damage: 10},
 			{MonsterType: "Троль", HP: 80, Damage: 20},
-			{MonsterType: "Воїн", HP: 100, Damage: 25},
-			{MonsterType: "Голем", HP: 250, Damage: 15},
+			{MonsterType: "Воїн", HP: 100, Damage: 20},
+			{MonsterType: "Голем", HP: 200, Damage: 10},
 			{MonsterType: "Огр", HP: 110, Damage: 25},
 			{MonsterType: "Скелет", HP: 60, Damage: 10},
 			{MonsterType: "Зомбі", HP: 70, Damage: 15},
@@ -111,7 +112,7 @@ func seedData() {
 		weapons = []Weapon{
 			{WeaponType: "Меч", Damage: 10, Stamina: 10},
 			{WeaponType: "Спис", Damage: 9, Stamina: 7},
-			{WeaponType: "Топор", Damage: 12, Stamina: 15},
+			{WeaponType: "Сокира", Damage: 12, Stamina: 15},
 			{WeaponType: "Довгий Меч", Damage: 11, Stamina: 13},
 			{WeaponType: "Кинджал", Damage: 8, Stamina: 5},
 			{WeaponType: "Арбалет", Damage: 9, Stamina: 11},
@@ -146,9 +147,9 @@ func getRandomBuff() string {
 	var buffs []string
 
 	if lang == "en" {
-		buffs = []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)", "Add Armor (+50)", "Upgrade Weapon"}
+		buffs = []string{"Increase HP (+2) & Reduce Damage (-1)", "Increase Damage (+5) & Reduce HP (-5)", "Add Armor (+50)", "Upgrade Weapon", "Increase Stamina (+10) & Reduce Damage (-2)", "Random Weapon"}
 	} else {
-		buffs = []string{"Додано здоров'я (+2) & Зменшено пошкодження (-1)", "Додано пошкодження (+5) & Зменшено здоров'я (-5)", "Добавити захисту (+50)", "Покращити зброю"}
+		buffs = []string{"Додано здоров'я (+2) & Зменшено пошкодження (-1)", "Додано пошкодження (+5) & Зменшено здоров'я (-5)", "Добавити захисту (+50)", "Покращити зброю", "Додано витривалiсть (+10) & Зменшино пошкодження (-2)", "Випадкова зброя"}
 	}
 	return buffs[rand.Intn(len(buffs))]
 }
@@ -188,7 +189,7 @@ func fight(player *Player) {
 
 			// Check if player died
 			if player.HP <= 0 {
-				fmt.Println(termenv.String(" You died!").Foreground(termenv.ANSIBrightRed).Bold())
+				fmt.Println(termenv.String(" ").Foreground(termenv.ANSIBrightRed).Bold())
 				return
 			}
 
@@ -268,10 +269,12 @@ func playerAttack(player *Player, monster *Monster, playerDefending *bool, monst
 
 func playerSkip(player *Player) {
 	if player.Stamina < 100 {
-		player.Stamina = min(player.Stamina+20, 100)
+		player.Stamina = min(player.Stamina+20, player.maxStamina)
 	}
 	if lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf(" You have %d stamina left", player.Stamina)).Foreground(termenv.ANSIGreen))
+	} else if lang == "ua" {
+		fmt.Println(termenv.String(fmt.Sprintf(" У тебе %d витривалостi залишилося", player.Stamina)).Foreground(termenv.ANSIGreen))
 	}
 }
 
@@ -314,18 +317,19 @@ func buffsAction(player *Player) {
 
 	baff1 := getRandomBuff()
 	baff2 := getRandomBuff()
+	baff3 := getRandomBuff()
 
 	var prompt promptui.Select
 
 	if lang == "en" {
 		prompt = promptui.Select{
 			Label: "Select a Buff/Weapon (Upgrade)",
-			Items: []string{baff1, baff2, "Random Weapon"},
+			Items: []string{baff1, baff2, baff3},
 		}
 	} else if lang == "ua" {
 		prompt = promptui.Select{
 			Label: "Виберіть бонус або зброю",
-			Items: []string{baff1, baff2, "Випадкова зброя"},
+			Items: []string{baff1, baff2, baff3},
 		}
 	}
 
@@ -364,13 +368,17 @@ func buffsAction(player *Player) {
 		weaponType, weaponDamage := getRandomWeapon()
 		player.WeaponType = weaponType
 		player.Damage = weaponDamage
+	} else if result == "Додано витривалiсть (+10) & Зменшино пошкодження (-2)" || result == "Increase Stamina (+10) & Reduce Damage (-2)" {
+		player.maxStamina += 10
 	} else if result == "Add Armor (+50)" || result == "Добавити захисту (+50)" {
 		player.HP += 50
 	} else if result == "Upgrade Weapon" || result == "Покращити зброю" {
 		if player.Coins > 20 {
 			player.Damage += 10
 			player.Coins -= 30
-		} else if lang == "en" {
+		} else if lang == "ua" {
+			fmt.Println(termenv.String(" Бафф не застосовано.").Foreground(termenv.ANSIYellow))
+		} else {
 			fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
 		}
 	} else if lang == "ua" {
@@ -398,7 +406,7 @@ func promptAction() string {
 	// Run the prompt
 	_, result, err := prompt.Run()
 	if err != nil {
-		log.Fatal("Prompt failed: %v", err)
+		log.Fatal(err)
 	}
 
 	return result
