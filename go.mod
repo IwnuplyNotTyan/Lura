@@ -1,4 +1,4 @@
-module yasg
+module Lura
 
 go 1.23.6
 
