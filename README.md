@@ -5,3 +5,5 @@
 
 ## Credits
 Translate to Ukraine language: Purple Sky & me
+
+### Made with ❤️
