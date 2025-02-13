@@ -173,7 +173,11 @@ func fight(player *Player) {
 
 			if playerAction == "Defend" || playerAction == "Захищатися" {
 				playerDefending = true
-				printDefendMessage("You block the attack!", "Ти блокуєш атаку!")
+				if lang == "en" {
+					fmt.Println(termenv.String(fmt.Sprintf(" You block the attack!")).Foreground(termenv.ANSIYellow))
+				} else if lang == "ua" {
+					fmt.Println(termenv.String(fmt.Sprintf(" Ти блокуєш атаку!")).Foreground(termenv.ANSIYellow))
+				}
 			} else if playerAction == "Heal" || playerAction == "Лікуватися" {
 				healPlayer(player)
 				playerDefending = false
@@ -215,14 +219,6 @@ func displayFightIntro(player *Player, monster *Monster) {
 	}
 }
 
-func printDefendMessage(englishMessage, ukrainianMessage string) {
-	if lang == "en" {
-		fmt.Println(termenv.String(" " + englishMessage).Foreground(termenv.ANSIYellow))
-	} else {
-		fmt.Println(termenv.String(" " + ukrainianMessage).Foreground(termenv.ANSIYellow))
-	}
-}
-
 func healPlayer(player *Player) {
 	player.HP = min(player.HP+15, player.maxHP)
 	if lang == "en" {
@@ -248,7 +244,11 @@ func playerAttack(player *Player, monster *Monster, playerDefending *bool, monst
 
 	playerDamage := player.Damage + rng()
 	if *monsterDefending {
-		printDefendMessage("The monster blocked your attack!", "Монстр заблокував твою атаку!")
+		if lang == "en" {
+			fmt.Println(termenv.String(fmt.Sprintf(" The monster blocked your attack!")).Foreground(termenv.ANSIGreen))
+		} else {
+			fmt.Println(termenv.String(fmt.Sprintf(" Монстр заблокував твою атаку!")).Foreground(termenv.ANSIGreen))
+		}
 		*monsterDefending = false
 	} else if player.Stamina >= weapon.Stamina {
 		player.Stamina -= weapon.Stamina
@@ -280,7 +280,11 @@ func playerSkip(player *Player) {
 
 func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool, playerDefending *bool, monsterAction string) {
 	if monsterAction == "Defend" {
-		printDefendMessage("The monster prepares to block!", "Монстр готується заблокувати!")
+		if lang == "en" {
+			fmt.Println(termenv.String(fmt.Sprintf(" The monster prepares to block!")).Foreground(termenv.ANSIGreen))
+		} else {
+			fmt.Println(termenv.String(fmt.Sprintf(" Монстр готується заблокувати!")).Foreground(termenv.ANSIGreen))
+		}
 		*monsterDefending = true
 	} else if monsterAction == "Heal" {
 		monster.HP = min(monster.HP+15, monster.maxHP)
@@ -294,7 +298,11 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 	} else {
 		monsterDamage := monster.Damage + rng() + monster.LVL
 		if *playerDefending {
-			printDefendMessage("You blocked the enemy's attack!", "Ти заблокував атаку ворога!")
+			if lang == "en" {
+				fmt.Println(termenv.String(fmt.Sprintf(" You blocked the enemy's attack!")).Foreground(termenv.ANSIYellow))
+			} else if lang == "ua" {
+				fmt.Println(termenv.String(fmt.Sprintf(" Ти заблокував атаку ворога!")).Foreground(termenv.ANSIYellow))
+			}
 			*playerDefending = false // Reset defense after blocking
 		} else {
 			player.HP -= monsterDamage
