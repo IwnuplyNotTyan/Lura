@@ -3,7 +3,31 @@
 
 [All mobs, weapon and effect statistics](https://github.com/IwnuplyNotTyan/Lura/blob/main/STAT.md)
 
+## Mods
+Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
+
+Example mod:
+```lua
+local monsterName = {
+    en = "test monster",
+    ua = "тестовий противник"
+}
+
+local weaponName = {
+    en = "test weapon",
+    ua = "тестова зброя"
+}
+
+local lang = lang or "en"
+
+local monsterIdx = Monster.new(monsterName[lang], 200, 30)
+Monster.setHP(monsterIdx, 250)
+
+local weaponIdx = Weapon.new(weaponName[lang], 15, 20)
+Weapon.setDamage(weaponIdx, 18)
+```
+
 ## Credits
-Translate to Ukraine language: Purple Sky & me
+UA translate by [Purple Sky](https://github.com/Osian-linux) and me
 
 ### Made with ❤️

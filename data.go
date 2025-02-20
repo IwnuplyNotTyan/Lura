@@ -19,17 +19,17 @@ type Player struct {
 	maxStamina int
 }
 
-var (
-	monsters []Monster
-	weapons  []Weapon
-	lang     string
-)
-
 type Weapon struct {
 	WeaponType string
 	Damage     int
 	Stamina    int
 }
+
+var (
+	monsters []Monster
+	weapons  []Weapon
+	lang     string
+)
 
 func seedData() {
 	if lang == "en" {
