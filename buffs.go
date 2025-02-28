@@ -69,6 +69,7 @@ func buffsAction(player *Player) {
 		weaponType, weaponDamage := getRandomWeapon()
 		player.WeaponType = weaponType
 		player.Damage = weaponDamage
+		dialBuffRW()
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf(" You found a %s! Damage: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
 		} else {
@@ -94,9 +95,10 @@ func buffsAction(player *Player) {
 			fmt.Println(termenv.String(fmt.Sprintf(" Бафф застосовано! Здоров'я: %d", player.HP)).Foreground(termenv.ANSIGreen))
 		}
 	} else if result == "Upgrade Weapon" || result == "Покращити зброю" {
-		if player.Coins >= 30 { // Check if the player has enough coins
-			player.Damage += 10 // Upgrade weapon damage
-			player.Coins -= 30  // Deduct the cost
+		if player.Coins >= 30 {
+			player.Damage += 10
+			player.Coins -= 30
+			dialBuffUW()
 			if lang == "en" {
 				fmt.Println(termenv.String(fmt.Sprintf(" Weapon upgraded! Damage: %d, Coins left: %d", player.Damage, player.Coins)).Foreground(termenv.ANSIGreen))
 			} else {

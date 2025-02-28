@@ -16,6 +16,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	L := lua.NewState()
 	defer L.Close()
+	dialWelcome()
 
 	registerTypes(L)
 
