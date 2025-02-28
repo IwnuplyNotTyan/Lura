@@ -3,11 +3,11 @@ pkgver=1.0.0
 pkgrel=1
 pkgdesc="Simple turn based game ~"
 arch=('x86_64')
-url="https://github.com/iwnuplynottyan/lura"
+url="https://github.com/iwnuplynottyan/Lura"
 license=('MIT')
 depends=()
 makedepends=('go' 'git')
-source=("git+https://github.com/iwnuplynottyan/lura.git")
+source=("git+https://github.com/iwnuplynottyan/Lura.git")
 sha256sums=('SKIP')
 
 build() {
