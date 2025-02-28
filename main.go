@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"log"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/manifoldco/promptui"
@@ -11,22 +14,25 @@ import (
 )
 
 var term = termenv.EnvColorProfile()
+var name string
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	L := lua.NewState()
 	defer L.Close()
 	dialWelcome()
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print(termenv.String(fmt.Sprint("Enter your name: ")).Foreground(termenv.ANSICyan))
+	name, _ = reader.ReadString('\n')
 
 	registerTypes(L)
 
 	selectLanguage()
-	seedData() // Seed data BEFORE loading mods
+	seedData()
 
-	// Set the global 'lang' variable in Lua
 	L.SetGlobal("lang", lua.LString(lang))
 
-	// Auto-load mods from the ./mods directory
 	if err := AutoLoadMods(L); err != nil {
 		log.Fatalf("Failed to auto-load mods: %v", err)
 	}

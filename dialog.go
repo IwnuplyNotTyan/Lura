@@ -13,10 +13,12 @@ var style = lipgloss.NewStyle().
 	Padding(1).
 	Width(35)
 
+// Welcome
 func dialWelcome() {
 	fmt.Println(style.Render("Lura ~ open source turn based rpg with story in CLI, only you can select choose. Made with "))
 }
 
+// Buffs
 func dialBuffRW() {
 	if lang == "en" {
 		fmt.Println(style.Render("You choice random weapon. Good luck"))

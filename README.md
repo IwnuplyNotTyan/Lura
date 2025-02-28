@@ -3,6 +3,18 @@
 
 [All mobs, weapon and effect statistics](https://github.com/IwnuplyNotTyan/Lura/blob/main/STAT.md)
 
+## Build
+Via makepkg
+```sh
+makepkg -si
+```
+
+Build manually
+```sh
+go mod download
+go build -o lura
+```
+
 ## Mods
 Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
 
