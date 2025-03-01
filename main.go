@@ -1,11 +1,8 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
 	"log"
 	"math/rand"
-	"os"
 	"time"
 
 	"github.com/manifoldco/promptui"
@@ -21,10 +18,6 @@ func main() {
 	L := lua.NewState()
 	defer L.Close()
 	dialWelcome()
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Print(termenv.String(fmt.Sprint("Enter your name: ")).Foreground(termenv.ANSICyan))
-	name, _ = reader.ReadString('\n')
 
 	registerTypes(L)
 
