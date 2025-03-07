@@ -4,12 +4,20 @@
 [All mobs, weapon and effect statistics](https://github.com/IwnuplyNotTyan/Lura/blob/main/STAT.md)
 
 ## Build
-Via makepkg
+Note: build dep `go`. Use dep `Nerdfonts`.
+
+### Makepkg
 ```sh
 makepkg -si
 ```
 
-Build manually
+### Gnumake
+
+```sh
+sudo make install
+```
+
+### Build manually
 ```sh
 go mod download
 go build -o lura

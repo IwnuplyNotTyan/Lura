@@ -15,7 +15,7 @@ var style = lipgloss.NewStyle().
 
 // Welcome
 func dialWelcome() {
-	fmt.Println(style.Render("Lura ~ open source turn based rpg with story in CLI, only you can select choose. Made with "))
+	fmt.Println(style.Render("Lura ~ open source turn based rpg in CLI, only you can select choose. Made with "))
 }
 
 // Buffs
