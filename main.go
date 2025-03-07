@@ -30,7 +30,7 @@ func main() {
 		log.Fatalf("Failed to auto-load mods: %v", err)
 	}
 
-	//checkAll()
+	checkAll()
 
 	weaponType, weaponDamage := getRandomWeapon()
 	player := Player{

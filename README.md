@@ -4,7 +4,7 @@
 [All mobs, weapon and effect statistics](https://github.com/IwnuplyNotTyan/Lura/blob/main/STAT.md)
 
 ## Build
-Note: build dep `go`. Use dep `Nerdfonts`.
+Note: build dep `go`. To play need only [Nerdfonts](https://www.nerdfonts.com/).
 
 ### Makepkg
 ```sh
@@ -16,6 +16,7 @@ makepkg -si
 ```sh
 sudo make install
 ```
+Default binary path: `~/go/bin/`
 
 ### Build manually
 ```sh
@@ -26,7 +27,7 @@ go build -o lura
 ## Mods
 Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
 
-Example mod:
+### Adding weapon & monster mod:
 ```lua
 local monsterName = {
     en = "test monster",
@@ -45,6 +46,27 @@ Monster.setHP(monsterIdx, 250)
 
 local weaponIdx = Weapon.new(weaponName[lang], 15, 20)
 Weapon.setDamage(weaponIdx, 18)
+```
+
+### Removing weapon & monster mod:
+```lua
+local monsterName = {
+    en = "Dragon",
+    ua = "Дракон"
+}
+
+local weaponName = {
+    en = "Axe",
+    ua = "Сокира"
+}
+
+local lang = lang or "en"
+
+local weaponToRemove = weaponName[lang]
+local weaponResult = Weapon.removeByName(weaponToRemove)
+
+local monsterToRemove = monsterName[lang]
+local monsterResult = Monster.removeByName(monsterToRemove)
 ```
 
 ## Credits
