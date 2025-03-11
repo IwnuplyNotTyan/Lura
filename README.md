@@ -68,6 +68,7 @@ local weaponResult = Weapon.removeByName(weaponToRemove)
 local monsterToRemove = monsterName[lang]
 local monsterResult = Monster.removeByName(monsterToRemove)
 ```
+### Debug console, add flag `-debug`, all command in help
 
 ## Credits
 UA translate by [Purple Sky](https://github.com/Osian-linux) and me

@@ -70,7 +70,7 @@ func fight(player *Player) {
 
 			// Check if player died
 			if player.HP <= 0 {
-				fmt.Println(termenv.String(" ", name).Foreground(termenv.ANSIBrightRed).Bold())
+				fmt.Println(termenv.String(" ").Foreground(termenv.ANSIBrightRed).Bold())
 				return
 			}
 

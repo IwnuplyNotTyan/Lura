@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"math/rand"
 	"time"
@@ -10,10 +11,14 @@ import (
 	lua "github.com/yuin/gopher-lua"
 )
 
-var term = termenv.EnvColorProfile()
-var name string
+var (
+	term      = termenv.EnvColorProfile()
+	debugMode = flag.Bool("debug", false, "Enable debug shell")
+)
 
 func main() {
+	flag.Parse()
+
 	rand.Seed(time.Now().UnixNano())
 	L := lua.NewState()
 	defer L.Close()
@@ -21,16 +26,11 @@ func main() {
 
 	registerTypes(L)
 
-	selectLanguage()
-	seedData()
-
 	L.SetGlobal("lang", lua.LString(lang))
 
 	if err := AutoLoadMods(L); err != nil {
 		log.Fatalf("Failed to auto-load mods: %v", err)
 	}
-
-	//checkAll()
 
 	weaponType, weaponDamage := getRandomWeapon()
 	player := Player{
@@ -42,6 +42,13 @@ func main() {
 		Stamina:    100,
 		maxStamina: 100,
 	}
+
+	if *debugMode {
+		DebugShell(L, &player)
+	}
+
+	selectLanguage()
+	seedData()
 
 	fight(&player)
 }
