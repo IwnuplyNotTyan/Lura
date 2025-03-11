@@ -34,7 +34,8 @@ func promptAction() string {
 
 func fight(player *Player) {
 	for player.HP > 0 {
-		monster := getRandomVMonster()
+		getRandomMonster := getRandomVMonster()
+		monster := getRandomMonster
 		if monster == nil {
 			fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
 			return

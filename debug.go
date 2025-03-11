@@ -154,30 +154,64 @@ func checkAllWeapons() {
 
 	for _, weapon := range weapons {
 		if lang == "en" {
-			fmt.Printf(" Weapon: %s, Damage: %d, Stamina Cost: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
+			fmt.Printf("Weapon: %s, Damage: %d, Stamina Cost: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
 		} else {
-			fmt.Printf(" Зброя: %s, Пошкодження: %d, Витрати витривалості: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
+			fmt.Printf("Зброя: %s, Пошкодження: %d, Витрати витривалості: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
 		}
 	}
 }
 
-func checkAllMonsters() {
+func checkAllVMonsters() {
 	if lang == "en" {
-		fmt.Println(termenv.String("\n All Monsters:").Foreground(termenv.ANSIBlue).Bold())
+		fmt.Println(termenv.String("\n All V Monsters:").Foreground(termenv.ANSIBlue).Bold())
 	} else {
-		fmt.Println(termenv.String("\n Всі монстри:").Foreground(termenv.ANSIBlue).Bold())
+		fmt.Println(termenv.String("\n Всі V монстри:").Foreground(termenv.ANSIBlue).Bold())
 	}
 
 	for _, monster := range vmonsters {
 		if lang == "en" {
-			fmt.Printf(" Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+			fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
 		} else {
-			fmt.Printf(" Монстр: %s, Здоров'я: %d, Пошкодження: %d, Рівень: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+			fmt.Printf("Монстр: %s, Здоров'я: %d, Пошкодження: %d, Рівень: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+		}
+	}
+}
+
+func checkAllCCMonsters() {
+	if lang == "en" {
+		fmt.Println(termenv.String("\n All CC Monsters:").Foreground(termenv.ANSIBlue).Bold())
+	} else {
+		fmt.Println(termenv.String("\n Всі CC монстри:").Foreground(termenv.ANSIBlue).Bold())
+	}
+
+	for _, monster := range ccmonsters {
+		if lang == "en" {
+			fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+		} else {
+			fmt.Printf("Монстр: %s, Здоров'я: %d, Пошкодження: %d, Рівень: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+		}
+	}
+}
+
+func checkAllSMonsters() {
+	if lang == "en" {
+		fmt.Println(termenv.String("\n All S Monsters:").Foreground(termenv.ANSIBlue).Bold())
+	} else {
+		fmt.Println(termenv.String("\n Всі S монстри:").Foreground(termenv.ANSIBlue).Bold())
+	}
+
+	for _, monster := range smonsters {
+		if lang == "en" {
+			fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+		} else {
+			fmt.Printf("Монстр: %s, Здоров'я: %d, Пошкодження: %d, Рівень: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
 		}
 	}
 }
 
 func checkAll() {
 	checkAllWeapons()
-	checkAllMonsters()
+	checkAllVMonsters()
+	checkAllCCMonsters()
+	checkAllSMonsters()
 }
