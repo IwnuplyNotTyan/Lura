@@ -43,12 +43,12 @@ func main() {
 		maxStamina: 100,
 	}
 
+	selectLanguage()
+	seedData()
+
 	if *debugMode {
 		DebugShell(L, &player)
 	}
-
-	selectLanguage()
-	seedData()
 
 	fight(&player)
 }

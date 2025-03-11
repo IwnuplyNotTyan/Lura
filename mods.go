@@ -65,7 +65,7 @@ func registerTypes(L *lua.LState) {
 
 	// Expose global monsters and weapons tables to Lua
 	monstersTable := L.NewTable()
-	for _, monster := range monsters {
+	for _, monster := range vmonsters {
 		monsterTable := L.NewTable()
 		L.SetField(monsterTable, "MonsterType", lua.LString(monster.MonsterType))
 		L.SetField(monsterTable, "HP", lua.LNumber(monster.HP))
@@ -93,21 +93,21 @@ func newMonster(L *lua.LState) int {
 		HP:          L.CheckInt(2),
 		Damage:      L.CheckInt(3),
 	}
-	monsters = append(monsters, *monster)
-	L.Push(lua.LNumber(len(monsters) - 1))
+	vmonsters = append(vmonsters, *monster)
+	L.Push(lua.LNumber(len(vmonsters) - 1))
 	return 1
 }
 
 func setMonsterHP(L *lua.LState) int {
 	idx := L.CheckInt(1)
 	hp := L.CheckInt(2)
-	monsters[idx].HP = hp
+	vmonsters[idx].HP = hp
 	return 0
 }
 
 func getMonsterHP(L *lua.LState) int {
 	idx := L.CheckInt(1)
-	L.Push(lua.LNumber(monsters[idx].HP))
+	L.Push(lua.LNumber(vmonsters[idx].HP))
 	return 1
 }
 
@@ -132,12 +132,12 @@ func setWeaponDamage(L *lua.LState) int {
 
 func removeMonster(L *lua.LState) int {
 	idx := L.CheckInt(1) // Get the index from Lua
-	if idx < 0 || idx >= len(monsters) {
+	if idx < 0 || idx >= len(vmonsters) {
 		L.Push(lua.LString("Invalid monster index"))
 		return 1
 	}
 
-	monsters = append(monsters[:idx], monsters[idx+1:]...)
+	vmonsters = append(vmonsters[:idx], vmonsters[idx+1:]...)
 	L.Push(lua.LString("Monster removed successfully"))
 	return 1
 }
@@ -156,10 +156,10 @@ func removeWeapon(L *lua.LState) int {
 
 func removeMonsterByName(L *lua.LState) int {
 	name := L.CheckString(1) // Get the name from Lua
-	for i, monster := range monsters {
+	for i, monster := range vmonsters {
 		if monster.MonsterType == name {
 			// Remove the monster from the slice
-			monsters = append(monsters[:i], monsters[i+1:]...)
+			vmonsters = append(vmonsters[:i], vmonsters[i+1:]...)
 			L.Push(lua.LString("Monster removed successfully"))
 			return 1
 		}

@@ -26,14 +26,14 @@ type Weapon struct {
 }
 
 var (
-	monsters []Monster
-	weapons  []Weapon
-	lang     string
+	vmonsters []Monster
+	weapons   []Weapon
+	lang      string
 )
 
 func seedData() {
 	if lang == "en" {
-		monsters = []Monster{
+		vmonsters = []Monster{
 			{MonsterType: "Dragon", HP: 150, Damage: 25},
 			{MonsterType: "Human", HP: 70, Damage: 10},
 			{MonsterType: "Ork", HP: 60, Damage: 15},
@@ -55,7 +55,7 @@ func seedData() {
 			{WeaponType: "Bow", Damage: 8, Stamina: 9},
 		}
 	} else {
-		monsters = []Monster{
+		vmonsters = []Monster{
 			{MonsterType: "Дракон", HP: 150, Damage: 30},
 			{MonsterType: "Людина", HP: 70, Damage: 10},
 			{MonsterType: "Орк", HP: 60, Damage: 15},

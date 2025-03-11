@@ -14,11 +14,11 @@ func getRandomWeapon() (string, int) {
 	return weapon.WeaponType, weapon.Damage
 }
 
-func getRandomMonster() *Monster {
-	if len(monsters) == 0 {
+func getRandomVMonster() *Monster {
+	if len(vmonsters) == 0 {
 		return nil
 	}
-	monster := monsters[rand.Intn(len(monsters))]
+	monster := vmonsters[rand.Intn(len(vmonsters))]
 	monster.LVL = rand.Intn(5) + 1
 	monster.maxHP = monster.HP + (monster.LVL * 10)
 	return &monster
