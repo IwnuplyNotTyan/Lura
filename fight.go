@@ -9,6 +9,8 @@ import (
 	"github.com/muesli/termenv"
 )
 
+var getRandomMonster string
+
 func promptAction() string {
 	var prompt promptui.Select
 
@@ -34,8 +36,18 @@ func promptAction() string {
 
 func fight(player *Player) {
 	for player.HP > 0 {
-		getRandomMonster := getRandomVMonster()
-		monster := getRandomMonster
+		monsterCategory := 0
+		//monsterCategory := rand.Intn(3)
+		var monster *Monster
+		switch monsterCategory {
+		case 0:
+			monster = getRandomVMonster()
+		case 1:
+			monster = getRandomSMonster()
+		case 2:
+			monster = getRandomCCMonster()
+		}
+
 		if monster == nil {
 			fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
 			return

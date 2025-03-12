@@ -7,25 +7,22 @@ import (
 	"time"
 
 	"github.com/manifoldco/promptui"
-	"github.com/muesli/termenv"
 	lua "github.com/yuin/gopher-lua"
 )
 
 var (
-	term      = termenv.EnvColorProfile()
-	debugMode = flag.Bool("debug", false, "Enable debug shell")
+	debugMode       = flag.Bool("debug", false, "Enable debug shell")
+	specificMonster *Monster // Declare specificMonster here
 )
 
 func main() {
 	flag.Parse()
-
 	rand.Seed(time.Now().UnixNano())
 	L := lua.NewState()
 	defer L.Close()
 	dialWelcome()
 
 	registerTypes(L)
-
 	L.SetGlobal("lang", lua.LString(lang))
 
 	if err := AutoLoadMods(L); err != nil {

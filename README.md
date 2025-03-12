@@ -1,9 +1,19 @@
 # ✨ ~ Lura *, CLI turn based roguelike*
+
 ![Preview](https://gachi.gay/pHLVC)
 
-[All mobs, weapon and effect statistics](https://github.com/IwnuplyNotTyan/Lura/blob/main/STAT.md)
+# Tree
+- [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#build)
+  - [Arch-Based](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#makepkg)
+  - [Gnumake](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
+  - [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
+- [Mods](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#mods)
+  - [Adding weapon & monster mod](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#adding-weapon--monster-mod)
+  - [Removing weapon & monster mod](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#removing-weapon--monster-mod)
+  - [Debug console](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#removing-weapon--monster-mod)
+- [Credits](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#mods)
 
-## Build
+# Build
 Note: build dep `go`. To play need only [Nerdfonts](https://www.nerdfonts.com/).
 
 ### Makepkg
@@ -24,7 +34,7 @@ go mod download
 go build -o lura
 ```
 
-## Mods
+# Mods
 Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
 
 ### Adding weapon & monster mod:
@@ -70,7 +80,7 @@ local monsterResult = Monster.removeByName(monsterToRemove)
 ```
 ### Debug console, add flag `-debug`, all command in help
 
-## Credits
+# Credits
 UA translate by [Purple Sky](https://github.com/Osian-linux) and me
 
-### Made with ❤️
+# Made with ❤️
