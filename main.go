@@ -29,6 +29,9 @@ func main() {
 		log.Fatalf("Failed to auto-load mods: %v", err)
 	}
 
+	selectLanguage()
+	seedData()
+
 	weaponType, weaponDamage := getRandomWeapon()
 	player := Player{
 		WeaponType: weaponType,
@@ -39,9 +42,6 @@ func main() {
 		Stamina:    100,
 		maxStamina: 100,
 	}
-
-	selectLanguage()
-	seedData()
 
 	if *debugMode {
 		DebugShell(L, &player)

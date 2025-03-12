@@ -1,6 +1,9 @@
 package main
 
-import "math/rand"
+import (
+	"log"
+	"math/rand"
+)
 
 func rng() int {
 	return rand.Intn(6) + 1
@@ -8,6 +11,7 @@ func rng() int {
 
 func getRandomWeapon() (string, int) {
 	if len(weapons) == 0 {
+		log.Println("Warning: No weapons available. Using default weapon (Fists, 2).")
 		return "Fists", 2
 	}
 	weapon := weapons[rand.Intn(len(weapons))]
