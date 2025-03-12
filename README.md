@@ -14,7 +14,9 @@
 - [Credits](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#mods)
 
 # Build
-Note: build dep `go`. To play need only [Nerdfonts](https://www.nerdfonts.com/).
+Note: build dep `go` v1.23.6. To play need only [Nerdfonts](https://www.nerdfonts.com/).
+
+*Troubleshooting:* downgrade go version in `go.mod` to needed version
 
 ### Makepkg
 ```sh
