@@ -23,6 +23,21 @@ Note: build dep `go` v1.23.6. To play need only [Nerdfonts](https://www.nerdfont
 makepkg -si
 ```
 
+### Xbps-install
+Download `lura-0.1.0-1-x86_64.xbps` from [releases](https://github.com/IwnuplyNotTyan/Lura/releases/tag/v1.0.0)
+```sh
+xbps-install -R ~/path/to/lura-0.1.0-1-x86_64.xbps
+```
+
+### Xbps-src
+Install [xbps-src](https://github.com/void-linux/void-packages)
+```sh
+git clone https://github.com/IwnuplyNotTyan/Lura
+mkdir -p ~/path/to/void-packages/srcpkgs/Lura
+cp ./Lura/template ./path/to/void-packages/srcpkgs/Lura/
+xbps-src pkg lura
+```
+
 ### Gnumake
 
 ```sh
@@ -84,5 +99,6 @@ local monsterResult = Monster.removeByName(monsterToRemove)
 
 # Credits
 UA translate by [Purple Sky](https://github.com/Osian-linux) and me
+Void package by [Binarnik](https://github.com/binarylinuxx/)
 
 # Made with ❤️

@@ -1,0 +1,24 @@
+# Template file for 'lura'
+pkgname=Lura
+version=1.0.0
+revision=1
+build_style=go
+hostmakedepends="go git"
+short_desc="Simple turn based game"
+maintainer="binary linux <nrw58886@gmail.com>"
+license="MIT"
+homepage="https://github.com/IwnuplyNotTyan/Lura"
+distfiles="https://github.com/IwnuplyNotTyan/Lura/archive/refs/tags/v${version}.tar.gz"
+checksum=81e660311f12ce1fbf64357e50dd397cd0e4d4775030899c7c4d2b324aef5877
+wrksrc="Lura-${version}"
+go_import_path="github.com/IwnuplyNotTyan/Lura"
+
+do_build() {
+    cd ${wrksrc}
+    go mod tidy
+    go build -o lura
+}
+
+do_install() {
+    vbin lura
+}
