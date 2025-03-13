@@ -34,8 +34,9 @@ Install [xbps-src](https://github.com/void-linux/void-packages)
 ```sh
 git clone https://github.com/IwnuplyNotTyan/Lura
 mkdir -p ~/path/to/void-packages/srcpkgs/Lura
-cp ./Lura/template ./path/to/void-packages/srcpkgs/Lura/
-xbps-src pkg lura
+cp ~/Lura/template ./path/to/void-packages/srcpkgs/Lura/
+cd ./path/to/void-packages/
+./xbps-src pkg lura
 ```
 
 ### Gnumake
