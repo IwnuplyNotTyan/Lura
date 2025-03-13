@@ -36,7 +36,7 @@ git clone https://github.com/IwnuplyNotTyan/Lura
 mkdir -p ~/path/to/void-packages/srcpkgs/Lura
 cp ~/Lura/template ./path/to/void-packages/srcpkgs/Lura/
 cd ./path/to/void-packages/
-./xbps-src pkg lura
+./xbps-src pkg Lura
 ```
 
 ### Gnumake
