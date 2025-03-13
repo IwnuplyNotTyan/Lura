@@ -100,6 +100,7 @@ local monsterResult = Monster.removeByName(monsterToRemove)
 
 # Credits
 UA translate by [Purple Sky](https://github.com/Osian-linux) and me
+
 Void package by [Binarnik](https://github.com/binarylinuxx/)
 
 # Made with ❤️
