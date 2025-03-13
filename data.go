@@ -26,11 +26,11 @@ type Weapon struct {
 }
 
 var (
-	vmonsters  []Monster
-	smonsters  []Monster
-	ccmonsters []Monster
-	weapons    []Weapon
-	lang       string
+	vmonsters []Monster
+	//smonsters  []Monster
+	//ccmonsters []Monster
+	weapons []Weapon
+	lang    string
 )
 
 func seedData() {
@@ -47,12 +47,12 @@ func seedData() {
 			{MonsterType: "Skeleton", HP: 60, Damage: 10},
 			{MonsterType: "Zombie", HP: 70, Damage: 15},
 		}
-		ccmonsters = []Monster{
-			{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
-		}
-		smonsters = []Monster{
-			{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
-		}
+		//ccmonsters = []Monster{
+		//	{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
+		//}
+		//smonsters = []Monster{
+		//	{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
+		//}
 		weapons = []Weapon{
 			{WeaponType: "Sword", Damage: 10, Stamina: 10},
 			{WeaponType: "Spear", Damage: 9, Stamina: 7},
@@ -75,12 +75,12 @@ func seedData() {
 			{MonsterType: "Скелет", HP: 60, Damage: 10},
 			{MonsterType: "Зомбі", HP: 70, Damage: 15},
 		}
-		ccmonsters = []Monster{
-			{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
-		}
-		smonsters = []Monster{
-			{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
-		}
+		//ccmonsters = []Monster{
+		//	{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
+		//}
+		//smonsters = []Monster{
+		//	{MonsterType: "CCPlaceholder", HP: 1, Damage: 1},
+		//}
 		weapons = []Weapon{
 			{WeaponType: "Меч", Damage: 10, Stamina: 10},
 			{WeaponType: "Спис", Damage: 9, Stamina: 7},

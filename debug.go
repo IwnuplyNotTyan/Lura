@@ -161,25 +161,25 @@ func checkAllVMonsters() {
 	}
 }
 
-func checkAllCCMonsters() {
-	fmt.Println(termenv.String("\n All CC Monsters:").Foreground(termenv.ANSIBlue).Bold())
+//func checkAllCCMonsters() {
+//	fmt.Println(termenv.String("\n All CC Monsters:").Foreground(termenv.ANSIBlue).Bold())
+//
+//	for _, monster := range ccmonsters {
+//		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+//	}
+//}
 
-	for _, monster := range ccmonsters {
-		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
-	}
-}
-
-func checkAllSMonsters() {
-	fmt.Println(termenv.String("\n All S Monsters:").Foreground(termenv.ANSIBlue).Bold())
-
-	for _, monster := range smonsters {
-		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
-	}
-}
+//func checkAllSMonsters() {
+//	fmt.Println(termenv.String("\n All S Monsters:").Foreground(termenv.ANSIBlue).Bold())
+//
+//	for _, monster := range smonsters {
+//		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
+//	}
+//}
 
 func checkAll() {
 	checkAllWeapons()
 	checkAllVMonsters()
-	checkAllCCMonsters()
-	checkAllSMonsters()
+	// checkAllCCMonsters()
+	// checkAllSMonsters()
 }
