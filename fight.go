@@ -16,12 +16,12 @@ func promptAction() string {
 
 	if lang == "en" {
 		prompt = promptui.Select{
-			Label: "Select an action",
+			Label: "Select a card",
 			Items: []string{"Attack", "Defend", "Heal", "Skip"},
 		}
 	} else {
 		prompt = promptui.Select{
-			Label: "Вибери дію",
+			Label: "Вибери карту",
 			Items: []string{"Атакувати", "Захищатися", "Лікуватися", "Пропустити"},
 		}
 	}
