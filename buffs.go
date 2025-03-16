@@ -2,38 +2,26 @@ package main
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/manifoldco/promptui"
 	"github.com/muesli/termenv"
+)
+
+var (
+	buff1 string
+	buff2 string
+	buff3 string
 )
 
 func buffsAction(player *Player) {
 	player.Coins += 10
 	currentCoins(player)
 
-	baff1 := getRandomBuff()
-	baff2 := getRandomBuff()
-	baff3 := getRandomBuff()
+	// Correct variable assignment
+	buff1 = getRandomBuff()
+	buff2 = getRandomBuff()
+	buff3 = getRandomBuff()
 
-	var prompt promptui.Select
-
-	if lang == "en" {
-		prompt = promptui.Select{
-			Label: "Select a Buff/Weapon (Upgrade)",
-			Items: []string{baff1, baff2, baff3},
-		}
-	} else if lang == "ua" {
-		prompt = promptui.Select{
-			Label: "Виберіть бонус або зброю",
-			Items: []string{baff1, baff2, baff3},
-		}
-	}
-
-	_, result, err := prompt.Run()
-	if err != nil {
-		log.Fatal("Prompt failed:", err)
-	}
+	result := getSelectedBuff()
 
 	if result == "Increase HP (+2) & Reduce Damage (-1)" || result == "Додано здоров'я (+2) & Зменшено пошкодження (-1)" {
 		player.HP += 2

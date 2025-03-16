@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"math/rand"
-	"time"
 
 	lua "github.com/yuin/gopher-lua"
 )
@@ -21,9 +19,10 @@ func clearScreen() {
 
 func main() {
 	flag.Parse()
-	rand.Seed(time.Now().UnixNano())
 	L := lua.NewState()
 	defer L.Close()
+
+	clearScreen()
 	dialWelcome()
 
 	lang = getSelectedLanguage()

@@ -32,6 +32,12 @@ func attackModel() model {
 	}
 }
 
+func buffsModel() model {
+	return model{
+		choices: []string{buff1, buff2, buff3},
+	}
+}
+
 func (m model) Init() tea.Cmd {
 	return nil
 }
@@ -118,5 +124,30 @@ func getSelectedAttack() string {
 		return "Skip"
 	default:
 		return "Attack"
+	}
+}
+
+func getSelectedBuff() string {
+	p := tea.NewProgram(buffsModel())
+
+	m, err := p.Run()
+	if err != nil {
+		log.Fatalf("Error running language selection: %v", err)
+	}
+
+	selectedModel, ok := m.(model)
+	if !ok {
+		log.Fatalf("Unexpected model type")
+	}
+	clearScreen()
+	switch selectedModel.selected {
+	case "buff1":
+		return buff1
+	case "buff2":
+		return buff2
+	case "buff3":
+		return buff3
+	default:
+		return buff1
 	}
 }
