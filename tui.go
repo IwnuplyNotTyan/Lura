@@ -56,8 +56,12 @@ func (m model) View() string {
 			s += choiceStyle.Render("  "+choice) + "\n"
 		}
 	}
+	if lang == "ua" {
+		s += "\n" + quitStyle.Render("(Використовуйте ↑/↓ для навігації)") + "\n"
+	} else {
+		s += "\n" + quitStyle.Render("(Use ↑/↓ to navigate)") + "\n"
+	}
 
-	s += "\n" + quitStyle.Render("(Use ↑/↓ to navigate)") + "\n"
 	return s
 }
 
