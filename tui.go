@@ -20,24 +20,6 @@ type model struct {
 	selected string
 }
 
-func languageModel() model {
-	return model{
-		choices: []string{"English", "Українська"},
-	}
-}
-
-func attackModel() model {
-	return model{
-		choices: []string{"Attack", "Defend", "Heal", "Skip"},
-	}
-}
-
-func buffsModel() model {
-	return model{
-		choices: []string{buff1, buff2, buff3},
-	}
-}
-
 func (m model) Init() tea.Cmd {
 	return nil
 }
@@ -75,7 +57,7 @@ func (m model) View() string {
 		}
 	}
 
-	s += "\n" + quitStyle.Render("(Use ↑/↓ to navigate, Enter to select, q to quit)") + "\n"
+	s += "\n" + quitStyle.Render("(Use ↑/↓ to navigate)") + "\n"
 	return s
 }
 
@@ -114,13 +96,13 @@ func getSelectedAttack() string {
 	}
 	clearScreen()
 	switch selectedModel.selected {
-	case "Attack":
+	case "Attack", "Атакувати":
 		return "Attack"
-	case "Defend":
+	case "Defend", "Захищатися":
 		return "Defend"
-	case "Heal":
+	case "Heal", "Лікуватися":
 		return "Heal"
-	case "Skip":
+	case "Skip", "Пропустити":
 		return "Skip"
 	default:
 		return "Attack"

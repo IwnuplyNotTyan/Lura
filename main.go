@@ -50,5 +50,5 @@ func main() {
 		DebugShell(L, &player)
 	}
 
-	fight(&player)
+	fight(&player, specificMonster)
 }

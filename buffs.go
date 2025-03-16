@@ -66,14 +66,9 @@ func buffsAction(player *Player) {
 			player.Damage += 10
 			player.Coins -= 30
 			upgradeWeaponBuff(player)
-		} else if lang == "ua" {
-			fmt.Println(termenv.String(" Недостатньо копiйок для покращення зброї.").Foreground(termenv.ANSIYellow))
 		} else {
-			fmt.Println(termenv.String(" Not enough coins to upgrade the weapon.").Foreground(termenv.ANSIYellow))
+			noCoinsDialog()
 		}
-	} else if lang == "ua" {
-		fmt.Println(termenv.String(" Бафф не застосовано.").Foreground(termenv.ANSIYellow))
-	} else if lang == "en" {
-		fmt.Println(termenv.String(" No Buff Applied.").Foreground(termenv.ANSIYellow))
+		noBuffDialog()
 	}
 }

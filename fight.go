@@ -14,7 +14,7 @@ func promptAction() string {
 	return result
 }
 
-func fight(player *Player) {
+func fight(player *Player, monster *Monster) {
 	for player.HP > 0 {
 		monster := getRandomVMonster()
 		if monster == nil {
@@ -32,11 +32,7 @@ func fight(player *Player) {
 
 			if playerAction == "Defend" || playerAction == "Захищатися" {
 				playerDefending = true
-				if lang == "en" {
-					fmt.Println(termenv.String(fmt.Sprintf(" You block the attack!")).Foreground(termenv.ANSIYellow))
-				} else if lang == "ua" {
-					fmt.Println(termenv.String(fmt.Sprintf(" Ти блокуєш атаку!")).Foreground(termenv.ANSIYellow))
-				}
+				blockDialog()
 			} else if playerAction == "Heal" || playerAction == "Лікуватися" {
 				healPlayer(player)
 				playerDefending = false
@@ -59,36 +55,21 @@ func fight(player *Player) {
 			time.Sleep(time.Second)
 		}
 
-		if lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf("The %s has been defeated!\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
-		} else if lang == "ua" {
-			fmt.Println(termenv.String(fmt.Sprintf("%s був переможений\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
-		}
+		defeatMonster(monster)
 		buffsAction(player)
 	}
 }
 
-func displayFightIntro(player *Player, monster *Monster) {
-	if lang == "en" {
-		fmt.Println(termenv.String(fmt.Sprintf(" A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
-		fmt.Println(termenv.String(fmt.Sprintf(" You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
-	} else {
-		fmt.Println(termenv.String(fmt.Sprintf(" Дикий %s з'являється з %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
-		fmt.Println(termenv.String(fmt.Sprintf(" Ти володієш %s, наносиш %d пошкодження, у тебе %d здоров'я.", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
-	}
+func fightIntro(player *Player, monster *Monster) {
+	displayFightIntro(player, monster)
 }
 
 func healPlayer(player *Player) {
 	player.HP = min(player.HP+15, player.maxHP)
-	if lang == "en" {
-		fmt.Println(termenv.String(fmt.Sprintf(" You heal! Your HP is now %d.", player.HP)).Foreground(termenv.ANSIGreen))
-	} else {
-		fmt.Println(termenv.String(fmt.Sprintf(" Ти вилікувався! Тепер ти маєш %d здоров'я.", player.HP)).Foreground(termenv.ANSIGreen))
-	}
+	healDialog(player)
 }
 
 func playerAttack(player *Player, monster *Monster, playerDefending *bool, monsterDefending *bool) {
-	// Find the equipped weapon
 	var weapon *Weapon
 	for _, w := range weapons {
 		if w.WeaponType == player.WeaponType {
@@ -103,11 +84,7 @@ func playerAttack(player *Player, monster *Monster, playerDefending *bool, monst
 
 	playerDamage := player.Damage + rng()
 	if *monsterDefending {
-		if lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf(" The monster blocked your attack!")).Foreground(termenv.ANSIGreen))
-		} else {
-			fmt.Println(termenv.String(fmt.Sprintf(" Монстр заблокував твою атаку!")).Foreground(termenv.ANSIGreen))
-		}
+		blockUDialog()
 		*monsterDefending = false
 	} else if player.Stamina >= weapon.Stamina {
 		player.Stamina -= weapon.Stamina
@@ -118,51 +95,30 @@ func playerAttack(player *Player, monster *Monster, playerDefending *bool, monst
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥 Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		}
 	} else {
-		if lang == "en" {
-			fmt.Println(termenv.String(" Not enough stamina to attack!").Foreground(termenv.ANSIRed))
-		} else {
-			fmt.Println(termenv.String(" Недостатньо витривалості для атаки!").Foreground(termenv.ANSIRed))
-		}
+		noStaminaDialog(player)
 	}
 }
 
 func playerSkip(player *Player) {
 	if player.Stamina < 100 {
-		player.Stamina = min(player.Stamina+20, player.maxStamina)
-	}
-	if lang == "en" {
-		fmt.Println(termenv.String(fmt.Sprintf(" You have %d stamina left", player.Stamina)).Foreground(termenv.ANSIGreen))
-	} else if lang == "ua" {
-		fmt.Println(termenv.String(fmt.Sprintf(" У тебе %d витривалостi залишилося", player.Stamina)).Foreground(termenv.ANSIGreen))
+		staminaDialog(player)
 	}
 }
 
 func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool, playerDefending *bool, monsterAction string) {
 	if monsterAction == "Defend" {
-		if lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf(" The monster prepares to block!")).Foreground(termenv.ANSIGreen))
-		} else {
-			fmt.Println(termenv.String(fmt.Sprintf(" Монстр готується заблокувати!")).Foreground(termenv.ANSIGreen))
-		}
+		blockEnemyDialog(monster)
 		*monsterDefending = true
 	} else if monsterAction == "Heal" {
 		monster.HP = min(monster.HP+15, monster.maxHP)
 		monster.HP = min(monster.HP+15, monster.maxHP)
-		if lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf(" The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIGreen))
-		} else {
-			fmt.Println(termenv.String(fmt.Sprintf(" Монстр вилікувався! Тепер він має %d здоров'я.", monster.HP)).Foreground(termenv.ANSIGreen))
-		}
+		healMonsterDialog(monster)
 		*monsterDefending = false
 	} else {
 		monsterDamage := monster.Damage + rng() + monster.LVL
 		if *playerDefending {
-			if lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf(" You blocked the enemy's attack!")).Foreground(termenv.ANSIYellow))
-			} else if lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf(" Ти заблокував атаку ворога!")).Foreground(termenv.ANSIYellow))
-			}
-			*playerDefending = false // Reset defense after blocking
+			blockEnemyAttack(monster)
+			*playerDefending = false
 		} else {
 			player.HP -= monsterDamage
 			if lang == "en" {
