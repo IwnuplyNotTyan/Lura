@@ -26,6 +26,12 @@ func languageModel() model {
 	}
 }
 
+func attackModel() model {
+	return model{
+		choices: []string{"Attack", "Defend", "Heal", "Skip"},
+	}
+}
+
 func (m model) Init() tea.Cmd {
 	return nil
 }
@@ -85,5 +91,32 @@ func getSelectedLanguage() string {
 		return "ua"
 	default:
 		return "en"
+	}
+}
+
+func getSelectedAttack() string {
+	p := tea.NewProgram(attackModel())
+
+	m, err := p.Run()
+	if err != nil {
+		log.Fatalf("Error running language selection: %v", err)
+	}
+
+	selectedModel, ok := m.(model)
+	if !ok {
+		log.Fatalf("Unexpected model type")
+	}
+	clearScreen()
+	switch selectedModel.selected {
+	case "Attack":
+		return "Attack"
+	case "Defend":
+		return "Defend"
+	case "Heal":
+		return "Heal"
+	case "Skip":
+		return "Skip"
+	default:
+		return "Attack"
 	}
 }

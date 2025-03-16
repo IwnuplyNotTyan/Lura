@@ -27,7 +27,6 @@ func main() {
 	dialWelcome()
 
 	lang = getSelectedLanguage()
-
 	seedData()
 
 	registerTypes(L)

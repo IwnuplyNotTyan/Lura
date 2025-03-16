@@ -2,35 +2,36 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 
-	"github.com/manifoldco/promptui"
 	"github.com/muesli/termenv"
 )
 
 var getRandomMonster string
 
 func promptAction() string {
-	var prompt promptui.Select
-
-	if lang == "en" {
-		prompt = promptui.Select{
-			Label: "Select a card",
-			Items: []string{"Attack", "Defend", "Heal", "Skip"},
-		}
-	} else {
-		prompt = promptui.Select{
-			Label: "Вибери карту",
-			Items: []string{"Атакувати", "Захищатися", "Лікуватися", "Пропустити"},
-		}
-	}
-
-	_, result, err := prompt.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	result := getSelectedAttack()
+	// var prompt promptui.Select
+	//
+	//	if lang == "en" {
+	//		prompt = promptui.Select{
+	//			Label: "Select a card",
+	//			Items: []string{"Attack", "Defend", "Heal", "Skip"},
+	//		}
+	//	} else {
+	//
+	//		prompt = promptui.Select{
+	//			Label: "Вибери карту",
+	//			Items: []string{"Атакувати", "Захищатися", "Лікуватися", "Пропустити"},
+	//		}
+	//	}
+	//
+	// _, result, err := prompt.Run()
+	//
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+	//
 	return result
 }
 
