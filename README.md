@@ -57,7 +57,9 @@ go build -o lura
 # Mods
 Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
 
-### Adding weapon & monster mod:
+<details>
+  <summary>Adding weapon & monster mod</summary>
+
 ```lua
 local monsterName = {
     en = "test monster",
@@ -78,7 +80,12 @@ local weaponIdx = Weapon.new(weaponName[lang], 15, 20)
 Weapon.setDamage(weaponIdx, 18)
 ```
 
-### Removing weapon & monster mod:
+</details>
+
+
+<details>
+  <summary>Removing weapon & monster mod</summary>
+
 ```lua
 local monsterName = {
     en = "Dragon",
@@ -98,6 +105,9 @@ local weaponResult = Weapon.removeByName(weaponToRemove)
 local monsterToRemove = monsterName[lang]
 local monsterResult = Monster.removeByName(monsterToRemove)
 ```
+
+</details>
+
 ### Debug console, add flag `-debug`, all command in help
 
 # Credits
