@@ -5,6 +5,7 @@ go 1.23.6
 require (
 	github.com/charmbracelet/bubbletea v1.3.4
 	github.com/charmbracelet/lipgloss v1.0.0
+	github.com/magefile/mage v1.15.0
 	github.com/muesli/termenv v0.15.2
 	github.com/yuin/gopher-lua v1.1.1
 )

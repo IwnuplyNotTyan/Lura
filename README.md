@@ -51,11 +51,16 @@ Default binary path: `~/go/bin/`
 ### Build manually
 ```sh
 go mod download
+go install
+```
+or
+```sh
 go build -o lura
 ```
 
+
 # Mods
-Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
+### Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
 
 <details>
   <summary>Adding weapon & monster mod</summary>

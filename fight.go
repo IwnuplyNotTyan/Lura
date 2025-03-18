@@ -42,11 +42,9 @@ func fight(player *Player, monster *Monster) {
 				playerSkip(player)
 			}
 
-			// Monster's turn
 			monsterAction := enemyTurn(monster)
 			monsterTurnAction(monster, player, &monsterDefending, &playerDefending, monsterAction)
 
-			// Check if player died
 			if player.HP <= 0 {
 				fmt.Println(termenv.String(" ").Foreground(termenv.ANSIBrightRed).Bold())
 				return
@@ -101,6 +99,9 @@ func playerAttack(player *Player, monster *Monster, playerDefending *bool, monst
 
 func playerSkip(player *Player) {
 	if player.Stamina < 100 {
+		player.Stamina = min(player.Stamina+20, player.maxStamina)
+		staminaDialog(player)
+	} else {
 		staminaDialog(player)
 	}
 }

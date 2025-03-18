@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muesli/termenv"
@@ -12,11 +13,54 @@ var style = lipgloss.NewStyle().
 	Foreground(lipgloss.Color("#FAFAFA")).
 	Background(lipgloss.Color("#7D56F4")).
 	Padding(1).
-	Width(35)
+	Height(4).
+	Width(40)
+
+func getLine(lines []string, index int) string {
+	if index < len(lines) {
+		return lines[index]
+	}
+	return ""
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
 
 // Welcome
 func dialWelcome() {
-	fmt.Println(style.Render("Lura ~ open source turn based rpg in CLI, only you can select choose. Made with "))
+	ascii := `[38;2;26;21;28m:[0m[38;2;48;52;99m:[0m[38;2;85;101;207m:[0m[38;2;85;101;207m:[0m[38;2;48;52;99m:[0m[38;2;26;21;28m:[0m[38;2;30;26;40m:[0m[38;2;35;34;56m:[0m[38;2;34;32;52m:[0m[38;2;34;32;52m:[0m
+[38;2;69;92;248m:[0m[38;2;134;145;177m:[0m[38;2;232;226;65m:[0m[38;2;238;233;81m:[0m[38;2;140;154;195m:[0m[38;2;56;75;211m:[0m[38;2;35;39;99m:[0m[38;2;32;27;28m:[0m[38;2;31;27;40m:[0m[38;2;35;34;56m:[0m
+[38;2;26;21;28m:[0m[38;2;48;52;99m:[0m[38;2;85;101;207m:[0m[38;2;85;102;207m:[0m[38;2;51;55;103m:[0m[38;2;22;16;17m:[0m[38;2;24;18;21m:[0m[38;2;47;50;93m:[0m[38;2;79;93;189m:[0m[38;2;97;118;243m:[0m
+[38;2;97;118;243m:[0m[38;2;79;93;189m:[0m[38;2;47;50;93m:[0m[38;2;24;19;21m:[0m[38;2;28;22;17m:[0m[38;2;36;42;103m:[0m[38;2;62;79;207m:[0m[38;2;130;145;207m:[0m[38;2;221;219;100m:[0m[38;2;255;253;30m:[0m
+[38;2;255;253;30m:[0m[38;2;221;219;100m:[0m[38;2;130;145;207m:[0m[38;2;62;79;207m:[0m[38;2;36;42;103m:[0m[38;2;28;22;17m:[0m[38;2;24;19;21m:[0m[38;2;47;50;93m:[0m[38;2;79;93;189m:[0m[38;2;97;118;243m:[0m
+[38;2;97;120;248m:[0m[38;2;75;88;177m:[0m[38;2;38;36;64m:[0m[38;2;43;44;80m:[0m[38;2;81;97;195m:[0m[38;2;86;104;211m:[0m[38;2;48;52;99m:[0m[38;2;26;21;28m:[0m[38;2;30;26;40m:[0m[38;2;35;34;56m:[0m
+[38;2;32;27;28m:[0m[38;2;35;39;99m:[0m[38;2;56;75;211m:[0m[38;2;140;154;195m:[0m[38;2;236;231;77m:[0m[38;2;236;231;77m:[0m[38;2;140;154;195m:[0m[38;2;56;75;211m:[0m[38;2;35;39;99m:[0m[38;2;32;27;28m:[0m
+`
+	text := style.Render("Lura ~ open source turn based rpg in CLI, only you can select choose. Made with ")
+
+	styledText := style.Render(text)
+
+	linesLeft := strings.Split(styledText, "\n")
+	linesRight := strings.Split(ascii, "\n")
+
+	var output strings.Builder
+	maxLines := max(len(linesLeft), len(linesRight))
+
+	for i := 0; i < maxLines; i++ {
+		left := getLine(linesLeft, i)
+		right := getLine(linesRight, i)
+
+		// Only print if at least one side has content
+		if strings.TrimSpace(left) != "" || strings.TrimSpace(right) != "" {
+			output.WriteString(fmt.Sprintf("%-40s %s\n", left, right))
+		}
+	}
+
+	fmt.Println(output.String())
 }
 
 // Selectors
