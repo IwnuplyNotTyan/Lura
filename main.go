@@ -21,10 +21,8 @@ func main() {
 	flag.Parse()
 	L := lua.NewState()
 	defer L.Close()
-
 	clearScreen()
 	dialWelcome()
-
 	lang = getSelectedLanguage()
 	seedData()
 

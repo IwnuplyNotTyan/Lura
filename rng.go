@@ -53,21 +53,23 @@ func getRandomBuff() string {
 
 	if lang == "en" {
 		buffs = []string{
-			"Increase HP (+2) & Reduce Damage (-1)",
-			"Increase Damage (+5) & Reduce HP (-5)",
-			"Add Armor (+50)",
 			"Upgrade Weapon",
-			"Increase Stamina (+10) & Reduce Damage (-2)",
 			"Random Weapon",
+			"Tears",
+			"Broked heart",
+			"Lotus",
+			"Pearl necklace",
+			"Turtle scute",
 		}
 	} else {
 		buffs = []string{
-			"Додано здоров'я (+2) & Зменшено пошкодження (-1)",
-			"Додано пошкодження (+5) & Зменшено здоров'я (-5)",
-			"Добавити захисту (+50)",
 			"Покращити зброю",
-			"Додано витривалiсть (+10) & Зменшино пошкодження (-2)",
 			"Випадкова зброя",
+			"Розбите серце",
+			"Черепаха щиткова",
+			"Лотос",
+			"Перлове намисто",
+			"Сльози",
 		}
 	}
 	return buffs[rand.Intn(len(buffs))]
