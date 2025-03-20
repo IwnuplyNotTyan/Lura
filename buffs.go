@@ -38,10 +38,10 @@ func buffsAction(player *Player) {
 		player.maxStamina += 10
 	} else if result == "Tears" || result == "Сльози" {
 		player.maxHP += 10
-	} else if result == "Pearl necklace" || result == "Перлове намисто" {
-		fmt.Println("placeholder")
+		//} else if result == "Pearl necklace" || result == "Перлове намисто" {
+		//fmt.Println("placeholder")
 	} else if result == "Broked heart" || result == "Розбите серце" {
-		fmt.Printf("placeholder")
+		player.heart = false
 	} else if result == "Upgrade Weapon" || result == "Покращити зброю" {
 		player.Damage += 5
 	} else {

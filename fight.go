@@ -46,8 +46,17 @@ func fight(player *Player, monster *Monster) {
 			monsterTurnAction(monster, player, &monsterDefending, &playerDefending, monsterAction)
 
 			if player.HP <= 0 {
-				fmt.Println(termenv.String(" ").Foreground(termenv.ANSIBrightRed).Bold())
-				return
+				if player.heart == true {
+					fmt.Println(termenv.String("  You have died!").Foreground(termenv.ANSIBrightRed).Bold())
+					return
+				} else if player.heart == false {
+					player.maxHP = player.maxHP / 2
+					player.HP = player.maxHP
+					player.Damage = player.Damage * 2
+					fmt.Println(termenv.String(fmt.Sprintf("  Your heart is broken! HP set to %d.", player.HP)).Foreground(termenv.ANSIBrightRed).Bold())
+					player.heart = true
+					fight(player, monster)
+				}
 			}
 
 			time.Sleep(time.Second)

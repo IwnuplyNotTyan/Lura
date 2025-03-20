@@ -42,6 +42,7 @@ func main() {
 		Coins:      0,
 		Stamina:    100,
 		maxStamina: 100,
+		heart:      true,
 	}
 
 	if *debugMode {

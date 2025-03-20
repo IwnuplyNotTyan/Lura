@@ -58,7 +58,7 @@ func getRandomBuff() string {
 			"Tears",
 			"Broked heart",
 			"Lotus",
-			"Pearl necklace",
+			//"Pearl necklace",
 			"Turtle scute",
 		}
 	} else {
@@ -68,7 +68,7 @@ func getRandomBuff() string {
 			"Розбите серце",
 			"Черепаха щиткова",
 			"Лотос",
-			"Перлове намисто",
+			//"Перлове намисто",
 			"Сльози",
 		}
 	}
