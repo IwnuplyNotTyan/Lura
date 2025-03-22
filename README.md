@@ -1,6 +1,6 @@
 # ✨ ~ Lura *, CLI turn based roguelike*
 
-![Preview](https://gachi.gay/pHLVC)
+![Preview](https://gachi.gay/oq7Be9)
 
 # Tree
 - [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#build)
