@@ -120,7 +120,7 @@ func getSelectedBuff() string {
 
 	m, err := p.Run()
 	if err != nil {
-		log.Fatalf("Error running language selection: %v", err)
+		log.Fatalf("Error running buff selection: %v", err)
 	}
 
 	selectedModel, ok := m.(model)
@@ -128,12 +128,14 @@ func getSelectedBuff() string {
 		log.Fatalf("Unexpected model type")
 	}
 	clearScreen()
-	switch selectedModel.selected {
-	case "buff1":
+
+	// Return the buff based on the cursor position
+	switch selectedModel.cursor {
+	case 0:
 		return buff1
-	case "buff2":
+	case 1:
 		return buff2
-	case "buff3":
+	case 2:
 		return buff3
 	default:
 		return buff1
