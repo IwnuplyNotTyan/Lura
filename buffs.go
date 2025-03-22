@@ -26,6 +26,16 @@ func getRandomBuff() string {
 			//"Pearl necklace",
 			"Turtle scute",
 		}
+	} else if lang == "be" {
+		buffs = []string{
+			"Палепшыць зброю",
+			"Выпадковая зброя",
+			"Слёзы",
+			"Разбітае сэрца",
+			"Лотас",
+			//"Перламутравае намыльнае",
+			"Шчыт чарапахі",
+		}
 	} else {
 		buffs = []string{
 			"Покращити зброю",
@@ -51,7 +61,7 @@ func buffsAction(player *Player) {
 
 	result := getSelectedBuff()
 
-	if result == "Random Weapon" || result == "Випадкова зброя" {
+	if result == "Random Weapon" || result == "Випадкова зброя" || result == "Выпадковая зброя" {
 		weaponType, weaponDamage := getRandomWeapon()
 		player.WeaponType = weaponType
 		player.Damage = weaponDamage
@@ -59,18 +69,18 @@ func buffsAction(player *Player) {
 			fmt.Println(termenv.String(fmt.Sprintf(" You found a %s! Damage: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
 		} else if lang == "ua" {
 			fmt.Println(termenv.String(fmt.Sprintf(" Ти знайшов %s! Пошкодження: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
+		} else if lang == "be" {
+			fmt.Println(termenv.String(fmt.Sprintf(" Ты знайшоў %s! Пашкоджанні: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
 		}
-	} else if result == "Щиток черепахи" || result == "Turtle scute" {
+	} else if result == "Щиток черепахи" || result == "Turtle scute" || result == "Шчыт чарапахі" {
 		player.HP += 50
-	} else if result == "Lotus" || result == "Лотус" {
+	} else if result == "Lotus" || result == "Лотус" || result == "Лотас" {
 		player.maxStamina += 10
-	} else if result == "Tears" || result == "Сльози" {
+	} else if result == "Tears" || result == "Сльози" || result == "Слёзы" {
 		player.maxHP += 10
-		//} else if result == "Pearl necklace" || result == "Перлове намисто" {
-		//fmt.Println("placeholder")
-	} else if result == "Broked heart" || result == "Розбите серце" {
+	} else if result == "Broked heart" || result == "Розбите серце" || result == "Разбітае сэрца" {
 		player.heart = false
-	} else if result == "Upgrade Weapon" || result == "Покращити зброю" {
+	} else if result == "Upgrade Weapon" || result == "Покращити зброю" || result == "Палепшыць зброю" {
 		player.Damage += 5
 	} else {
 		noBuffDialog()

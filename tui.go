@@ -81,6 +81,8 @@ func getSelectedLanguage() string {
 	switch selectedModel.selected {
 	case "Українська":
 		return "ua"
+	case "Беларуская":
+		return "be"
 	default:
 		return "en"
 	}
@@ -100,13 +102,13 @@ func getSelectedAttack() string {
 	}
 	clearScreen()
 	switch selectedModel.selected {
-	case "Attack", "Атакувати":
+	case "Attack", "Атакувати", "Атакаваць":
 		return "Attack"
-	case "Defend", "Захищатися":
+	case "Defend", "Захищатися", "Абараняцца":
 		return "Defend"
-	case "Heal", "Лікуватися":
+	case "Heal", "Лікуватися", "Вылечвацца":
 		return "Heal"
-	case "Skip", "Пропустити":
+	case "Skip", "Пропустити", "Прапусціць":
 		return "Skip"
 	default:
 		return "Attack"
