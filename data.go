@@ -18,6 +18,7 @@ type Player struct {
 	Stamina    int
 	maxStamina int
 	heart      bool
+	buffs      int
 }
 
 type Weapon struct {
@@ -49,13 +50,13 @@ func seedData() {
 			{MonsterType: "Zombie", HP: 60, Damage: 15},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Sword", Damage: 12, Stamina: 10},
-			{WeaponType: "Spear", Damage: 11, Stamina: 7},
-			{WeaponType: "Axe", Damage: 15, Stamina: 15},
-			{WeaponType: "Longsword", Damage: 14, Stamina: 13},
-			{WeaponType: "Dagger", Damage: 10, Stamina: 5},
-			{WeaponType: "Crossbow", Damage: 11, Stamina: 11},
-			{WeaponType: "Bow", Damage: 10, Stamina: 9},
+			{WeaponType: "Sword", Damage: 13, Stamina: 10},
+			{WeaponType: "Spear", Damage: 12, Stamina: 7},
+			{WeaponType: "Axe", Damage: 16, Stamina: 15},
+			{WeaponType: "Longsword", Damage: 15, Stamina: 13},
+			{WeaponType: "Dagger", Damage: 11, Stamina: 5},
+			{WeaponType: "Crossbow", Damage: 12, Stamina: 11},
+			{WeaponType: "Bow", Damage: 11, Stamina: 9},
 		}
 	} else if lang == "ua" {
 		vmonsters = []Monster{
@@ -71,13 +72,13 @@ func seedData() {
 			{MonsterType: "Зомбі", HP: 60, Damage: 15},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Меч", Damage: 12, Stamina: 10},
-			{WeaponType: "Спис", Damage: 11, Stamina: 7},
-			{WeaponType: "Сокира", Damage: 15, Stamina: 15},
-			{WeaponType: "Довгий Меч", Damage: 14, Stamina: 13},
-			{WeaponType: "Кинджал", Damage: 10, Stamina: 5},
-			{WeaponType: "Арбалет", Damage: 11, Stamina: 11},
-			{WeaponType: "Лук", Damage: 10, Stamina: 9},
+			{WeaponType: "Меч", Damage: 13, Stamina: 10},
+			{WeaponType: "Спис", Damage: 12, Stamina: 7},
+			{WeaponType: "Сокира", Damage: 16, Stamina: 15},
+			{WeaponType: "Довгий Меч", Damage: 15, Stamina: 13},
+			{WeaponType: "Кинджал", Damage: 11, Stamina: 5},
+			{WeaponType: "Арбалет", Damage: 12, Stamina: 11},
+			{WeaponType: "Лук", Damage: 11, Stamina: 9},
 		}
 	}
 }

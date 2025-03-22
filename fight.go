@@ -61,9 +61,18 @@ func fight(player *Player, monster *Monster) {
 
 			time.Sleep(time.Second)
 		}
-
+		if player.buffs == 4 {
+			buffsAction(player)
+			player.buffs = 0
+		} else {
+			player.buffs += 1
+			if lang == "en" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to buff", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			} else if lang == "ua" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв прошов до баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			}
+		}
 		defeatMonster(monster)
-		buffsAction(player)
 	}
 }
 

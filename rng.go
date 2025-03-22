@@ -47,30 +47,3 @@ func getRandomVMonster() *Monster {
 //	monster.maxHP = monster.HP + (monster.LVL * 10)
 //	return &monster
 //}
-
-func getRandomBuff() string {
-	var buffs []string
-
-	if lang == "en" {
-		buffs = []string{
-			"Upgrade Weapon",
-			"Random Weapon",
-			"Tears",
-			"Broked heart",
-			"Lotus",
-			//"Pearl necklace",
-			"Turtle scute",
-		}
-	} else {
-		buffs = []string{
-			"Покращити зброю",
-			"Випадкова зброя",
-			"Розбите серце",
-			"Черепаха щиткова",
-			"Лотос",
-			//"Перлове намисто",
-			"Сльози",
-		}
-	}
-	return buffs[rand.Intn(len(buffs))]
-}

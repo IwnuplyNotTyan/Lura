@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 
 	"github.com/muesli/termenv"
 )
@@ -11,6 +12,33 @@ var (
 	buff2 string
 	buff3 string
 )
+
+func getRandomBuff() string {
+	var buffs []string
+
+	if lang == "en" {
+		buffs = []string{
+			"Upgrade Weapon",
+			"Random Weapon",
+			"Tears",
+			"Broked heart",
+			"Lotus",
+			//"Pearl necklace",
+			"Turtle scute",
+		}
+	} else {
+		buffs = []string{
+			"Покращити зброю",
+			"Випадкова зброя",
+			"Розбите серце",
+			"Щиток черепахи",
+			"Лотос",
+			//"Перлове намисто",
+			"Сльози",
+		}
+	}
+	return buffs[rand.Intn(len(buffs))]
+}
 
 func buffsAction(player *Player) {
 	player.Coins += 10
@@ -32,7 +60,7 @@ func buffsAction(player *Player) {
 		} else if lang == "ua" {
 			fmt.Println(termenv.String(fmt.Sprintf(" Ти знайшов %s! Пошкодження: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
 		}
-	} else if result == "Черепаха щиткова" || result == "Turtle scute" {
+	} else if result == "Щиток черепахи" || result == "Turtle scute" {
 		player.HP += 50
 	} else if result == "Lotus" || result == "Лотус" {
 		player.maxStamina += 10
