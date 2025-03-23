@@ -18,6 +18,10 @@
 # Build
 Note: build dep `go` v1.23.6. To play need only [Nerdfonts](https://www.nerdfonts.com/).
 
+### Windows
+download .exe from [release](https://github.com/IwnuplyNotTyan/Lura/releases) or build [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
+
+
 *Troubleshooting:* downgrade go version in `go.mod` to needed version
 
 ### Makepkg
