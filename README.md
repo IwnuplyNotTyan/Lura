@@ -30,6 +30,7 @@ makepkg -si
 
 ### Xbps-install
 From unofficial repo
+
 Write in `/etc/xbps.d/void-extras.conf` this:
 ```
 repository=https://raw.githubusercontent.com/binarylinuxx/void-extras/x86_64/pkgs
