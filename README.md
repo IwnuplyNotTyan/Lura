@@ -36,6 +36,8 @@ Write in `/etc/xbps.d/void-extras.conf` this:
 repository=https://raw.githubusercontent.com/binarylinuxx/void-extras/x86_64/pkgs
 ```
 
+Or manualy
+
 Download `lura-*_1-x86_64.xbps` from [releases](https://github.com/IwnuplyNotTyan/Lura/releases/tag/v1.0.0)
 ```sh
 xbps-install -R ~/path/to/lura-0.1.0-1-x86_64.xbps
