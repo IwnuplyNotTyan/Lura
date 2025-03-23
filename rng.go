@@ -28,22 +28,12 @@ func getRandomVMonster() *Monster {
 	return &monster
 }
 
-//func getRandomSMonster() *Monster {
-//	if len(smonsters) == 0 {
-//		return nil
-//	}
-//	monster := smonsters[rand.Intn(len(smonsters))]
-//	monster.LVL = rand.Intn(5) + 1
-//	monster.maxHP = monster.HP + (monster.LVL * 10)
-//	return &monster
-//}
-
-//func getRandomCCMonster() *Monster {
-//	if len(ccmonsters) == 0 {
-//		return nil
-//	}
-//	monster := ccmonsters[rand.Intn(len(ccmonsters))]
-//	monster.LVL = rand.Intn(5) + 1
-//	monster.maxHP = monster.HP + (monster.LVL * 10)
-//	return &monster
-//}
+func getRandomCMonster() *Monster {
+	if len(scmonsters) == 0 {
+		return nil
+	}
+	monster := scmonsters[rand.Intn(len(scmonsters))]
+	monster.LVL = rand.Intn(5) + 1
+	monster.maxHP = monster.HP + (monster.LVL * 10)
+	return &monster
+}
