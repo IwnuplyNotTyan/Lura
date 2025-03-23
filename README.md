@@ -21,7 +21,6 @@ Note: build dep `go` v1.23.6. To play need only [Nerdfonts](https://www.nerdfont
 ### Windows
 download .exe from [release](https://github.com/IwnuplyNotTyan/Lura/releases) or build [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
 
-
 *Troubleshooting:* downgrade go version in `go.mod` to needed version
 
 ### Makepkg
@@ -30,7 +29,13 @@ makepkg -si
 ```
 
 ### Xbps-install
-Download `lura-0.1.0-1-x86_64.xbps` from [releases](https://github.com/IwnuplyNotTyan/Lura/releases/tag/v1.0.0)
+From unofficial repo
+Write in `/etc/xbps.d/void-extras.conf` this:
+```
+repository=https://raw.githubusercontent.com/binarylinuxx/void-extras/x86_64/pkgs
+```
+
+Download `lura-*_1-x86_64.xbps` from [releases](https://github.com/IwnuplyNotTyan/Lura/releases/tag/v1.0.0)
 ```sh
 xbps-install -R ~/path/to/lura-0.1.0-1-x86_64.xbps
 ```
