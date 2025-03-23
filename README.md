@@ -3,7 +3,7 @@
 ![Preview](https://gachi.gay/oq7Be9)
 
 # Tree
-- [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#build)
+- [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#installing)
   - [Arch-Based](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#makepkg)
   - [Xbps-install](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-install)
   - [Xbps-src](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-src)
@@ -15,7 +15,7 @@
   - [Debug console](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#removing-weapon--monster-mod)
 - [Credits](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#mods)
 
-# Build
+# Installing
 Note: build dep `go` v1.23.6. To play need only [Nerdfonts](https://www.nerdfonts.com/).
 
 ### Windows
