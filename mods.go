@@ -19,7 +19,7 @@ func AutoLoadMods(L *lua.LState) error {
 		return fmt.Errorf("failed to get home directory: %v", err)
 	}
 
-	modsDir := filepath.Join(homeDir, ".local", "share", "Lura", "mods")
+	modsDir := filepath.Join(homeDir, ".config", "lura", "mods")
 
 	if err := os.MkdirAll(modsDir, 0755); err != nil {
 		return fmt.Errorf("failed to create mods directory: %v", err)
