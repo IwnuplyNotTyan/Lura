@@ -8,6 +8,7 @@ import (
 )
 
 var getRandomMonster string
+var monster string
 
 func promptAction() string {
 	result := getSelectedAttack()
@@ -16,7 +17,11 @@ func promptAction() string {
 
 func fight(player *Player, monster *Monster) {
 	for player.HP > 0 {
-		monster := getRandomVMonster()
+		if player.loc == 0 {
+			monster = getRandomCMonster()
+		} else if player.loc == 1 {
+			monster = getRandomVMonster()
+		}
 		if monster == nil {
 			fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
 			return
@@ -68,9 +73,15 @@ func fight(player *Player, monster *Monster) {
 			time.Sleep(time.Second)
 		}
 
+		player.Coins += 10
 		if player.buffs == 4 {
 			buffsAction(player)
 			player.buffs = 0
+			if player.loc == 0 {
+				player.loc = 1
+			} else if player.loc == 1 {
+				player.loc = 0
+			}
 		} else {
 			player.buffs += 1
 			if lang == "en" {

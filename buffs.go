@@ -51,7 +51,6 @@ func getRandomBuff() string {
 }
 
 func buffsAction(player *Player) {
-	player.Coins += 10
 	currentCoins(player)
 
 	// Correct variable assignment
