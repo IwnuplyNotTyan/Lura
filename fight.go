@@ -73,7 +73,7 @@ func fight(player *Player, monster *Monster) {
 			time.Sleep(time.Second)
 		}
 
-		player.Coins += 10
+		player.Coins += monster.coins
 		if player.buffs == 4 {
 			buffsAction(player)
 			player.buffs = 0
