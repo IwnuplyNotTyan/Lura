@@ -51,10 +51,10 @@ func fight(player *Player, monster *Monster) {
 			monsterTurnAction(monster, player, &monsterDefending, &playerDefending, monsterAction)
 
 			if player.HP <= 0 {
-				if player.heart == true {
+				if player.heart == 1 {
 					fmt.Println(termenv.String(fmt.Sprintf("  %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
 					return
-				} else if player.heart == false {
+				} else if player.heart == 0 {
 					player.maxHP = player.maxHP / 2
 					player.HP = player.maxHP
 					player.Damage = player.Damage * 2
@@ -65,7 +65,7 @@ func fight(player *Player, monster *Monster) {
 					} else if lang == "be" {
 						fmt.Println(termenv.String(fmt.Sprintf("  Ваша сэрца разбіта! HP устаноўлена на %d, Пашкоджанні павялічаны да %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 					}
-					player.heart = true
+					player.heart = 1
 					fight(player, monster)
 				}
 			}

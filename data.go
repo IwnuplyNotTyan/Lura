@@ -19,7 +19,7 @@ type Player struct {
 	Coins      int
 	Stamina    int
 	maxStamina int
-	heart      bool
+	heart      int
 	buffs      int
 	score      int
 	loc        int

@@ -80,7 +80,7 @@ func buffsAction(player *Player) {
 		//} else if result == "Pearl necklace" || result == "Перлове намисто" {
 		//fmt.Println("placeholder")
 	} else if result == "Broked heart" || result == "Розбите серце" || result == "Разбітае сэрца" {
-		player.heart = false
+		player.heart = 0
 	} else if result == "Upgrade Weapon" || result == "Покращити зброю" || result == "Палепшыць зброю" {
 		player.Damage += 5
 	} else {

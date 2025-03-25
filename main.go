@@ -42,7 +42,7 @@ func main() {
 		Coins:      0,
 		Stamina:    100,
 		maxStamina: 100,
-		heart:      true,
+		heart:      1,
 		loc:        1,
 	}
 
