@@ -23,10 +23,6 @@ var (
 	specificMonster *Monster
 )
 
-func clearScreen() {
-	fmt.Print("\033[H\033[2J")
-}
-
 func main() {
 	flag.Parse()
 	L := lua.NewState()
@@ -105,11 +101,7 @@ func selectLanguage() string {
 }
 
 func getConfigPath() string {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		log.Printf("Error getting home directory: %v", err)
-		return ""
-	}
+	homeDir, _ := os.UserHomeDir()
 	return filepath.Join(homeDir, ".config", "lura", "config.toml")
 }
 

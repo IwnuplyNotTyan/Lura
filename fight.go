@@ -137,13 +137,19 @@ func fight(player *Player, monster *Monster, config *Config) {
 			time.Sleep(time.Second)
 		}
 
+		clearScreen()
 		player.Coins += monster.coins
+		defeatMonster(monster)
 		if player.buffs == 4 {
 			buffsAction(player)
 			player.buffs = 0
+			newLine()
+			newLocation()
 			if player.loc == 0 {
+				forestArt()
 				player.loc = 1
 			} else if player.loc == 1 {
+				caveArt()
 				player.loc = 0
 			}
 		} else {
@@ -157,7 +163,6 @@ func fight(player *Player, monster *Monster, config *Config) {
 			}
 		}
 
-		defeatMonster(monster)
 		player.score += monster.score
 	}
 }

@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muesli/termenv"
@@ -13,7 +15,7 @@ var style = lipgloss.NewStyle().
 	Background(lipgloss.Color("#7D56F4")).
 	Padding(1).
 	Height(4).
-	Width(40)
+	Width(50)
 
 func getLine(lines []string, index int) string {
 	if index < len(lines) {
@@ -31,7 +33,55 @@ func max(a, b int) int {
 
 // Welcome
 func dialWelcome() {
-	fmt.Println(style.Render("Lura ~ open source turn based rpg in CLI, only you can select choose. Made with "))
+	fmt.Println(style.Render("Lura ~ open source turn based rpg in CLI, fight in many locations with many monster and etc. Made with "))
+}
+
+// ASCII Art
+func caveArt() {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println("Error getting home directory:", err)
+		return
+	}
+	filePath := filepath.Join(homeDir, ".config", "lura", "assets", "cave.txt")
+
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+	fmt.Print(string(data))
+	os.Stdout.Sync()
+}
+
+func forestArt() {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println("Error getting home directory:", err)
+		return
+	}
+	filePath := filepath.Join(homeDir, ".config", "lura", "assets", "forest.txt")
+
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+	fmt.Print(string(data))
+	os.Stdout.Sync()
+}
+
+// Etc
+func newLine() {
+	fmt.Println()
+}
+
+func clearScreen() {
+	fmt.Print("\033[H\033[2J")
+}
+
+func newLocation() {
+	fmt.Println(termenv.String(fmt.Sprintf("  New Location discovered")).Foreground(termenv.ANSIYellow).Bold())
 }
 
 // Fight

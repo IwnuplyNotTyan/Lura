@@ -56,7 +56,7 @@ func buffsAction(player *Player) {
 	buff2 = getRandomBuff()
 	buff3 = getRandomBuff()
 
-	selectedBuffs := selectBuff() // Returns []string of selected buffs
+	selectedBuffs := selectBuff()
 	if len(selectedBuffs) == 0 {
 		noBuffDialog()
 		return
@@ -65,15 +65,13 @@ func buffsAction(player *Player) {
 	for _, buff := range selectedBuffs {
 		switch buff {
 		case "Random Weapon", "Випадкова зброя", "Выпадковая зброя":
-			weaponType, weaponDamage := getRandomWeapon()
-			player.WeaponType = weaponType
-			player.Damage = weaponDamage
-			if lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf(" You found a %s! Damage: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
-			} else if lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf(" Ти знайшов %s! Пошкодження: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
-			} else if lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf(" Ты знайшоў %s! Пашкоджанні: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
+			if player.Coins > 10 {
+				player.Coins -= 10
+				currentWeapon := player.WeaponType
+				weaponType, weaponDamage := getRandomWeapon()
+				player.WeaponType = weaponType
+				player.Damage = weaponDamage
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentWeapon, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -81,8 +79,9 @@ func buffsAction(player *Player) {
 		case "Щиток черепахи", "Turtle scute", "Шчыт чарапахі":
 			if player.Coins > 20 {
 				player.Coins -= 20
+				currentHp := player.HP
 				player.HP += 50
-				fmt.Println(termenv.String(fmt.Sprintf("  Safety home, your hp: %d", player.HP)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentHp, player.HP)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -90,8 +89,9 @@ func buffsAction(player *Player) {
 		case "Lotus", "Лотус", "Лотас":
 			if player.Coins > 10 {
 				player.Coins -= 10
+				currentMaxStamina := player.maxStamina
 				player.maxStamina += 10
-				fmt.Println(termenv.String(fmt.Sprintf("  Look like a lotus, your max stamina: %d", player.maxStamina)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxStamina, player.maxStamina)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -99,8 +99,9 @@ func buffsAction(player *Player) {
 		case "Tears", "Сльози", "Слёзы":
 			if player.Coins > 5 {
 				player.Coins -= 5
+				currentMaxHP := player.maxHP
 				player.maxHP += 10
-				fmt.Println(termenv.String(fmt.Sprintf("  Crying make you strenght, your max hp: %d", player.maxHP)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxHP, player.maxHP)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -109,7 +110,7 @@ func buffsAction(player *Player) {
 			if player.Coins > 50 {
 				player.heart = 0
 				player.Coins -= 50
-				fmt.Println(termenv.String(fmt.Sprintf("  Undead")))
+				fmt.Println(termenv.String(fmt.Sprintf("  No heart now.")))
 			} else {
 				noBuffDialog()
 			}
@@ -117,8 +118,9 @@ func buffsAction(player *Player) {
 		case "Upgrade Weapon", "Покращити зброю", "Палепшыць зброю":
 			if player.Coins > 30 {
 				player.Coins -= 30
+				CurrentDamage := player.Damage
 				player.Damage += 10
-				fmt.Println(termenv.String(fmt.Sprintf("  Weapon upgraded, %d", player.Damage)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", CurrentDamage, player.Damage)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
