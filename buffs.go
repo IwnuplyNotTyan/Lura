@@ -14,36 +14,47 @@ var (
 	buff3 string
 )
 
-func getRandomBuff() string {
+func getRandomBuff(player *Player) string {
 	var buffs []string
+	if player.loc == 1 {
+		if lang == "en" {
+			buffs = []string{
+				"Upgrade Weapon",
+				"Random Weapon",
+				"Tears",
+				"Broken heart",
+				"Lotus",
+				//"Pearl necklace",
+				"Turtle scute",
+			}
+		} else if lang == "be" {
+			buffs = []string{
+				"Палепшыць зброю",
+				"Выпадковая зброя",
+				"Слёзы",
+				"Разбітае сэрца",
+				"Лотас",
+				"Шчыт чарапахі",
+			}
+		} else {
+			buffs = []string{
+				"Покращити зброю",
+				"Випадкова зброя",
+				"Розбите серце",
+				"Щиток черепахи",
+				"Лотос",
+				"Сльози",
+			}
+		}
+	} else if player.loc == 0 {
+		if lang == "en" {
+			buffs = []string{
+				"Crystal heart",
+			}
+		} else if lang == "be" {
 
-	if lang == "en" {
-		buffs = []string{
-			"Upgrade Weapon",
-			"Random Weapon",
-			"Tears",
-			"Broken heart",
-			"Lotus",
-			//"Pearl necklace",
-			"Turtle scute",
-		}
-	} else if lang == "be" {
-		buffs = []string{
-			"Палепшыць зброю",
-			"Выпадковая зброя",
-			"Слёзы",
-			"Разбітае сэрца",
-			"Лотас",
-			"Шчыт чарапахі",
-		}
-	} else {
-		buffs = []string{
-			"Покращити зброю",
-			"Випадкова зброя",
-			"Розбите серце",
-			"Щиток черепахи",
-			"Лотос",
-			"Сльози",
+		} else if lang == "ua" {
+
 		}
 	}
 	return buffs[rand.Intn(len(buffs))]
@@ -52,11 +63,11 @@ func getRandomBuff() string {
 func buffsAction(player *Player) {
 	currentCoins(player)
 
-	buff1 = getRandomBuff()
-	buff2 = getRandomBuff()
-	buff3 = getRandomBuff()
+	buff1 = getRandomBuff(player)
+	buff2 = getRandomBuff(player)
+	buff3 = getRandomBuff(player)
 
-	selectedBuffs := selectBuff()
+	selectedBuffs := selectBuff(player)
 	if len(selectedBuffs) == 0 {
 		noBuffDialog()
 		return
@@ -71,7 +82,7 @@ func buffsAction(player *Player) {
 				weaponType, weaponDamage := getRandomWeapon()
 				player.WeaponType = weaponType
 				player.Damage = weaponDamage
-				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentWeapon, player.WeaponType)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("  %s  %s", currentWeapon, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -82,6 +93,15 @@ func buffsAction(player *Player) {
 				currentHp := player.HP
 				player.HP += 50
 				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentHp, player.HP)).Foreground(termenv.ANSIGreen))
+			} else {
+				noBuffDialog()
+			}
+
+		case "Crystal heart":
+			if player.Coins > 50 {
+				player.Coins -= 50
+				player.heart = 2
+				fmt.Println(termenv.String(fmt.Sprintf("  Your heart regenerate new power")))
 			} else {
 				noBuffDialog()
 			}
@@ -131,11 +151,11 @@ func buffsAction(player *Player) {
 	}
 }
 
-func selectBuff() []string {
+func selectBuff(player *Player) []string {
 	var selectedBuffs []string
-	buff1 := getRandomBuff()
-	buff2 := getRandomBuff()
-	buff3 := getRandomBuff()
+	buff1 := getRandomBuff(player)
+	buff2 := getRandomBuff(player)
+	buff3 := getRandomBuff(player)
 
 	f := huh.NewForm(
 		huh.NewGroup(

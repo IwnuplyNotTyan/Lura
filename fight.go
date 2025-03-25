@@ -164,6 +164,9 @@ func fight(player *Player, monster *Monster, config *Config) {
 		}
 
 		player.score += monster.score
+		if player.heart == 2 {
+			player.HP += 10
+		}
 	}
 }
 
