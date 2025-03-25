@@ -23,7 +23,6 @@ func getRandomBuff(player *Player) string {
 				"Random Weapon",
 				"Tears",
 				"Broken heart",
-				"Lotus",
 				//"Pearl necklace",
 				"Turtle scute",
 			}
@@ -33,7 +32,6 @@ func getRandomBuff(player *Player) string {
 				"Выпадковая зброя",
 				"Слёзы",
 				"Разбітае сэрца",
-				"Лотас",
 				"Шчыт чарапахі",
 			}
 		} else {
@@ -42,7 +40,6 @@ func getRandomBuff(player *Player) string {
 				"Випадкова зброя",
 				"Розбите серце",
 				"Щиток черепахи",
-				"Лотос",
 				"Сльози",
 			}
 		}
@@ -50,11 +47,18 @@ func getRandomBuff(player *Player) string {
 		if lang == "en" {
 			buffs = []string{
 				"Crystal heart",
+				"Lotus",
 			}
 		} else if lang == "be" {
-
+			buffs = []string{
+				"Кристалічна сэрца",
+				"Лотас",
+			}
 		} else if lang == "ua" {
-
+			buffs = []string{
+				"Кристалічне серце",
+				"Лотос",
+			}
 		}
 	}
 	return buffs[rand.Intn(len(buffs))]
