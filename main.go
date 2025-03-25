@@ -4,9 +4,18 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 
+	"github.com/BurntSushi/toml"
 	lua "github.com/yuin/gopher-lua"
 )
+
+type Config struct {
+	Language     string   `toml:"language"`
+	Score        int      `toml:"score"`
+	Achievements []string `toml:"achievements"`
+}
 
 var (
 	debugMode       = flag.Bool("debug", false, "Enable debug shell")
@@ -14,7 +23,7 @@ var (
 )
 
 func clearScreen() {
-	fmt.Print("\033[H\033[2J") // ANSI escape code
+	fmt.Print("\033[H\033[2J")
 }
 
 func main() {
@@ -23,7 +32,20 @@ func main() {
 	defer L.Close()
 	clearScreen()
 	dialWelcome()
-	lang = getSelectedLanguage()
+	fmt.Printf("\n")
+
+	// Initialize config first to get language
+	player := Player{}     // Temporary empty player for config initialization
+	cfg := config(&player) // This will load or create config with language
+
+	// Set language from config
+	lang = cfg.Language
+	if lang == "" {
+		lang = getSelectedLanguage()
+		cfg.Language = lang
+		saveConfig(getConfigPath(), cfg) // Save the selected language
+	}
+
 	seedData()
 
 	registerTypes(L)
@@ -34,7 +56,7 @@ func main() {
 	}
 
 	weaponType, weaponDamage := getRandomWeapon()
-	player := Player{
+	player = Player{
 		WeaponType: weaponType,
 		Damage:     weaponDamage * rng(),
 		HP:         100,
@@ -51,4 +73,67 @@ func main() {
 	}
 
 	fight(&player, specificMonster)
+}
+
+func getConfigPath() string {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Printf("Error getting home directory: %v", err)
+		return ""
+	}
+	return filepath.Join(homeDir, ".config", "lura", "config.toml")
+}
+
+func config(player *Player) Config {
+	configPath := getConfigPath()
+	if configPath == "" {
+		return Config{}
+	}
+
+	// 1. Ensure the config directory exists with proper permissions
+	configDir := filepath.Dir(configPath)
+	if err := os.MkdirAll(configDir, 0755); err != nil {
+		log.Printf("Error creating config directory: %v", err)
+		return Config{}
+	}
+
+	// 2. Check if config file exists, create if it doesn't
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		initialConfig := Config{
+			Language:     lang,
+			Score:        player.score,
+			Achievements: []string{"First blood"},
+		}
+
+		if err := saveConfig(configPath, initialConfig); err != nil {
+			log.Printf("Error creating initial config: %v", err)
+			return Config{}
+		}
+		return initialConfig
+	}
+
+	// 3. Load existing config
+	cfg, err := loadConfig(configPath)
+	if err != nil {
+		log.Printf("Error loading config: %v", err)
+		return Config{}
+	}
+
+	return cfg
+}
+
+func loadConfig(filename string) (Config, error) {
+	var cfg Config
+	_, err := toml.DecodeFile(filename, &cfg)
+	return cfg, err
+}
+
+func saveConfig(filename string, cfg Config) error {
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	return toml.NewEncoder(file).Encode(cfg)
 }

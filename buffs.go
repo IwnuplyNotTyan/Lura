@@ -33,7 +33,6 @@ func getRandomBuff() string {
 			"Слёзы",
 			"Разбітае сэрца",
 			"Лотас",
-			//"Перламутравае намыльнае",
 			"Шчыт чарапахі",
 		}
 	} else {
@@ -43,7 +42,6 @@ func getRandomBuff() string {
 			"Розбите серце",
 			"Щиток черепахи",
 			"Лотос",
-			//"Перлове намисто",
 			"Сльози",
 		}
 	}
@@ -53,7 +51,6 @@ func getRandomBuff() string {
 func buffsAction(player *Player) {
 	currentCoins(player)
 
-	// Correct variable assignment
 	buff1 = getRandomBuff()
 	buff2 = getRandomBuff()
 	buff3 = getRandomBuff()
@@ -77,8 +74,6 @@ func buffsAction(player *Player) {
 		player.maxStamina += 10
 	} else if result == "Tears" || result == "Сльози" || result == "Слёзы" {
 		player.maxHP += 10
-		//} else if result == "Pearl necklace" || result == "Перлове намисто" {
-		//fmt.Println("placeholder")
 	} else if result == "Broked heart" || result == "Розбите серце" || result == "Разбітае сэрца" {
 		player.heart = 0
 	} else if result == "Upgrade Weapon" || result == "Покращити зброю" || result == "Палепшыць зброю" {

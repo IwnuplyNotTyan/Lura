@@ -3,6 +3,7 @@ module Lura
 go 1.23.6
 
 require (
+	github.com/BurntSushi/toml v1.5.0
 	github.com/charmbracelet/bubbletea v1.3.4
 	github.com/charmbracelet/lipgloss v1.0.0
 	github.com/muesli/termenv v0.15.2
