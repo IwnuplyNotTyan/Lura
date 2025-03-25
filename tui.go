@@ -7,6 +7,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+// Lipgloss
 var (
 	titleStyle  = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("205")) // Pink title
 	cursorStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("212")).Bold(true) // Selected option
@@ -14,6 +15,7 @@ var (
 	quitStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("240")).Italic(true)
 )
 
+// Bubbletea
 type model struct {
 	cursor   int
 	choices  []string
