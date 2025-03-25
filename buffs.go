@@ -74,6 +74,8 @@ func buffsAction(player *Player) {
 				fmt.Println(termenv.String(fmt.Sprintf(" Ти знайшов %s! Пошкодження: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
 			} else if lang == "be" {
 				fmt.Println(termenv.String(fmt.Sprintf(" Ты знайшоў %s! Пашкоджанні: %d", weaponType, weaponDamage)).Foreground(termenv.ANSIGreen))
+			} else {
+				noBuffDialog()
 			}
 
 		case "Щиток черепахи", "Turtle scute", "Шчыт чарапахі":
@@ -81,6 +83,8 @@ func buffsAction(player *Player) {
 				player.Coins -= 20
 				player.HP += 50
 				fmt.Println(termenv.String(fmt.Sprintf("  Safety home, your hp: %d", player.HP)).Foreground(termenv.ANSIGreen))
+			} else {
+				noBuffDialog()
 			}
 
 		case "Lotus", "Лотус", "Лотас":
@@ -88,6 +92,8 @@ func buffsAction(player *Player) {
 				player.Coins -= 10
 				player.maxStamina += 10
 				fmt.Println(termenv.String(fmt.Sprintf("  Look like a lotus, your max stamina: %d", player.maxStamina)).Foreground(termenv.ANSIGreen))
+			} else {
+				noBuffDialog()
 			}
 
 		case "Tears", "Сльози", "Слёзы":
@@ -95,6 +101,8 @@ func buffsAction(player *Player) {
 				player.Coins -= 5
 				player.maxHP += 10
 				fmt.Println(termenv.String(fmt.Sprintf("  Crying make you strenght, your max hp: %d", player.maxHP)).Foreground(termenv.ANSIGreen))
+			} else {
+				noBuffDialog()
 			}
 
 		case "Broken heart", "Розбите серце", "Разбітае сэрца":
@@ -102,6 +110,8 @@ func buffsAction(player *Player) {
 				player.heart = 0
 				player.Coins -= 50
 				fmt.Println(termenv.String(fmt.Sprintf("  Undead")))
+			} else {
+				noBuffDialog()
 			}
 
 		case "Upgrade Weapon", "Покращити зброю", "Палепшыць зброю":
@@ -109,6 +119,8 @@ func buffsAction(player *Player) {
 				player.Coins -= 30
 				player.Damage += 10
 				fmt.Println(termenv.String(fmt.Sprintf("  Weapon upgraded, %d", player.Damage)).Foreground(termenv.ANSIGreen))
+			} else {
+				noBuffDialog()
 			}
 
 		default:
@@ -126,7 +138,7 @@ func selectBuff() []string {
 	f := huh.NewForm(
 		huh.NewGroup(
 			huh.NewMultiSelect[string]().
-				Title("Select buffs (Space to select, Enter to confirm)").
+				Title(" Select card").
 				Options(
 					huh.NewOption(buff1, buff1),
 					huh.NewOption(buff2, buff2),

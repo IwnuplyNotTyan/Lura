@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
+	"github.com/charmbracelet/huh"
 	lua "github.com/yuin/gopher-lua"
 )
 
@@ -41,7 +42,7 @@ func main() {
 	// Set language from config
 	lang = cfg.Language
 	if lang == "" {
-		lang = getSelectedLanguage()
+		lang = selectLanguage()
 		cfg.Language = lang
 		saveConfig(getConfigPath(), cfg) // Save the selected language
 	}
@@ -73,6 +74,34 @@ func main() {
 	}
 	cfg = config(&player)
 	fight(&player, specificMonster, &cfg)
+}
+
+func selectLanguage() string {
+	var selectedLang string
+	f := huh.NewForm(
+		huh.NewGroup(
+			huh.NewSelect[string]().
+				Title(" Select Language").
+				Options(
+					huh.NewOption("English", "en"),
+					huh.NewOption("Українська", "ua"),
+					huh.NewOption("Беларускiй", "be"),
+				).
+				Value(&selectedLang),
+		),
+	)
+
+	if err := f.Run(); err != nil {
+		log.Printf("Error selecting language: %v", err)
+		return "en"
+	}
+
+	switch selectedLang {
+	case "en", "ua", "be":
+		return selectedLang
+	default:
+		return "en"
+	}
 }
 
 func getConfigPath() string {

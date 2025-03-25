@@ -5,15 +5,63 @@ import (
 	"log"
 	"time"
 
+	"github.com/charmbracelet/huh"
 	"github.com/muesli/termenv"
 )
 
-var getRandomMonster string
-var monster string
+var (
+	getRandomMonster string
+	monster          string
+	Attack           string
+	Heal             string
+	Defend           string
+	Skip             string
+)
 
 func promptAction() string {
-	result := getSelectedAttack()
-	return result
+	return selectAttack()
+}
+
+func selectAttack() string {
+	var selectedAttack string
+
+	if lang == "ua" {
+		Attack = "Атакувати"
+		Heal = "Лікуватися"
+		Defend = "Захищатися"
+		Skip = "Пропустити"
+	} else if lang == "be" {
+		Attack = "Атакаваць"
+		Heal = "Вылечвацца"
+		Defend = "Абараняцца"
+		Skip = "Прапусціць"
+	} else {
+		Attack = "Attack"
+		Defend = "Defend"
+		Heal = "Heal"
+		Skip = "Skip"
+	}
+
+	f := huh.NewForm(
+		huh.NewGroup(
+			huh.NewSelect[string]().
+				Title(" Select action").
+				Options(
+					huh.NewOption(Attack, Attack),
+					huh.NewOption(Defend, Defend),
+					huh.NewOption(Heal, Heal),
+					huh.NewOption(Skip, Skip),
+				).
+				Value(&selectedAttack),
+		),
+	)
+
+	if err := f.Run(); err != nil {
+		fmt.Println("Error:", err)
+		return ""
+	}
+	clearScreen()
+	return selectedAttack
 }
 
 func fight(player *Player, monster *Monster, config *Config) {
@@ -34,7 +82,8 @@ func fight(player *Player, monster *Monster, config *Config) {
 		monsterDefending := false
 
 		for monster.HP > 0 && player.HP > 0 {
-			playerAction := promptAction()
+			playerAction := selectAttack()
+			//playerAction := promptAction()
 
 			if playerAction == "Defend" || playerAction == "Захищатися" || playerAction == "Абараняцца" {
 				playerDefending = true

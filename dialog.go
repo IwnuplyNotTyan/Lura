@@ -34,48 +34,6 @@ func dialWelcome() {
 	fmt.Println(style.Render("Lura ~ open source turn based rpg in CLI, only you can select choose. Made with "))
 }
 
-// Selectors
-func languageModel() model {
-	return model{
-		choices: []string{"English", "Українська", "Беларуская"},
-	}
-}
-
-func attackModel() model {
-	if lang == "en" {
-		return model{
-			choices: []string{"Attack", "Defend", "Heal", "Skip"},
-		}
-	} else if lang == "be" {
-		return model{
-			choices: []string{"Атакаваць", "Абараняцца", "Вылечвацца", "Прапусціць"},
-		}
-	} else {
-		return model{
-			choices: []string{"Атакувати", "Захищатися", "Лікуватися", "Пропустити"},
-		}
-	}
-}
-
-func buffsModel() model {
-	if lang == "en" {
-		return model{
-			choices: []string{buff1, buff2, buff3},
-		}
-	} else if lang == "be" {
-		return model{
-			choices: []string{buff1, buff2, buff3},
-		}
-	} else if lang == "ua" {
-		return model{
-			choices: []string{buff1, buff2, buff3},
-		}
-	}
-	return model{
-		choices: []string{buff1, buff2, buff3},
-	}
-}
-
 // Fight
 func displayFightIntro(player *Player, monster *Monster) {
 	if lang == "en" {
