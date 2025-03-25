@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/muesli/termenv"
@@ -15,7 +16,7 @@ func promptAction() string {
 	return result
 }
 
-func fight(player *Player, monster *Monster) {
+func fight(player *Player, monster *Monster, config *Config) {
 	for player.HP > 0 {
 		if player.loc == 0 {
 			monster = getRandomCMonster()
@@ -52,7 +53,21 @@ func fight(player *Player, monster *Monster) {
 
 			if player.HP <= 0 {
 				if player.heart == 1 {
-					fmt.Println(termenv.String(fmt.Sprintf("  %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
+					if player.score > config.Score {
+						config.Score = player.score
+						if lang == "en" {
+							fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
+						} else if lang == "ua" {
+
+						} else if lang == "be" {
+
+						}
+						if err := saveConfig(getConfigPath(), *config); err != nil {
+							log.Printf("Error saving high score: %v", err)
+						}
+					} else {
+						fmt.Println(termenv.String(fmt.Sprintf("  %d", player.score)).Foreground(termenv.ANSIRed).Bold())
+					}
 					return
 				} else if player.heart == 0 {
 					player.maxHP = player.maxHP / 2
@@ -66,7 +81,7 @@ func fight(player *Player, monster *Monster) {
 						fmt.Println(termenv.String(fmt.Sprintf("  Ваша сэрца разбіта! HP устаноўлена на %d, Пашкоджанні павялічаны да %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 					}
 					player.heart = 1
-					fight(player, monster)
+					fight(player, monster, config)
 				}
 			}
 

@@ -71,8 +71,8 @@ func main() {
 	if *debugMode {
 		DebugShell(L, &player)
 	}
-
-	fight(&player, specificMonster)
+	cfg = config(&player)
+	fight(&player, specificMonster, &cfg)
 }
 
 func getConfigPath() string {
@@ -90,19 +90,17 @@ func config(player *Player) Config {
 		return Config{}
 	}
 
-	// 1. Ensure the config directory exists with proper permissions
 	configDir := filepath.Dir(configPath)
 	if err := os.MkdirAll(configDir, 0755); err != nil {
 		log.Printf("Error creating config directory: %v", err)
 		return Config{}
 	}
 
-	// 2. Check if config file exists, create if it doesn't
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		initialConfig := Config{
 			Language:     lang,
 			Score:        player.score,
-			Achievements: []string{"First blood"},
+			Achievements: []string{},
 		}
 
 		if err := saveConfig(configPath, initialConfig); err != nil {
@@ -112,13 +110,11 @@ func config(player *Player) Config {
 		return initialConfig
 	}
 
-	// 3. Load existing config
 	cfg, err := loadConfig(configPath)
 	if err != nil {
 		log.Printf("Error loading config: %v", err)
 		return Config{}
 	}
-
 	return cfg
 }
 
