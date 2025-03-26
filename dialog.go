@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muesli/termenv"
@@ -15,7 +14,7 @@ var style = lipgloss.NewStyle().
 	Background(lipgloss.Color("#7D56F4")).
 	Padding(1).
 	Height(4).
-	Width(50)
+	Width(40)
 
 func getLine(lines []string, index int) string {
 	if index < len(lines) {
@@ -38,31 +37,19 @@ func dialWelcome() {
 
 // ASCII Art
 func caveArt() {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Println("Error getting home directory:", err)
-		return
-	}
-	filePath := filepath.Join(homeDir, ".config", "lura", "assets", "cave.txt")
+	data, err := assetsFS.ReadFile("assets/cave.txt")
 
-	data, err := os.ReadFile(filePath)
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
 	}
+
 	fmt.Print(string(data))
 	os.Stdout.Sync()
 }
 
 func forestArt() {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Println("Error getting home directory:", err)
-		return
-	}
-	filePath := filepath.Join(homeDir, ".config", "lura", "assets", "forest.txt")
-
-	data, err := os.ReadFile(filePath)
+	data, err := assetsFS.ReadFile("assets/forest.txt")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return

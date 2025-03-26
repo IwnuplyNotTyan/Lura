@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"fmt"
 	"log"
@@ -23,12 +24,16 @@ var (
 	specificMonster *Monster
 )
 
+//go:embed assets/*
+var assetsFS embed.FS
+
 func main() {
 	flag.Parse()
 	L := lua.NewState()
 	defer L.Close()
 	clearScreen()
 	dialWelcome()
+	caveArt()
 	fmt.Printf("\n")
 
 	// Initialize config first to get language
