@@ -22,6 +22,34 @@ func promptAction() string {
 	return selectAttack()
 }
 
+func takeWeapon(player *Player, monster *Monster) {
+	var confirm bool
+
+	err := huh.NewForm(
+		huh.NewGroup(
+			huh.NewConfirm().
+				Title("You want to take her weapon?").
+				Affirmative("Take").
+				Negative("No").
+				Value(&confirm),
+		),
+	).Run()
+
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	if confirm {
+		if monster.MonsterType == "Lanter keeper" {
+			w := "Lanter of the soul"
+			player.WeaponType = w
+		}
+	} else {
+
+	}
+}
+
 func selectAttack() string {
 	var selectedAttack string
 
@@ -140,6 +168,9 @@ func fight(player *Player, monster *Monster, config *Config) {
 		clearScreen()
 		player.Coins += monster.coins
 		defeatMonster(monster)
+		if monster.MonsterType == "Lanter keeper" {
+			takeWeapon(player, monster)
+		}
 		if player.buffs == 4 {
 			buffsAction(player)
 			player.buffs = 0

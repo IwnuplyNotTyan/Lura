@@ -65,6 +65,7 @@ func seedData() {
 			{MonsterType: "Golem", HP: 130, Damage: 10, score: 60, coins: 17},
 			{MonsterType: "Miner", HP: 60, Damage: 20, score: 20, coins: 14},
 			{MonsterType: "Aetherite titan", HP: 100, Damage: 20, score: 70, coins: 14},
+			{MonsterType: "Lanter keeper", HP: 70, Damage: 10, score: 10, coins: 14},
 		}
 	} else if lang == "be" {
 		vmonsters = []Monster{
