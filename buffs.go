@@ -14,7 +14,7 @@ var (
 	buff3 string
 )
 
-func getRandomBuff(player *Player) string {
+func getRandomBuff(player *Player, excludeBuffs ...string) string {
 	var buffs []string
 	if player.loc == 1 {
 		if lang == "en" {
@@ -22,7 +22,6 @@ func getRandomBuff(player *Player) string {
 				"Upgrade Weapon",
 				"Random Weapon",
 				"Broken heart",
-				//"Pearl necklace",
 				"Turtle scute",
 			}
 		} else if lang == "be" {
@@ -61,7 +60,22 @@ func getRandomBuff(player *Player) string {
 			}
 		}
 	}
-	return buffs[rand.Intn(len(buffs))]
+
+	// Remove excluded buffs
+	availableBuffs := make([]string, 0, len(buffs))
+	for _, buff := range buffs {
+		if !contains(excludeBuffs, buff) {
+			availableBuffs = append(availableBuffs, buff)
+		}
+	}
+
+	// If no buffs are available, return an empty string or handle as needed
+	if len(availableBuffs) == 0 {
+		return ""
+	}
+
+	// Return a random buff from available buffs
+	return availableBuffs[rand.Intn(len(availableBuffs))]
 }
 
 func buffsAction(player *Player) {
@@ -157,9 +171,15 @@ func buffsAction(player *Player) {
 
 func selectBuff(player *Player) []string {
 	var selectedBuffs []string
+
+	// Generate first buff
 	buff1 := getRandomBuff(player)
-	buff2 := getRandomBuff(player)
-	buff3 := getRandomBuff(player)
+
+	// Generate second buff, excluding the first
+	buff2 := getRandomBuff(player, buff1)
+
+	// Generate third buff, excluding previous two
+	buff3 := getRandomBuff(player, buff1, buff2)
 
 	f := huh.NewForm(
 		huh.NewGroup(
@@ -180,4 +200,14 @@ func selectBuff(player *Player) []string {
 	}
 
 	return selectedBuffs
+}
+
+// Helper function to check if a slice contains a string
+func contains(slice []string, str string) bool {
+	for _, v := range slice {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }

@@ -67,10 +67,6 @@ func clearScreen() {
 	fmt.Print("\033[H\033[2J")
 }
 
-func newLocation() {
-	fmt.Println(termenv.String(fmt.Sprintf("  New Location discovered")).Foreground(termenv.ANSIYellow).Bold())
-}
-
 // Fight
 func displayFightIntro(player *Player, monster *Monster) {
 	if lang == "en" {

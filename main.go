@@ -33,19 +33,15 @@ func main() {
 	defer L.Close()
 	clearScreen()
 	dialWelcome()
-	caveArt()
 	fmt.Printf("\n")
 
-	// Initialize config first to get language
-	player := Player{}     // Temporary empty player for config initialization
-	cfg := config(&player) // This will load or create config with language
-
-	// Set language from config
+	player := Player{}
+	cfg := config(&player)
 	lang = cfg.Language
 	if lang == "" {
 		lang = selectLanguage()
 		cfg.Language = lang
-		saveConfig(getConfigPath(), cfg) // Save the selected language
+		saveConfig(getConfigPath(), cfg)
 	}
 
 	seedData()

@@ -144,7 +144,6 @@ func fight(player *Player, monster *Monster, config *Config) {
 			buffsAction(player)
 			player.buffs = 0
 			newLine()
-			newLocation()
 			if player.loc == 0 {
 				forestArt()
 				player.loc = 1
