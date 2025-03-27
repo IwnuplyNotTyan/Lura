@@ -64,6 +64,7 @@ func main() {
 		maxStamina: 100,
 		heart:      1,
 		loc:        1,
+		monster:    false,
 	}
 
 	if *debugMode {

@@ -23,6 +23,8 @@ type Player struct {
 	buffs      int
 	score      int
 	loc        int
+	monster    bool
+	name       string
 }
 
 type Weapon struct {
