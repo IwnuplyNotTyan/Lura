@@ -47,6 +47,7 @@ func takeWeapon(player *Player, monster *Monster) {
 			player.Damage = 5 * rng()
 			player.HP = monster.maxHP
 			player.maxHP = monster.maxHP
+			player.WeaponType = monster.WeaponType
 			player.name = monster.MonsterType
 		}
 	} else {
