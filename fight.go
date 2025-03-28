@@ -197,7 +197,9 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		}
 
 		if player.buffs == 4 {
-			buffsAction(player)
+			if player.monster == false {
+				buffsAction(player)
+			}
 			player.buffs = 0
 			newLine()
 			if player.loc == 0 {
@@ -210,9 +212,9 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		} else {
 			player.buffs += 1
 			if lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to buff", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			} else if lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до iншого мiсця", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			} else if lang == "be" {
 				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			}
