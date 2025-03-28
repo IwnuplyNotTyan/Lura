@@ -71,7 +71,7 @@ func main() {
 		DebugShell(L, &player)
 	}
 	cfg = config(&player)
-	fight(&player, specificMonster, &cfg)
+	fight(&player, specificMonster, &cfg, &Weapon{})
 }
 
 func selectLanguage() string {

@@ -52,14 +52,15 @@ func seedData() {
 			{MonsterType: "Ogre", HP: 80, Damage: 20, score: 40, coins: 14, WeaponType: "Axe"},
 			{MonsterType: "Skeleton", HP: 50, Damage: 10, score: 20, coins: 6, WeaponType: "Bow"},
 			{MonsterType: "Zombie", HP: 60, Damage: 15, score: 30, coins: 11, WeaponType: "Hand"},
+			{MonsterType: "Musketeer", HP: 80, Damage: 30, score: 30, coins: 10, WeaponType: "Musket"},
 		}
 		weapons = []Weapon{
 			{WeaponType: "Sword", Damage: 13, Stamina: 10},
 			{WeaponType: "Spear", Damage: 12, Stamina: 7},
 			{WeaponType: "Axe", Damage: 16, Stamina: 15},
-			{WeaponType: "Longsword", Damage: 15, Stamina: 13},
+			//{WeaponType: "Longsword", Damage: 15, Stamina: 13},
 			{WeaponType: "Dagger", Damage: 11, Stamina: 5},
-			{WeaponType: "Crossbow", Damage: 12, Stamina: 11},
+			//{WeaponType: "Crossbow", Damage: 12, Stamina: 11},
 			{WeaponType: "Bow", Damage: 11, Stamina: 9},
 		}
 		scmonsters = []Monster{

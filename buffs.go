@@ -20,21 +20,23 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 		if lang == "en" {
 			buffs = []string{
 				"Upgrade Weapon",
-				"Random Weapon",
+				"Longsword",
+				"Crossbow",
+				//"Random Weapon",
 				"Broken heart",
 				"Turtle scute",
 			}
 		} else if lang == "be" {
 			buffs = []string{
 				"Палепшыць зброю",
-				"Выпадковая зброя",
+				//"Выпадковая зброя",
 				"Разбітае сэрца",
 				"Шчыт чарапахі",
 			}
 		} else {
 			buffs = []string{
 				"Покращити зброю",
-				"Випадкова зброя",
+				//"Випадкова зброя",
 				"Розбите серце",
 				"Щиток черепахи",
 			}
@@ -93,16 +95,25 @@ func buffsAction(player *Player) {
 
 	for _, buff := range selectedBuffs {
 		switch buff {
-		case "Random Weapon", "Випадкова зброя", "Выпадковая зброя":
-			if player.Coins > 10 {
-				player.Coins -= 10
-				currentWeapon := player.WeaponType
-				weaponType, weaponDamage := getRandomWeapon()
-				player.WeaponType = weaponType
-				player.Damage = weaponDamage
-				fmt.Println(termenv.String(fmt.Sprintf("  %s  %s", currentWeapon, player.WeaponType)).Foreground(termenv.ANSIGreen))
+
+		case "Longsword":
+			if player.Coins > 20 {
+				player.Coins -= 20
+				w := "Longsword"
+				player.WeaponType = w
+				player.Damage = 15 * rng()
+				player.Stamina = 13
 			} else {
 				noBuffDialog()
+			}
+
+		case "Crossbow":
+			if player.Coins > 20 {
+				player.Coins -= 20
+				w := "Crossbow"
+				player.WeaponType = w
+				player.Damage = 12 * rng()
+				player.Stamina = 11
 			}
 
 		case "Щиток черепахи", "Turtle scute", "Шчыт чарапахі":

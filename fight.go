@@ -22,7 +22,7 @@ func promptAction() string {
 	return selectAttack()
 }
 
-func takeWeapon(player *Player, monster *Monster) {
+func takeWeapon(player *Player, weapon *Weapon, monster *Monster) {
 	var confirm bool
 
 	err := huh.NewForm(
@@ -45,13 +45,13 @@ func takeWeapon(player *Player, monster *Monster) {
 			w := "Lanter of the soul"
 			player.WeaponType = w
 			player.Damage = 5 * rng()
-			player.HP = monster.maxHP
-			player.maxHP = monster.maxHP
-			player.WeaponType = monster.WeaponType
-			player.name = monster.MonsterType
+			weapon.Stamina = 4
+		} else if monster.MonsterType == "Musketeer" {
+			w := "Musket"
+			player.WeaponType = w
+			player.Damage = 20 * rng()
+			weapon.Stamina = 5
 		}
-	} else {
-
 	}
 }
 
@@ -97,7 +97,7 @@ func selectAttack() string {
 	return selectedAttack
 }
 
-func fight(player *Player, monster *Monster, config *Config) {
+func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 	for player.HP > 0 {
 		if player.loc == 0 {
 			monster = getRandomCMonster()
@@ -163,7 +163,7 @@ func fight(player *Player, monster *Monster, config *Config) {
 						fmt.Println(termenv.String(fmt.Sprintf("  Ваша сэрца разбіта! HP устаноўлена на %d, Пашкоджанні павялічаны да %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 					}
 					player.heart = 1
-					fight(player, monster, config)
+					fight(player, monster, config, weapon)
 				}
 			}
 
@@ -174,32 +174,40 @@ func fight(player *Player, monster *Monster, config *Config) {
 		player.Coins += monster.coins
 		defeatMonster(monster)
 		if monster.MonsterType == "Lanter keeper" {
-			takeWeapon(player, monster)
+			takeWeapon(player, weapon, monster)
+		} else if monster.MonsterType == "Musketeer" {
+			takeWeapon(player, weapon, monster)
 		}
 		if player.WeaponType == "Lanter of the soul" {
 			player.Damage = monster.Damage * rng()
 			player.monster = true
+			player.HP = monster.maxHP
+			player.maxHP = monster.maxHP
+			player.WeaponType = monster.WeaponType
+			player.name = monster.MonsterType
 			fmt.Println(termenv.String(fmt.Sprintf("Now you %s", player.name)))
 		}
-		if player.buffs == 4 {
-			buffsAction(player)
-			player.buffs = 0
-			newLine()
-			if player.loc == 0 {
-				forestArt()
-				player.loc = 1
-			} else if player.loc == 1 {
-				caveArt()
-				player.loc = 0
-			}
-		} else {
-			player.buffs += 1
-			if lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to buff", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			} else if lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			} else if lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+		if player.monster == false {
+			if player.buffs == 4 {
+				buffsAction(player)
+				player.buffs = 0
+				newLine()
+				if player.loc == 0 {
+					forestArt()
+					player.loc = 1
+				} else if player.loc == 1 {
+					caveArt()
+					player.loc = 0
+				}
+			} else {
+				player.buffs += 1
+				if lang == "en" {
+					fmt.Println(termenv.String(fmt.Sprintf("  %d Step to buff", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+				} else if lang == "ua" {
+					fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+				} else if lang == "be" {
+					fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+				}
 			}
 		}
 
