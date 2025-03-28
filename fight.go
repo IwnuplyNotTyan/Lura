@@ -188,6 +188,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				player.HP = monster.maxHP
 				player.maxHP = monster.maxHP
 				player.name = monster.MonsterType
+				player.WeaponType = ""
 
 				fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.name)).Foreground(termenv.ANSIRed).Bold())
 			} else {
@@ -195,34 +196,32 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			}
 		}
 
-		if player.monster == false {
-			if player.buffs == 4 {
-				buffsAction(player)
-				player.buffs = 0
-				newLine()
-				if player.loc == 0 {
-					forestArt()
-					player.loc = 1
-				} else if player.loc == 1 {
-					caveArt()
-					player.loc = 0
-				}
-			} else {
-				player.buffs += 1
-				if lang == "en" {
-					fmt.Println(termenv.String(fmt.Sprintf("  %d Step to buff", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-				} else if lang == "ua" {
-					fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-				} else if lang == "be" {
-					fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-				}
+		if player.buffs == 4 {
+			buffsAction(player)
+			player.buffs = 0
+			newLine()
+			if player.loc == 0 {
+				forestArt()
+				player.loc = 1
+			} else if player.loc == 1 {
+				caveArt()
+				player.loc = 0
+			}
+		} else {
+			player.buffs += 1
+			if lang == "en" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to buff", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			} else if lang == "ua" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			} else if lang == "be" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			}
 		}
+	}
 
-		player.score += monster.score
-		if player.heart == 2 {
-			player.HP += 10
-		}
+	player.score += monster.score
+	if player.heart == 2 {
+		player.HP += 10
 	}
 }
 
