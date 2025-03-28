@@ -10,7 +10,7 @@ func rng() int {
 }
 
 func rng2() int {
-	return rand.Intn(2) + 1
+	return rand.Intn(1) + 1
 }
 
 func getRandomWeapon() (string, int) {
@@ -22,24 +22,34 @@ func getRandomWeapon() (string, int) {
 	return weapon.WeaponType, weapon.Damage
 }
 
-func getMusket() (string, int) {
-	weapon := musket[rand.Intn(len(weapons))]
-	return weapon.WeaponType, weapon.Damage
+func getMusket(player *Player) {
+	if len(musket) == 0 {
+		return
+	}
+	weapon := musket[rand.Intn(len(musket))]
+	player.WeaponType = weapon.WeaponType
+	player.Damage = weapon.Damage * rng()
 }
 
-func getLanter() (string, int) {
-	weapon := lanter[rand.Intn(len(weapons))]
-	return weapon.WeaponType, weapon.Damage
+func getLanter(player *Player) {
+	if len(lanter) == 0 {
+		return
+	}
+	weapon := lanter[rand.Intn(len(lanter))]
+	player.WeaponType = weapon.WeaponType
+	player.Damage = weapon.Damage * rng()
 }
 
-func getCrossbow() (string, int) {
-	weapon := crossbow[rand.Intn(len(weapons))]
-	return weapon.WeaponType, weapon.Damage
+func getCrossbow(player *Player) {
+	weapon := crossbow[rand.Intn(len(crossbow))]
+	player.WeaponType = weapon.WeaponType
+	player.Damage = weapon.Damage * rng()
 }
 
-func getLongsword() (string, int) {
-	weapon := longsword[rand.Intn(len(weapons))]
-	return weapon.WeaponType, weapon.Damage
+func getLongsword(player *Player) {
+	weapon := longsword[rand.Intn(len(longsword))]
+	player.WeaponType = weapon.WeaponType
+	player.Damage = weapon.Damage * rng()
 }
 
 func getRandomVMonster() *Monster {

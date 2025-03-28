@@ -63,7 +63,6 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 		}
 	}
 
-	// Remove excluded buffs
 	availableBuffs := make([]string, 0, len(buffs))
 	for _, buff := range buffs {
 		if !contains(excludeBuffs, buff) {
@@ -71,12 +70,10 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 		}
 	}
 
-	// If no buffs are available, return an empty string or handle as needed
 	if len(availableBuffs) == 0 {
 		return ""
 	}
 
-	// Return a random buff from available buffs
 	return availableBuffs[rand.Intn(len(availableBuffs))]
 }
 
@@ -98,14 +95,18 @@ func buffsAction(player *Player) {
 
 		case "Longsword":
 			if player.Coins > 20 {
-				getLongsword()
+				w := player.WeaponType
+				getLongsword(player)
+				fmt.Println(termenv.String(fmt.Sprintf("  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
 
 		case "Crossbow":
 			if player.Coins > 20 {
-				getCrossbow()
+				w := player.WeaponType
+				getCrossbow(player)
+				fmt.Println(termenv.String(fmt.Sprintf("  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}

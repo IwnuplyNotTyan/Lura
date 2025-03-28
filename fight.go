@@ -42,9 +42,9 @@ func takeWeapon(player *Player, weapon *Weapon, monster *Monster) {
 
 	if confirm {
 		if monster.MonsterType == "Lanter keeper" {
-			getLanter()
+			getLanter(player)
 		} else if monster.MonsterType == "Musketeer" {
-			getMusket()
+			getMusket(player)
 		}
 	}
 }
@@ -234,6 +234,20 @@ func healPlayer(player *Player) {
 func playerAttack(player *Player, monster *Monster, playerDefending *bool, monsterDefending *bool) {
 	var weapon *Weapon
 	for _, w := range weapons {
+		if w.WeaponType == player.WeaponType {
+			weapon = &w
+			break
+		}
+	}
+
+	for _, w := range musket {
+		if w.WeaponType == player.WeaponType {
+			weapon = &w
+			break
+		}
+	}
+
+	for _, w := range lanter {
 		if w.WeaponType == player.WeaponType {
 			weapon = &w
 			break
