@@ -42,14 +42,9 @@ func takeWeapon(player *Player, weapon *Weapon, monster *Monster) {
 
 	if confirm {
 		if monster.MonsterType == "Lanter keeper" {
-			player.WeaponType = "Lanter of the soul"
-			player.Damage = 5 * rng()
-			weapon.Stamina = 4
+			getLanter()
 		} else if monster.MonsterType == "Musketeer" {
-			w := "Musket"
-			player.WeaponType = w
-			player.Damage = 20 * rng()
-			weapon.Stamina = 5
+			getMusket()
 		}
 	}
 }

@@ -37,7 +37,11 @@ type Weapon struct {
 var (
 	vmonsters  []Monster
 	scmonsters []Monster
+	lanter     []Weapon
+	musket     []Weapon
 	weapons    []Weapon
+	crossbow   []Weapon
+	longsword  []Weapon
 	lang       string
 )
 
@@ -62,6 +66,18 @@ func seedData() {
 			{WeaponType: "Dagger", Damage: 11, Stamina: 5},
 			//{WeaponType: "Crossbow", Damage: 12, Stamina: 11},
 			{WeaponType: "Bow", Damage: 11, Stamina: 9},
+		}
+		lanter = []Weapon{
+			{WeaponType: "Lanter of the soul", Damage: 5, Stamina: 5},
+		}
+		musket = []Weapon{
+			{WeaponType: "Musket", Damage: 30, Stamina: 5},
+		}
+		longsword = []Weapon{
+			{WeaponType: "Longsword", Damage: 15, Stamina: 13},
+		}
+		crossbow = []Weapon{
+			{WeaponType: "Crossbow", Damage: 13, Stamina: 11},
 		}
 		scmonsters = []Monster{
 			{MonsterType: "Crystal guardian", HP: 100, Damage: 20, score: 60, coins: 13},

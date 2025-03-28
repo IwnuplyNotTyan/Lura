@@ -98,22 +98,16 @@ func buffsAction(player *Player) {
 
 		case "Longsword":
 			if player.Coins > 20 {
-				player.Coins -= 20
-				w := "Longsword"
-				player.WeaponType = w
-				player.Damage = 15 * rng()
-				player.Stamina = 13
+				getLongsword()
 			} else {
 				noBuffDialog()
 			}
 
 		case "Crossbow":
 			if player.Coins > 20 {
-				player.Coins -= 20
-				w := "Crossbow"
-				player.WeaponType = w
-				player.Damage = 12 * rng()
-				player.Stamina = 11
+				getCrossbow()
+			} else {
+				noBuffDialog()
 			}
 
 		case "Щиток черепахи", "Turtle scute", "Шчыт чарапахі":
@@ -183,13 +177,8 @@ func buffsAction(player *Player) {
 func selectBuff(player *Player) []string {
 	var selectedBuffs []string
 
-	// Generate first buff
 	buff1 := getRandomBuff(player)
-
-	// Generate second buff, excluding the first
 	buff2 := getRandomBuff(player, buff1)
-
-	// Generate third buff, excluding previous two
 	buff3 := getRandomBuff(player, buff1, buff2)
 
 	f := huh.NewForm(
@@ -213,7 +202,6 @@ func selectBuff(player *Player) []string {
 	return selectedBuffs
 }
 
-// Helper function to check if a slice contains a string
 func contains(slice []string, str string) bool {
 	for _, v := range slice {
 		if v == str {
