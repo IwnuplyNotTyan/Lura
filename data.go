@@ -3,7 +3,6 @@ package main
 type Monster struct {
 	ID          int
 	MonsterType string
-	WeaponType  string
 	HP          int
 	Damage      int
 	LVL         int
@@ -26,6 +25,7 @@ type Player struct {
 	loc        int
 	monster    bool
 	name       string
+	time       int
 }
 
 type Weapon struct {
@@ -44,15 +44,15 @@ var (
 func seedData() {
 	if lang == "en" {
 		vmonsters = []Monster{
-			{MonsterType: "Dragon", HP: 130, Damage: 25, score: 50, coins: 20, WeaponType: "Paw"},
-			{MonsterType: "Ork", HP: 50, Damage: 15, score: 20, coins: 7, WeaponType: "Spear"},
-			{MonsterType: "Goblin", HP: 40, Damage: 10, score: 15, coins: 5, WeaponType: "Dagger"},
-			{MonsterType: "Troll", HP: 70, Damage: 20, score: 35, coins: 9, WeaponType: "Dagger"},
-			{MonsterType: "Warrior", HP: 100, Damage: 20, score: 45, coins: 15, WeaponType: "Sword"},
-			{MonsterType: "Ogre", HP: 80, Damage: 20, score: 40, coins: 14, WeaponType: "Axe"},
-			{MonsterType: "Skeleton", HP: 50, Damage: 10, score: 20, coins: 6, WeaponType: "Bow"},
-			{MonsterType: "Zombie", HP: 60, Damage: 15, score: 30, coins: 11, WeaponType: "Hand"},
-			{MonsterType: "Musketeer", HP: 80, Damage: 30, score: 30, coins: 10, WeaponType: "Musket"},
+			{MonsterType: "Dragon", HP: 130, Damage: 25, score: 50, coins: 20},
+			{MonsterType: "Ork", HP: 50, Damage: 15, score: 20, coins: 7},
+			{MonsterType: "Goblin", HP: 40, Damage: 10, score: 15, coins: 5},
+			{MonsterType: "Troll", HP: 70, Damage: 20, score: 35, coins: 9},
+			{MonsterType: "Warrior", HP: 100, Damage: 20, score: 45, coins: 15},
+			{MonsterType: "Ogre", HP: 80, Damage: 20, score: 40, coins: 14},
+			{MonsterType: "Skeleton", HP: 50, Damage: 10, score: 20, coins: 6},
+			{MonsterType: "Zombie", HP: 60, Damage: 15, score: 30, coins: 11},
+			{MonsterType: "Musketeer", HP: 80, Damage: 30, score: 30, coins: 10},
 		}
 		weapons = []Weapon{
 			{WeaponType: "Sword", Damage: 13, Stamina: 10},
@@ -64,11 +64,11 @@ func seedData() {
 			{WeaponType: "Bow", Damage: 11, Stamina: 9},
 		}
 		scmonsters = []Monster{
-			{MonsterType: "Crystal guardian", HP: 100, Damage: 20, score: 60, coins: 13, WeaponType: "Hand"},
-			{MonsterType: "Golem", HP: 130, Damage: 10, score: 60, coins: 17, WeaponType: "Hand"},
-			{MonsterType: "Miner", HP: 60, Damage: 20, score: 20, coins: 14, WeaponType: "Pickaxe"},
-			{MonsterType: "Aetherite titan", HP: 100, Damage: 20, score: 70, coins: 14, WeaponType: "Hand"},
-			{MonsterType: "Lanter keeper", HP: 70, Damage: 10, score: 10, coins: 14, WeaponType: "Lanter"},
+			{MonsterType: "Crystal guardian", HP: 100, Damage: 20, score: 60, coins: 13},
+			{MonsterType: "Golem", HP: 130, Damage: 10, score: 60, coins: 17},
+			{MonsterType: "Miner", HP: 60, Damage: 20, score: 20, coins: 14},
+			{MonsterType: "Aetherite titan", HP: 100, Damage: 20, score: 70, coins: 14},
+			{MonsterType: "Lanter keeper", HP: 70, Damage: 10, score: 10, coins: 14},
 		}
 	} else if lang == "be" {
 		vmonsters = []Monster{

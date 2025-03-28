@@ -182,14 +182,19 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			}
 		}
 		if player.WeaponType == "Lanter of the soul" {
-			player.Damage = monster.Damage * rng()
-			player.monster = true
-			player.HP = monster.maxHP
-			player.maxHP = monster.maxHP
-			player.WeaponType = monster.WeaponType
-			player.name = monster.MonsterType
-			fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.name)))
+			if player.time == 1 {
+				player.Damage = monster.Damage * rng()
+				player.monster = true
+				player.HP = monster.maxHP
+				player.maxHP = monster.maxHP
+				player.name = monster.MonsterType
+
+				fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.name)).Foreground(termenv.ANSIRed).Bold())
+			} else {
+				player.time = 1
+			}
 		}
+
 		if player.monster == false {
 			if player.buffs == 4 {
 				buffsAction(player)
