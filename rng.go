@@ -9,6 +9,10 @@ func rng() int {
 	return rand.Intn(6) + 1
 }
 
+func rng2() int {
+	return rand.Intn(2) + 1
+}
+
 func getRandomWeapon() (string, int) {
 	if len(weapons) == 0 {
 		log.Println("Warning: No weapons available. Using default weapon (Fists, 2).")

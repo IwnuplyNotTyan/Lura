@@ -42,8 +42,7 @@ func takeWeapon(player *Player, weapon *Weapon, monster *Monster) {
 
 	if confirm {
 		if monster.MonsterType == "Lanter keeper" {
-			w := "Lanter of the soul"
-			player.WeaponType = w
+			player.WeaponType = "Lanter of the soul"
 			player.Damage = 5 * rng()
 			weapon.Stamina = 4
 		} else if monster.MonsterType == "Musketeer" {
@@ -174,9 +173,13 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		player.Coins += monster.coins
 		defeatMonster(monster)
 		if monster.MonsterType == "Lanter keeper" {
-			takeWeapon(player, weapon, monster)
+			if rng2() == 1 {
+				takeWeapon(player, weapon, monster)
+			}
 		} else if monster.MonsterType == "Musketeer" {
-			takeWeapon(player, weapon, monster)
+			if rng2() == 1 {
+				takeWeapon(player, weapon, monster)
+			}
 		}
 		if player.WeaponType == "Lanter of the soul" {
 			player.Damage = monster.Damage * rng()
@@ -185,7 +188,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			player.maxHP = monster.maxHP
 			player.WeaponType = monster.WeaponType
 			player.name = monster.MonsterType
-			fmt.Println(termenv.String(fmt.Sprintf("Now you %s", player.name)))
+			fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.name)))
 		}
 		if player.monster == false {
 			if player.buffs == 4 {
