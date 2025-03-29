@@ -1,4 +1,4 @@
-<div align="center">✨ ~ Lura *, CLI turn based roguelike </div>
+<p style="text-align: center;">✨ ~ Lura, CLI turn based roguelike </p>
 
 ![Preview](https://kappa.lol/ZX59Vs)
 
