@@ -65,6 +65,7 @@ func main() {
 		heart:      1,
 		loc:        1,
 		monster:    false,
+		amenuck:    false,
 	}
 
 	if *debugMode {

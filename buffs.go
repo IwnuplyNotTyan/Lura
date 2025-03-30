@@ -47,6 +47,8 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 				"Crystal heart",
 				"Lotus",
 				"Tears",
+				//"Amethyst necklace",
+				//"Flask with star tears",
 			}
 		} else if lang == "be" {
 			buffs = []string{
@@ -92,6 +94,24 @@ func buffsAction(player *Player) {
 
 	for _, buff := range selectedBuffs {
 		switch buff {
+
+		//case "Amethyst necklace":
+		//	if player.Coins > 20 {
+		//		player.amenuck = true
+		//	} else {
+		//		noBuffDialog()
+		//	}
+
+		//case "Flask with star tears":
+		//	if player.Coins > 100 {
+		//		maxh := player.maxHP
+		//		d := player.Damage
+		//		player.Damage *= 2
+		//		player.maxHP += 2
+		//		player.monster = true
+		//		fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", maxh, player.maxHP)).Foreground(termenv.ANSIGreen))
+		//		fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", d, player.Damage)).Foreground(termenv.ANSIGreen))
+		//	}
 
 		case "Longsword":
 			if player.Coins > 20 {

@@ -26,6 +26,7 @@ type Player struct {
 	monster    bool
 	name       string
 	time       int
+	amenuck    bool
 }
 
 type Weapon struct {
