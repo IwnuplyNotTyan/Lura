@@ -26,12 +26,27 @@ type Player struct {
 	monster    bool
 	name       string
 	time       int
+	Inventory  Inventory
 }
 
 type Weapon struct {
 	WeaponType string
 	Damage     int
 	Stamina    int
+}
+
+type Item struct {
+	ID       int
+	Name     string
+	Quantity int
+	Effect   string
+	Value    int
+	Price    int
+}
+
+type Inventory struct {
+	Items  []Item
+	NextID int
 }
 
 var (
