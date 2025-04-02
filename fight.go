@@ -116,8 +116,10 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				playerDefending = true
 				blockDialog()
 			} else if playerAction == "Heal" || playerAction == "Лікуватися" || playerAction == "Вылечвацца" {
-				healPlayer(player)
-				playerDefending = false
+				if player.loc == 1 {
+					healPlayer(player)
+					playerDefending = false
+				}
 			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
 				playerAttack(player, monster, &playerDefending, &monsterDefending)
 			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" {
