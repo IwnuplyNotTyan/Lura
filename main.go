@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/huh"
 	"github.com/muesli/termenv"
 	lua "github.com/yuin/gopher-lua"
@@ -71,6 +72,9 @@ func main() {
 			NextID: 1,
 		},
 	}
+
+	app := tea.NewProgram(NewModel(&player))
+	app.Run()
 
 	if *debugMode {
 		DebugShell(L, &player)
