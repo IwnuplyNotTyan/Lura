@@ -167,6 +167,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		}
 
 		clearScreen()
+		player.score += monster.score
 		player.Coins += monster.coins
 		defeatMonster(monster)
 		if monster.MonsterType == "Lanter keeper" {
@@ -218,7 +219,6 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		}
 	}
 
-	player.score += monster.score
 	if player.heart == 2 {
 		player.HP += 10
 	}

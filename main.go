@@ -4,10 +4,10 @@ import (
 	"embed"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
-
+	
+	"github.com/charmbracelet/log"
 	"github.com/BurntSushi/toml"
 	"github.com/charmbracelet/huh"
 	"github.com/muesli/termenv"

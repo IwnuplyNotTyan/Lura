@@ -52,16 +52,16 @@ func registerTypes(L *lua.LState) {
 	L.SetField(mt, "new", L.NewFunction(newMonster))
 	L.SetField(mt, "setHP", L.NewFunction(setMonsterHP))
 	L.SetField(mt, "getHP", L.NewFunction(getMonsterHP))
-	L.SetField(mt, "remove", L.NewFunction(removeMonster))             // Add remove function
-	L.SetField(mt, "removeByName", L.NewFunction(removeMonsterByName)) // Add removeByName function
+	L.SetField(mt, "remove", L.NewFunction(removeMonster))             
+	L.SetField(mt, "removeByName", L.NewFunction(removeMonsterByName))
 
 	// Register Weapon type
 	wt := L.NewTypeMetatable("Weapon")
 	L.SetGlobal("Weapon", wt)
 	L.SetField(wt, "new", L.NewFunction(newWeapon))
 	L.SetField(wt, "setDamage", L.NewFunction(setWeaponDamage))
-	L.SetField(wt, "remove", L.NewFunction(removeWeapon))             // Add remove function
-	L.SetField(wt, "removeByName", L.NewFunction(removeWeaponByName)) // Add removeByName function
+	L.SetField(wt, "remove", L.NewFunction(removeWeapon))            
+	L.SetField(wt, "removeByName", L.NewFunction(removeWeaponByName))
 
 	// Expose global monsters and weapons tables to Lua
 	monstersTable := L.NewTable()
