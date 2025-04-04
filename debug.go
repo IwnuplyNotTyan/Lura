@@ -36,12 +36,24 @@ func DebugShell(L *lua.LState, player *Player) {
 				continue
 			}
 			setHP(args[1], player)
+		case "setLoc":
+			if len(args) < 1 {
+				fmt.Println("Usage: setLoc <value>")
+				continue
+			}
+			setLoc(args[1], player)
 		case "setDamage":
 			if len(args) < 2 {
 				fmt.Println("Usage: setDamage <value>")
 				continue
 			}
 			setDamage(args[1], player)
+		case "setHeart":
+			if len(args) < 1 {
+				fmt.Println("Usage: setHeart <value>")
+				continue
+			}
+			setHeart(args[1], player)
 		case "addMonster":
 			if len(args) < 4 {
 				fmt.Println("Usage: addMonster <name> <hp> <damage>")
@@ -75,10 +87,34 @@ func printHelp() {
 	fmt.Println("  checkAll            - List all monsters and weapons")
 	fmt.Println("  setHP <value>       - Set HP of the player")
 	fmt.Println("  setDamage <value>   - Set damage of the player")
+	fmt.Println("  setLoc <value>      - Set location of the player")
+	fmt.Println("  setHeart <value>    - Set heart of the player")
 	fmt.Println("  addMonster <name> <hp> <damage> - Add a new monster")
 	fmt.Println("  addWeapon <name> <damage> <stamina> - Add a new weapon")
 	fmt.Println("  runLua <lua code>   - Execute Lua code")
 	fmt.Println("  exit                - Exit the debug shell")
+}
+
+func setLoc(valueStr string, player *Player) {
+	value, err := strconv.Atoi(valueStr)
+	if err != nil {
+		fmt.Println("Invalid value. Must be an integer.")
+		return
+	}
+
+	player.loc = value
+	fmt.Printf("Player location set to %d\n", value)
+}
+
+func setHeart(valueStr string, player *Player) {
+	value, err := strconv.Atoi(valueStr)
+	if err != nil {
+		fmt.Println("Invalid value. Must be an integer.")
+		return
+	}
+
+	player.heart = value
+	fmt.Printf("Player heartbeat set to %d\n", value)
 }
 
 func setHP(valueStr string, player *Player) {

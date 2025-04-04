@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
-
+	
+	"github.com/charmbracelet/log"
 	lua "github.com/yuin/gopher-lua"
 )
 
@@ -131,7 +131,7 @@ func setWeaponDamage(L *lua.LState) int {
 }
 
 func removeMonster(L *lua.LState) int {
-	idx := L.CheckInt(1) // Get the index from Lua
+	idx := L.CheckInt(1)
 	if idx < 0 || idx >= len(vmonsters) {
 		L.Push(lua.LString("Invalid monster index"))
 		return 1
@@ -183,3 +183,4 @@ func removeWeaponByName(L *lua.LState) int {
 	L.Push(lua.LString("Weapon not found"))
 	return 1
 }
+
