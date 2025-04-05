@@ -77,10 +77,10 @@ func seedData() {
 			{WeaponType: "Sword", Damage: 13, Stamina: 10},
 			{WeaponType: "Spear", Damage: 12, Stamina: 7},
 			{WeaponType: "Axe", Damage: 16, Stamina: 15},
-			//{WeaponType: "Longsword", Damage: 15, Stamina: 13},
 			{WeaponType: "Dagger", Damage: 11, Stamina: 5},
-			//{WeaponType: "Crossbow", Damage: 12, Stamina: 11},
 			{WeaponType: "Bow", Damage: 11, Stamina: 9},
+			{WeaponType: "Longbow", Damage: 11, Stamina: 9},
+			{WeaponType: "Torch", Damage: 6, Stamina: 3},
 		}
 		lanter = []Weapon{
 			{WeaponType: "Lanter of the soul", Damage: 5, Stamina: 5},
