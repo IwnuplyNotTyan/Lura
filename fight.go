@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"strings"
 
 	"github.com/charmbracelet/huh"
 	"github.com/muesli/termenv"
@@ -18,8 +19,16 @@ var (
 	Skip             string
 )
 
-func promptAction() string {
-	return selectAttack()
+func displayPositions(player *Player, monster *Monster) {
+    positions := make([]string, 6)
+    for i := range positions {
+        positions[i] = "."
+    }
+    
+    positions[player.Position] = "!"
+    positions[monster.Position] = "!"
+    
+    fmt.Println(strings.Join(positions, ""))
 }
 
 func takeWeapon(player *Player, weapon *Weapon, monster *Monster) {
@@ -102,26 +111,34 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
 			return
 		}
+		monster.Position = 5
 
 		displayFightIntro(player, monster)
 
 		playerDefending := false
 		monsterDefending := false
-
+		
 		for monster.HP > 0 && player.HP > 0 {
+			displayPositions(player, monster)
 			playerAction := selectAttack()
-			//playerAction := promptAction()
 
 			if playerAction == "Defend" || playerAction == "Захищатися" || playerAction == "Абараняцца" {
 				playerDefending = true
 				blockDialog()
-			} else if playerAction == "Heal" || playerAction == "Лікуватися" || playerAction == "Вылечвацца" {
-				if player.loc == 1 {
-					healPlayer(player)
-					playerDefending = false
+				if player.Position > 0 {
+					player.Position--
 				}
+			} else if playerAction == "Heal" || playerAction == "Лікуватися" || playerAction == "Вылечвацца" {
+				healPlayer(player)
+				playerDefending = false
 			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
-				playerAttack(player, monster, &playerDefending, &monsterDefending)
+				if player.Position < monster.Position-1 {
+					player.Position++
+				}
+
+				if player.Position == monster.Position-1 {
+					playerAttack(player, monster, &playerDefending, &monsterDefending)
+				}
 			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" {
 				playerSkip(player)
 			}
@@ -162,7 +179,6 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 					fight(player, monster, config, weapon)
 				}
 			}
-
 			time.Sleep(time.Second)
 		}
 
@@ -256,6 +272,24 @@ func playerAttack(player *Player, monster *Monster, playerDefending *bool, monst
 		}
 	}
 
+	for _, w := range crossbow {
+		if w.WeaponType == player.WeaponType {
+			weapon = &w
+			break
+		}
+	}
+
+	for _, w := range longsword {
+		if w.WeaponType == player.WeaponType {
+			weapon = &w
+			break
+		}
+	}
+
+	if player.Position != monster.Position-1 {
+		return
+	}
+
 	if weapon == nil {
 		weapon = &Weapon{WeaponType: "Fists", Damage: 2, Stamina: 0}
 	}
@@ -290,6 +324,9 @@ func playerSkip(player *Player) {
 
 func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool, playerDefending *bool, monsterAction string) {
 	if monsterAction == "Defend" {
+		if monster.Position > player.Position+1 {
+			monster.Position--
+		}
 		blockEnemyDialog(monster)
 		*monsterDefending = true
 	} else if monsterAction == "Heal" {
@@ -297,6 +334,9 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 		healMonsterDialog(monster)
 		*monsterDefending = false
 	} else {
+		if monster.Position < player.Position+1 {
+			monster.Position--
+		}
 		monsterDamage := monster.Damage + rng() + monster.LVL
 		if *playerDefending {
 			blockEnemyAttack(monster)

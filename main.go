@@ -65,11 +65,13 @@ func main() {
 		heart:      1,
 		loc:        1,
 		monster:    false,
+		Position:   0,
 		Inventory: Inventory{
 			Items:  make([]Item, 0),
 			NextID: 1,
 		},
 	}
+
 	if *debugMode {
 		DebugShell(L, &player)
 	}

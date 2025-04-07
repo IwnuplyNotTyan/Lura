@@ -9,6 +9,7 @@ type Monster struct {
 	maxHP       int
 	score       int
 	coins       int
+	Position   int
 }
 
 type Player struct {
@@ -27,6 +28,7 @@ type Player struct {
 	name       string
 	time       int
 	Inventory  Inventory
+	Position   int
 }
 
 type Weapon struct {
