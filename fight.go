@@ -337,13 +337,18 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 		if monster.Position < player.Position+1 {
 			monster.Position--
 		}
+
 		monsterDamage := monster.Damage + rng() + monster.LVL
+		
+	if player.Position > monster.Position-1 {
 		if *playerDefending {
 			blockEnemyAttack(monster)
 			*playerDefending = false
 		} else {
 			player.HP -= monsterDamage
-			if lang == "en" {
+		}
+
+		if lang == "en" {
 				fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
 			} else if lang == "be" {
 				fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.", monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
