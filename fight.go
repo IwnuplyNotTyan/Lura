@@ -22,11 +22,11 @@ var (
 func displayPositions(player *Player, monster *Monster) {
     positions := make([]string, 6)
     for i := range positions {
-        positions[i] = "."
+        positions[i] = " "
     }
     
-    positions[player.Position] = "!"
-    positions[monster.Position] = "!"
+    positions[player.Position] = " "
+    positions[monster.Position] = " "
     
     fmt.Println(strings.Join(positions, ""))
 }
