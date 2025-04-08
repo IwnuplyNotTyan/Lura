@@ -134,6 +134,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
 				if player.Position < monster.Position-1 {
 					player.Position++
+					fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 				}
 
 				if player.Position == monster.Position-1 {
@@ -185,6 +186,10 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		clearScreen()
 		player.score += monster.score
 		player.Coins += monster.coins
+
+		player.Position = 0
+		monster.Position = 5
+
 		defeatMonster(monster)
 		if monster.MonsterType == "Lanter keeper" {
 			if rng2() == 1 {
