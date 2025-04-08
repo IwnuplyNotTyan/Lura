@@ -9,9 +9,7 @@ import (
 	lua "github.com/yuin/gopher-lua"
 )
 
-func loadLuaScript(L *lua.LState, scriptPath string) error {
-	return L.DoFile(scriptPath)
-}
+var loadedMods []string
 
 func AutoLoadMods(L *lua.LState) error {
 	homeDir, err := os.UserHomeDir()
@@ -20,6 +18,7 @@ func AutoLoadMods(L *lua.LState) error {
 	}
 
 	modsDir := filepath.Join(homeDir, ".config", "lura", "mods")
+	loadedMods = []string{}
 
 	if err := os.MkdirAll(modsDir, 0755); err != nil {
 		return fmt.Errorf("failed to create mods directory: %v", err)
@@ -37,6 +36,7 @@ func AutoLoadMods(L *lua.LState) error {
 		if err := L.DoFile(path); err != nil {
 			log.Printf("Failed to load mod %s: %v", path, err)
 		} else {
+			loadedMods = append(loadedMods, filepath.Base(path))
 		}
 
 		return nil
@@ -45,8 +45,15 @@ func AutoLoadMods(L *lua.LState) error {
 	return err
 }
 
+func ModsLoaded() bool {
+    return len(loadedMods) > 0
+}
+
+func GetLoadedMods() []string {
+	return loadedMods
+}
+
 func registerTypes(L *lua.LState) {
-	// Register Monster type
 	mt := L.NewTypeMetatable("Monster")
 	L.SetGlobal("Monster", mt)
 	L.SetField(mt, "new", L.NewFunction(newMonster))

@@ -72,6 +72,9 @@ func DebugShell(L *lua.LState, player *Player) {
 				continue
 			}
 			runLua(L, strings.Join(args[1:], " "))
+		case "checkMods":
+		        checkMods()
+
 		case "exit":
 			fmt.Println("Exiting debug shell.")
 			return
@@ -83,16 +86,30 @@ func DebugShell(L *lua.LState, player *Player) {
 
 func printHelp() {
 	fmt.Println("Available commands:")
-	fmt.Println("  help                - Show this help message")
-	fmt.Println("  checkAll            - List all monsters and weapons")
-	fmt.Println("  setHP <value>       - Set HP of the player")
-	fmt.Println("  setDamage <value>   - Set damage of the player")
-	fmt.Println("  setLoc <value>      - Set location of the player")
-	fmt.Println("  setHeart <value>    - Set heart of the player")
+	fmt.Println("  help - Show this help message")
+	fmt.Println("  checkAll - List all monsters and weapons")
+	fmt.Println("  setHP <value> - Set HP of the player")
+	fmt.Println("  setDamage <value> - Set damage of the player")
+	fmt.Println("  setLoc <value> - Set location of the player")
+	fmt.Println("  setHeart <value>	- Set heart of the player")
 	fmt.Println("  addMonster <name> <hp> <damage> - Add a new monster")
 	fmt.Println("  addWeapon <name> <damage> <stamina> - Add a new weapon")
-	fmt.Println("  runLua <lua code>   - Execute Lua code")
-	fmt.Println("  exit                - Exit the debug shell")
+	fmt.Println("  checkMods - Check loaded mods")
+	fmt.Println("  runLua <lua code> - Execute Lua code")
+	fmt.Println("  exit - Exit the debug shell")
+}
+
+func checkMods() {
+    mods := GetLoadedMods()
+    if len(mods) == 0 {
+        fmt.Println("No mods loaded")
+        return
+    }
+    
+    fmt.Println("Loaded mods:")
+    for i, mod := range mods {
+        fmt.Printf("%d. %s\n", i+1, mod)
+    }
 }
 
 func setLoc(valueStr string, player *Player) {

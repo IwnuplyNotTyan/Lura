@@ -33,8 +33,8 @@ func main() {
 	L := lua.NewState()
 	defer L.Close()
 	clearScreen()
+
 	dialWelcome()
-	fmt.Printf("\n")
 
 	player := Player{}
 	cfg := config(&player)
@@ -52,6 +52,13 @@ func main() {
 	if err := AutoLoadMods(L); err != nil {
 		log.Fatalf("Failed to auto-load mods: %v", err)
 	}
+
+	//if loadedMods == nil {
+	//	fmt.Print(termenv.String("  ").Foreground(termenv.ANSIWhite).Bold())
+	//}
+
+	fmt.Print(termenv.String("  ").Foreground(termenv.ANSIMagenta).Bold())
+	fmt.Printf("\n\n")
 
 	weaponType, weaponDamage := getRandomWeapon()
 	player = Player{

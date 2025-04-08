@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 	"strings"
 
+	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/huh"
 	"github.com/muesli/termenv"
 )
@@ -31,7 +31,7 @@ func displayPositions(player *Player, monster *Monster) {
     fmt.Println(strings.Join(positions, ""))
 }
 
-func takeWeapon(player *Player, weapon *Weapon, monster *Monster) {
+func takeWeapon(player *Player, monster *Monster) {
 	var confirm bool
 
 	err := huh.NewForm(
@@ -133,12 +133,12 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				playerDefending = false
 			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
 				if player.Position < monster.Position-1 {
-					player.Position++
+					player.Position += 2
 					fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 				}
 
 				if player.Position == monster.Position-1 {
-					playerAttack(player, monster, &playerDefending, &monsterDefending)
+					playerAttack(player, monster, &monsterDefending)
 				}
 			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" {
 				playerSkip(player)
@@ -193,11 +193,11 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		defeatMonster(monster)
 		if monster.MonsterType == "Lanter keeper" {
 			if rng2() == 1 {
-				takeWeapon(player, weapon, monster)
+				takeWeapon(player, monster)
 			}
 		} else if monster.MonsterType == "Musketeer" {
 			if rng2() == 1 {
-				takeWeapon(player, weapon, monster)
+				takeWeapon(player, monster)
 			}
 		}
 		if player.WeaponType == "Lanter of the soul" {
@@ -245,16 +245,12 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 	}
 }
 
-func fightIntro(player *Player, monster *Monster) {
-	displayFightIntro(player, monster)
-}
-
 func healPlayer(player *Player) {
 	player.HP = min(player.HP+15, player.maxHP)
 	healDialog(player)
 }
 
-func playerAttack(player *Player, monster *Monster, playerDefending *bool, monsterDefending *bool) {
+func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 	var weapon *Weapon
 	for _, w := range weapons {
 		if w.WeaponType == player.WeaponType {
@@ -314,7 +310,7 @@ func playerAttack(player *Player, monster *Monster, playerDefending *bool, monst
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		}
 	} else {
-		noStaminaDialog(player)
+		noStaminaDialog()
 	}
 }
 
@@ -328,40 +324,56 @@ func playerSkip(player *Player) {
 }
 
 func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool, playerDefending *bool, monsterAction string) {
-	if monsterAction == "Defend" {
-		if monster.Position > player.Position+1 {
-			monster.Position--
-		}
-		blockEnemyDialog(monster)
-		*monsterDefending = true
-	} else if monsterAction == "Heal" {
-		monster.HP = min(monster.HP+15, monster.maxHP)
-		healMonsterDialog(monster)
-		*monsterDefending = false
-	} else {
-		if monster.Position < player.Position+1 {
-			monster.Position--
-		}
+    if monsterAction == "Defend" {
+        if monster.Position < 5 {
+            monster.Position += 1
+            if lang == "en" {
+                fmt.Println(termenv.String(fmt.Sprintf("󰒙  The %s moves back!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            } else if lang == "ua" {
+                fmt.Println(termenv.String(fmt.Sprintf("󰒙  %s відступає!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            } else if lang == "be" {
+                fmt.Println(termenv.String(fmt.Sprintf("󰒙  %s адступае!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            }
+        }
+        blockEnemyDialog()
+        *monsterDefending = true
+    } else if monsterAction == "Heal" {
+        monster.HP = min(monster.HP+15, monster.maxHP)
+        healMonsterDialog(monster)
+        *monsterDefending = false
+    } else {
+        if monster.Position > player.Position+1 {
+            monster.Position -= 2
+        }
 
-		monsterDamage := monster.Damage + rng() + monster.LVL
-		
-	if player.Position > monster.Position-1 {
-		if *playerDefending {
-			blockEnemyAttack(monster)
-			*playerDefending = false
-		} else {
-			player.HP -= monsterDamage
-		}
-
-		if lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
-			} else if lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.", monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
-			} else {
-				fmt.Println(termenv.String(fmt.Sprintf("󰓥  Тебе атакував %s з силою %d! Тепер в тебе %d здоров'я.", monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
-			}
-		}
-	}
+        if monster.Position == player.Position+1 {
+            monsterDamage := monster.Damage + rng() + monster.LVL
+            if *playerDefending {
+                blockEnemyAttack()
+                *playerDefending = false
+            } else {
+                player.HP -= monsterDamage
+                if lang == "en" {
+                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", 
+                        monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
+                } else if lang == "be" {
+                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.", 
+                        monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
+                } else {
+		     fmt.Println(termenv.String(fmt.Sprintf("󰓥  Тебе атакував %s з силою %d! Тепер в тебе %d здоров'я.", 
+                        monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
+                }
+            }
+        } else {
+            if lang == "en" {
+                fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s is too far away to attack!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            } else if lang == "ua" {
+                fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадто далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            } else if lang == "be" {
+                fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадта далёка для атакі!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            }
+        }
+    }
 }
 
 func enemyTurn(monster *Monster) string {

@@ -16,20 +16,6 @@ var style = lipgloss.NewStyle().
 	Height(4).
 	Width(40)
 
-func getLine(lines []string, index int) string {
-	if index < len(lines) {
-		return lines[index]
-	}
-	return ""
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 // Welcome
 func dialWelcome() {
 	fmt.Println(style.Render("Lura ~ open source turn based rpg in CLI, fight in many locations with many monster and etc. Made with "))
@@ -128,7 +114,7 @@ func blockUDialog() {
 	}
 }
 
-func blockEnemyAttack(monster *Monster) {
+func blockEnemyAttack() {
 	if lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  You blocked the enemy's attack!")).Foreground(termenv.ANSIYellow))
 	} else if lang == "ua" {
@@ -138,7 +124,7 @@ func blockEnemyAttack(monster *Monster) {
 	}
 }
 
-func blockEnemyDialog(monster *Monster) {
+func blockEnemyDialog() {
 	if lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  The monster prepares to block!")).Foreground(termenv.ANSIGreen))
 	} else if lang == "ua" {
@@ -168,7 +154,7 @@ func staminaDialog(player *Player) {
 	}
 }
 
-func noStaminaDialog(player *Player) {
+func noStaminaDialog() {
 	if lang == "en" {
 		fmt.Println(termenv.String("  Not enough stamina to attack!").Foreground(termenv.ANSIRed))
 	} else if lang == "ua" {
@@ -179,14 +165,6 @@ func noStaminaDialog(player *Player) {
 }
 
 // Buffs
-func armorBuff(player *Player) {
-	if lang == "en" {
-		fmt.Println(termenv.String(fmt.Sprintf("  Buff Applied! HP: %d", player.HP)).Foreground(termenv.ANSIGreen))
-	} else {
-		fmt.Println(termenv.String(fmt.Sprintf("  Бафф застосовано! Здоров'я: %d", player.HP)).Foreground(termenv.ANSIGreen))
-	}
-}
-
 func noBuffDialog() {
 	if lang == "ua" {
 		fmt.Println(termenv.String("  Бафф не застосовано.").Foreground(termenv.ANSIYellow))
@@ -204,15 +182,5 @@ func currentCoins(player *Player) {
 		fmt.Printf("  У тебе %d копiйок\n", player.Coins)
 	} else if lang == "be" {
 		fmt.Printf("  У вас %d манет\n", player.Coins)
-	}
-}
-
-func noCoinsDialog() {
-	if lang == "ua" {
-		fmt.Println(termenv.String("  Недостатньо копiйок.").Foreground(termenv.ANSIYellow))
-	} else if lang == "en" {
-		fmt.Println(termenv.String("  Not enough coins.").Foreground(termenv.ANSIYellow))
-	} else if lang == "be" {
-		fmt.Println(termenv.String("  Недастаткова манет.").Foreground(termenv.ANSIYellow))
 	}
 }
