@@ -8,6 +8,7 @@
   - [Xbps-install](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-install)
   - [Xbps-src](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-src)
   - [Gnumake](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
+  - [Just](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#just)
   - [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
 - [Mods](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#mods)
   - [Adding weapon & monster mod](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#adding-weapon--monster-mod)
@@ -28,6 +29,20 @@ download .exe from [release](https://github.com/IwnuplyNotTyan/Lura/releases) or
 ### Makepkg
 ```sh
 makepkg -si
+```
+
+### Just
+*Install*
+```sh
+just install
+```
+*Build*
+```sh
+just build
+```
+*Run*
+```sh
+just run
 ```
 
 ### Xbps-install
