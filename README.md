@@ -5,6 +5,7 @@
 # Tree
 - [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#installing)
   - [Arch-Based](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#makepkg)
+  - [Nix](https://github.com/iwnuplynottyan/lura?tab=readme-ov-file#nix)
   - [Xbps-install](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-install)
   - [Xbps-src](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-src)
   - [Gnumake](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
@@ -43,6 +44,14 @@ just build
 *Run*
 ```sh
 just run
+```
+
+### Nix
+> [!IMPORTANT]
+> *Troubleshooting:* update sha256 in `flake.nix` to needed version
+
+```sh
+nix build
 ```
 
 ### Xbps-install
