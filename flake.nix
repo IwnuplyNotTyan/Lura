@@ -49,9 +49,7 @@
             export PATH=$GOPATH/bin:$PATH
             export GO111MODULE=on
             
-            export PROJECT_ROOT=$(pwd)
-            
-            echo "Go development environment ready!"
+            export PROJECT_ROOT=$(pwd)         
           '';
         };
       }
