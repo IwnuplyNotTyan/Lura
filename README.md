@@ -4,6 +4,7 @@
 
 # Tree
 - [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#installing)
+  - [Windows](https://github.com/iwnuplynottyan/lura?tab=readme-ov-file#windows)
   - [Arch-Based](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#makepkg)
   - [Nix](https://github.com/iwnuplynottyan/lura?tab=readme-ov-file#nix)
   - [Xbps-install](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-install)
@@ -21,11 +22,11 @@
 > [!NOTE]
 > Note: build dep `go` v1.23.6. To play need only [Nerdfonts](https://www.nerdfonts.com/).
 
-### Windows
-download .exe from [release](https://github.com/IwnuplyNotTyan/Lura/releases) or build [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
-
 > [!IMPORTANT]
 > *Troubleshooting:* downgrade go version in `go.mod` to needed version
+
+### Windows
+download .exe from [release](https://github.com/IwnuplyNotTyan/Lura/releases) or build [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
 
 ### Makepkg
 ```sh
