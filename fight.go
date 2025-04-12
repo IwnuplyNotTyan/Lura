@@ -133,20 +133,18 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				playerDefending = false
 			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
 				if player.Position < monster.Position-1 {
-					if player.WeaponType == "Bow" || player.WeaponType == "Crossbow" {
+					if player.WeaponType == "Bow" || player.WeaponType == "Crossbow" || player.WeaponType == "Musket" || player.WeaponType == "Longbow" {
 						player.Position += 1
-						playerAttack(player, monster, &monsterDefending)
 					} else {
 						player.Position += 2
 						fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 				}
 			}
 				if player.Position == monster.Position-1 {
-					if player.WeaponType == "Bow" {
-					} else {
+					playerAttack(player, monster, &monsterDefending)
+				} else if player.WeaponType == "Bow" || player.WeaponType == "Crossbow" || player.WeaponType == "Musket" || player.WeaponType == "Longbow" {
 					playerAttack(player, monster, &monsterDefending)
 				}
-			}
 			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" {
 				playerSkip(player)
 			}
@@ -294,7 +292,17 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 		}
 	}
 
-	if player.Position != monster.Position-1 {
+	isRangedWeapon := player.WeaponType == "Bow" || player.WeaponType == "Crossbow" || 
+	                  player.WeaponType == "Musket" || player.WeaponType == "Longbow"
+
+	if !isRangedWeapon && player.Position != monster.Position-1 {
+		if lang == "en" {
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You're too far from %s to attack with your %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
+		} else if lang == "ua" {
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти занадто далеко від %s щоб атакувати своїм %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
+		} else if lang == "be" {
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты занадта далёка ад %s каб атакаваць сваім %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
+		}
 		return
 	}
 
@@ -404,3 +412,4 @@ func min(a, b int) int {
 	}
 	return b
 }
+
