@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"strings"
+	"time"
 
-	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/huh"
+	"github.com/charmbracelet/log"
 	"github.com/muesli/termenv"
 )
 
@@ -133,13 +133,20 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				playerDefending = false
 			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
 				if player.Position < monster.Position-1 {
-					player.Position += 2
-					fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+					if player.WeaponType == "Bow" || player.WeaponType == "Crossbow" {
+						player.Position += 1
+						playerAttack(player, monster, &monsterDefending)
+					} else {
+						player.Position += 2
+						fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 				}
-
+			}
 				if player.Position == monster.Position-1 {
+					if player.WeaponType == "Bow" {
+					} else {
 					playerAttack(player, monster, &monsterDefending)
 				}
+			}
 			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" {
 				playerSkip(player)
 			}

@@ -57,8 +57,8 @@ func main() {
 	//	fmt.Print(termenv.String("  ").Foreground(termenv.ANSIWhite).Bold())
 	//}
 
-	fmt.Print(termenv.String("  ").Foreground(termenv.ANSIMagenta).Bold())
-	fmt.Printf("\n\n")
+	//fmt.Print(termenv.String("  ").Foreground(termenv.ANSIMagenta).Bold())
+	fmt.Printf("\n")
 
 	weaponType, weaponDamage := getRandomWeapon()
 	player = Player{
