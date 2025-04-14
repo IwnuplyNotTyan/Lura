@@ -70,7 +70,14 @@ func displayFightIntro(player *Player, monster *Monster) {
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("  A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
 			fmt.Println(termenv.String(fmt.Sprintf("  You %s, dealing %d damage and have %d HP.", player.name, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
+		} else if lang == "be" {
+			fmt.Println(termenv.String(fmt.Sprintf("  Пачвар %s з'явіўся %d ХП!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIGreen))
+			fmt.Println(termenv.String(fmt.Sprintf("  У цябе зброя %s наносіць %d пашкоджанняй, у цябе %d ХП", player.name, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
+		} else if lang == "ua" {
+			fmt.Println(termenv.String(fmt.Sprintf("  %s з'являється з %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
+			fmt.Println(termenv.String(fmt.Sprintf("  Ти %s, наносиш %d пошкодження, у тебе %d здоров'я.", player.name, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
 		}
+
 	}
 }
 

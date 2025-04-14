@@ -32,6 +32,8 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 				//"Выпадковая зброя",
 				"Разбітае сэрца",
 				"Шчыт чарапахі",
+				"Доўгі меч",
+				"Арбалет",
 			}
 		} else {
 			buffs = []string{
@@ -39,6 +41,8 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 				//"Випадкова зброя",
 				"Розбите серце",
 				"Щиток черепахи",
+				"Довгий меч",
+				"Арбалет",
 			}
 		}
 	} else if player.loc == 0 {
@@ -52,7 +56,7 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 			}
 		} else if lang == "be" {
 			buffs = []string{
-				"Кристалічна сэрца",
+				"Кристалічнае сэрца",
 				"Лотас",
 				"Слёзы",
 			}
@@ -113,7 +117,7 @@ func buffsAction(player *Player) {
 		//		fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", d, player.Damage)).Foreground(termenv.ANSIGreen))
 		//	}
 
-		case "Longsword":
+		case "Longsword", "Довгий меч", "Доўгі меч":
 			if player.Coins > 20 {
 				w := player.WeaponType
 				getLongsword(player)
@@ -122,7 +126,7 @@ func buffsAction(player *Player) {
 				noBuffDialog()
 			}
 
-		case "Crossbow":
+		case "Crossbow", "Арбалет":
 			if player.Coins > 20 {
 				w := player.WeaponType
 				getCrossbow(player)
@@ -141,11 +145,11 @@ func buffsAction(player *Player) {
 				noBuffDialog()
 			}
 
-		case "Crystal heart":
+		case "Crystal heart", "Кристалічнае сэрца", "Кристалічне серце":
 			if player.Coins > 50 {
 				player.Coins -= 50
 				player.heart = 2
-				fmt.Println(termenv.String(fmt.Sprintf("  Your heart regenerate new power")))
+				fmt.Println(termenv.String("  Your heart regenerate new power"))
 			} else {
 				noBuffDialog()
 			}
@@ -174,7 +178,7 @@ func buffsAction(player *Player) {
 			if player.Coins > 50 {
 				player.heart = 0
 				player.Coins -= 50
-				fmt.Println(termenv.String(fmt.Sprintf("  No heart now.")))
+				fmt.Println(termenv.String("  null."))
 			} else {
 				noBuffDialog()
 			}
