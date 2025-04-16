@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 	"math/rand"
 )
 
@@ -11,6 +12,11 @@ func rng() int {
 
 func rng2() int {
 	return rand.Intn(2) + 1
+}
+
+func rngHp() int {
+    rand.Seed(time.Now().UnixNano())
+    return rand.Intn(21) + 80
 }
 
 func getRandomWeapon() (string, int) {

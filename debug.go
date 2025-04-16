@@ -78,9 +78,45 @@ func DebugShell(L *lua.LState, player *Player) {
 		case "exit":
 			fmt.Println("Exiting debug shell.")
 			return
+		case "listItem":
+			ShowInventory(player)
+		case "addItem":
+		    if len(args) < 5 {
+		        fmt.Println("Usage: addItem <name> <effect> <value> <price>")
+		        fmt.Println("Effects: heal, damage_boost, stamina_restore")
+		        continue
+		    }
+	    
+		    value, err := strconv.Atoi(args[3])
+		    if err != nil {
+		        fmt.Println("Invalid value. Must be an integer.")
+		        continue
+		    }
+    
+		    price, err := strconv.Atoi(args[4])
+		    if err != nil {
+		        fmt.Println("Invalid price. Must be an integer.")
+		        continue
+		    }
+    
+		    // Validate effect type
+		    validEffects := map[string]bool{
+		        "heal": true,
+		        "damage_boost": true,
+		        "stamina_restore": true,
+		    }
+    
+		    if !validEffects[args[2]] {
+		        fmt.Println("Invalid effect. Valid effects are: heal, damage_boost, stamina_restore")
+		        continue
+		    }
+    
+		    player.Inventory.AddItem(args[1], args[2], value, price)
+		    fmt.Printf("Added item: %s (Effect: %s, Value: %d, Price: %d)\n", 
+		        args[1], args[2], value, price)
 		default:
 			fmt.Println("Unknown command. Type 'help' for a list of commands.")
-		}
+				}
 	}
 }
 
@@ -94,6 +130,7 @@ func printHelp() {
 	fmt.Println("  setHeart <value>	- Set heart of the player")
 	fmt.Println("  addMonster <name> <hp> <damage> - Add a new monster")
 	fmt.Println("  addWeapon <name> <damage> <stamina> - Add a new weapon")
+	fmt.Println("  AddItem <name> <effect> <value> <price> - Add a new item to the inventory")
 	fmt.Println("  checkMods - Check loaded mods")
 	fmt.Println("  runLua <lua code> - Execute Lua code")
 	fmt.Println("  exit - Exit the debug shell")

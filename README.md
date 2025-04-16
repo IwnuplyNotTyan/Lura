@@ -100,7 +100,7 @@ go build -o lura
 
 # Mods
 > [!NOTE]
-> Use `nix develop` to run in dev env
+> Use `nix develop` to run in dev env, or `nix-shell` to enter dev shell
 
 ### Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
 
