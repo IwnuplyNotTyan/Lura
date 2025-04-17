@@ -7,16 +7,17 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/charmbracelet/glamour"
 	"github.com/muesli/termenv"
+	"github.com/charmbracelet/log"
 	lua "github.com/yuin/gopher-lua"
 )
 
 func DebugShell(L *lua.LState, player *Player) {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Debug Shell started. Type 'help' for a list of commands.")
 
 	for {
-		fmt.Print("> ")
+		fmt.Print("  ")
 		input, _ := reader.ReadString('\n')
 		input = strings.TrimSpace(input)
 		args := strings.Fields(input)
@@ -28,6 +29,8 @@ func DebugShell(L *lua.LState, player *Player) {
 		switch args[0] {
 		case "help":
 			printHelp()
+		case "clear":
+			clearScreen()
 		case "checkAll":
 			checkAll()
 		case "setHP":
@@ -122,41 +125,49 @@ func DebugShell(L *lua.LState, player *Player) {
 }
 
 func printHelp() {
-	fmt.Println("Available commands:")
-	fmt.Println("  help - Show this help message")
-	fmt.Println("  checkAll - List all monsters and weapons")
-	fmt.Println("  setHP <value> - Set HP of the player")
-	fmt.Println("  setDamage <value> - Set damage of the player")
-	fmt.Println("  setLoc <value> - Set location of the player")
-	fmt.Println("  setHeart <value>	- Set heart of the player")
-	fmt.Println("  addMonster <name> <hp> <damage> - Add a new monster")
-	fmt.Println("  addWeapon <name> <damage> <stamina> - Add a new weapon")
-	fmt.Println("  AddItem <name> <effect> <value> <price> - Add a new item to the inventory")
-	fmt.Println("  checkMods - Check loaded mods")
-	fmt.Println("  runLua <lua code> - Execute Lua code")
-	fmt.Println("  exit - Exit the debug shell")
+	help := `| Command | Description |
+| ------- | ----------- |
+| help | Show this help message |
+| checkAll | List all monsters and weapons |
+| setHP \<value\> | Set HP of the player |
+| setDamage \<value\> | Set damage of the player |
+| setLoc \<value\> | Set location of the player |
+| setHeart \<value\> | Set heart of the player |
+| addMonster \<name\> \<hp\> \<damage\> | Add a new monster |
+| addWeapon \<name\> \<damage\> \<stamina\> | Add a new weapon |
+| AddItem \<name\> \<effect\> \<value\> \<price\> | Add a new item to the inventory |
+| listItem | List all items in the inventory |
+| checkMods | Check loaded mods |
+| runLua \<lua code\> | Execute Lua code |
+| clear | Clear terminal logs |
+| exit | Exit the debug shell |
+	`
+	out, err := glamour.Render(help, "dark")
+	if err != nil {
+		log.Info("Error rendering help:", err)
+	}
+	fmt.Println(out)
 }
 
 func checkMods() {
     mods := GetLoadedMods()
     if len(mods) == 0 {
-        fmt.Println("No mods loaded")
+        log.Info("No mods loaded")
         return
     }
     
     fmt.Println("Loaded mods:")
     for i, mod := range mods {
-        fmt.Printf("%d. %s\n", i+1, mod)
+        log.Info("%d. %s\n", i+1, mod)
     }
 }
 
 func setLoc(valueStr string, player *Player) {
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
-		fmt.Println("Invalid value. Must be an integer.")
+		log.Info("Invalid value. Must be an integer.")
 		return
 	}
-
 	player.loc = value
 	fmt.Printf("Player location set to %d\n", value)
 }
