@@ -104,10 +104,11 @@ func DebugShell(L *lua.LState, player *Player) {
 		        "heal": true,
 		        "damage_boost": true,
 		        "stamina_restore": true,
+			"material": true,
 		    }
     
 		    if !validEffects[args[2]] {
-		        fmt.Println("Invalid effect. Valid effects are: heal, damage_boost, stamina_restore")
+		        fmt.Println("Invalid effect. Valid effects are: material, heal, damage_boost, stamina_restore")
 		        continue
 		    }
     

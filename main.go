@@ -210,6 +210,14 @@ func (player *Player) UseItem(id int) {
     for _, item := range player.Inventory.Items {
         if item.ID == id {
             switch item.Effect {
+	    case "Material":
+		    if lang == "en" {
+			fmt.Println(termenv.String(fmt.Sprintf("  You get %s, +%d material!", item.Name, item.Value)).Foreground(termenv.ANSIGreen))
+		    } else if lang == "ua" {
+			fmt.Println(termenv.String(fmt.Sprintf("  Ви отримали %s, +%d матеріалів!", item.Name, item.Value)).Foreground(termenv.ANSIGreen))
+		    } else if lang == "be" {
+			fmt.Println(termenv.String(fmt.Sprintf("  Вы атрымалі %s, +%d матэрыялаў!", item.Name, item.Value)).Foreground(termenv.ANSIGreen))
+		    }
             case "heal":
                 player.HP = min(player.HP+item.Value, player.maxHP)
                 if lang == "en" {
