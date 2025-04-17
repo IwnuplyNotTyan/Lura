@@ -17,7 +17,7 @@ func DebugShell(L *lua.LState, player *Player) {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Print("  ")
+		fmt.Print(termenv.String("  ").Foreground(termenv.ANSIBlue).Bold())
 		input, _ := reader.ReadString('\n')
 		input = strings.TrimSpace(input)
 		args := strings.Fields(input)
