@@ -82,7 +82,30 @@ if confirm == "sleep" {
 	staminaSleep := player.maxStamina + 20
 	player.Stamina = staminaSleep
 	log.Info(player.Stamina)
+} else if confirm == "craft" {
+	crafting(player)
 }
+}
+
+func crafting(player *Player) {
+    var selections []string 
+    err := huh.NewMultiSelect[string]().
+        Title("Crafting").
+        Options(
+            huh.NewOption("Bell", "bell"),
+        ).
+        Value(&selections).
+        Run()
+    if err != nil {
+        log.Info(err)
+        return
+    }
+    
+    for _, selection := range selections {
+        if selection == "bell" {
+            log.Info("Crafting a bell")
+        }
+    }
 }
 
 func selectAttack() string {
