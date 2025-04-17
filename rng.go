@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"time"
 	"math/rand"
 )
 
@@ -15,7 +14,6 @@ func rng2() int {
 }
 
 func rngHp() int {
-    rand.Seed(time.Now().UnixNano())
     return rand.Intn(21) + 80
 }
 

@@ -58,6 +58,33 @@ func takeWeapon(player *Player, monster *Monster) {
 	}
 }
 
+func afterLoc(player *Player) {
+var confirm string
+
+err := huh.NewSelect[string]().
+	Title("Good night! What want?").
+	Options(
+		huh.NewOption("Sleep", "sleep"),
+		huh.NewOption("Cooking", "cook"),
+		huh.NewOption("Crafting", "craft"),
+		huh.NewOption("Mining", "mine"),
+	).
+	Value(&confirm).
+	Run()
+
+if err != nil {
+	log.Info(err)
+	return
+}
+
+if confirm == "sleep" {
+	log.Info(player.Stamina)
+	staminaSleep := player.maxStamina + 20
+	player.Stamina = staminaSleep
+	log.Info(player.Stamina)
+}
+}
+
 func selectAttack() string {
 	var selectedAttack string
 
@@ -101,7 +128,9 @@ func selectAttack() string {
 }
 
 func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
+	//afterLoc(player)
 	for player.HP > 0 {
+		//log.Info(player.score)
 		if player.loc == 0 {
 			monster = getRandomCMonster()
 		} else if player.loc == 1 {
