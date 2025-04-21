@@ -78,6 +78,9 @@ func DebugShell(L *lua.LState, player *Player) {
 		case "checkMods":
 		        checkMods()
 
+		case "seedData":
+			seedData()
+
 		case "exit":
 			fmt.Println("Exiting debug shell.")
 			return

@@ -55,7 +55,7 @@ type Inventory struct {
 var (
 	vmonsters  []Monster
 	scmonsters []Monster
-	miniboss   []Monster
+	boss   	   []Monster
 	lanter     []Weapon
 	musket     []Weapon
 	weapons    []Weapon
@@ -106,7 +106,7 @@ func seedData() {
 			{MonsterType: "Lanter keeper", HP: 70, Damage: 10, score: 10, coins: 14},
 			{MonsterType: "Ghost", HP: 40, Damage: 5, score: 4, coins: 10},
 		}
-		miniboss = []Monster{
+		boss = []Monster{
 			{MonsterType: "Colosus", HP: 200, Damage: 30, score: 100, coins: 50},
 		}
 	} else if lang == "be" {
