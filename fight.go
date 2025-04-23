@@ -84,6 +84,12 @@ if confirm == "sleep" {
 	log.Info(player.Stamina)
 } else if confirm == "craft" {
 	crafting(player)
+} else if confirm == "mine" {
+	log.Info("Mining...")
+} else if confirm == "cook" {
+	log.Info("Cooking...")
+} else {
+	log.Info("Invalid selection")
 }
 }
 
@@ -189,7 +195,13 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 						player.Position += 1
 					} else {
 						player.Position += 2
+						if lang == "en" {
 						fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+					} else if lang == "ua" {
+						fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти не так близько до %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+					} else if lang == "be" {
+						fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+					}
 				}
 			}
 				if player.Position == monster.Position-1 {
@@ -211,9 +223,9 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 						if lang == "en" {
 							fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
 						} else if lang == "ua" {
-
+							fmt.Println(termenv.String(fmt.Sprintf("  Новий рекорд, %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
 						} else if lang == "be" {
-
+							fmt.Println(termenv.String(fmt.Sprintf("  Новы рэкорд, %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
 						}
 						if err := saveConfig(getConfigPath(), *config); err != nil {
 							log.Printf("Error saving high score: %v", err)

@@ -75,3 +75,13 @@ func getRandomCMonster() *Monster {
 	monster.maxHP = monster.HP + (monster.LVL * 10)
 	return &monster
 }
+
+func getRandomBoss() *Monster {
+	if len(boss) == 0 {
+		return nil
+	}
+	monster := boss[rand.Intn(len(boss))]
+	monster.LVL = rand.Intn(5) + 1
+	monster.maxHP = monster.HP + (monster.LVL * 10)
+	return &monster
+}

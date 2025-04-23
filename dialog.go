@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/log"
 	"github.com/muesli/termenv"
 )
 
@@ -26,7 +27,7 @@ func caveArt() {
 	data, err := assetsFS.ReadFile("assets/cave.txt")
 
 	if err != nil {
-		fmt.Println("Error reading file:", err)
+		log.Info("Error reading file:", err)
 		return
 	}
 
