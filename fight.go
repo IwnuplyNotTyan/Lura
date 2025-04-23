@@ -278,7 +278,13 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				player.name = monster.MonsterType
 				player.WeaponType = ""
 
-				fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.name)).Foreground(termenv.ANSIRed).Bold())
+				if lang == "en" {
+					fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.name)).Foreground(termenv.ANSIRed).Bold())
+				} else if lang == "ua" {
+					fmt.Println(termenv.String(fmt.Sprintf("  Тепер ти %s", player.name)).Foreground(termenv.ANSIRed).Bold())
+				} else if lang == "be" {
+					fmt.Println(termenv.String(fmt.Sprintf("  Цяпер ты %s", player.name)).Foreground(termenv.ANSIRed).Bold())
+				}
 			} else {
 				player.time = 1
 			}
