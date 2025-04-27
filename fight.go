@@ -221,7 +221,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			}
 				if player.Position == monster.Position-1 {
 					playerAttack(player, monster, &monsterDefending)
-				} else if player.WeaponType == "Bow" || player.WeaponType == "Crossbow" || player.WeaponType == "Musket" || player.WeaponType == "Longbow" || player.WeaponType == "Лук" || player.WeaponType == "Арбалет" || player.WeaponType == "Мушкет" || player.WeaponType == "Довгий лук" || player.WeaponType == "Доўгі лук" {
+				} else if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
 					playerAttack(player, monster, &monsterDefending)
 				}
 			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" {

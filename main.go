@@ -60,7 +60,7 @@ func main() {
 	//fmt.Print(termenv.String("  ").Foreground(termenv.ANSIMagenta).Bold())
 	fmt.Printf("\n")
 
-	weaponType, weaponDamage := getRandomWeapon()
+	weaponType, weaponDamage, weaponID := getRandomWeapon()
 	player = Player{
 		WeaponType: weaponType,
 		Damage:     weaponDamage * rng(),
@@ -71,6 +71,7 @@ func main() {
 		maxStamina: player.Stamina,
 		heart:      1,
 		loc:        1,
+		WeaponID:  weaponID,
 		monster:    false,
 		Position:   0,
 		Inventory: Inventory{

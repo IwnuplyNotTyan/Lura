@@ -12,6 +12,7 @@ type Monster struct {
 	Position   int
 }
 
+
 type Player struct {
 	WeaponType string
 	Damage     int
@@ -29,6 +30,7 @@ type Player struct {
 	time       int
 	Inventory  Inventory
 	Position   int
+	WeaponID   int
 	Tmp        int
 }
 
@@ -36,6 +38,7 @@ type Weapon struct {
 	WeaponType string
 	Damage     int
 	Stamina    int
+	ID         int
 }
 
 type Item struct {
@@ -78,25 +81,25 @@ func seedData() {
 			{MonsterType: "Musketeer", HP: 80, Damage: 30, score: 30, coins: 10},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Sword", Damage: 13, Stamina: 10},
-			{WeaponType: "Spear", Damage: 12, Stamina: 7},
-			{WeaponType: "Axe", Damage: 16, Stamina: 15},
-			{WeaponType: "Dagger", Damage: 11, Stamina: 5},
-			{WeaponType: "Bow", Damage: 11, Stamina: 9},
-			{WeaponType: "Longbow", Damage: 11, Stamina: 9},
+			{WeaponType: "Sword", Damage: 13, Stamina: 10, ID: 1},
+			{WeaponType: "Spear", Damage: 12, Stamina: 7, ID: 2},
+			{WeaponType: "Axe", Damage: 16, Stamina: 15, ID: 3},
+			{WeaponType: "Dagger", Damage: 11, Stamina: 5, ID: 4},
+			{WeaponType: "Bow", Damage: 11, Stamina: 9, ID: 5},
+			{WeaponType: "Longbow", Damage: 11, Stamina: 9, ID: 6},
 			//{WeaponType: "Torch", Damage: 6, Stamina: 3},
 		}
 		lanter = []Weapon{
-			{WeaponType: "Lanter of the soul", Damage: 5, Stamina: 5},
+			{WeaponType: "Lanter of the soul", Damage: 5, Stamina: 5, ID: 7},
 		}
 		musket = []Weapon{
-			{WeaponType: "Musket", Damage: 30, Stamina: 5},
+			{WeaponType: "Musket", Damage: 30, Stamina: 5, ID: 8},
 		}
 		longsword = []Weapon{
-			{WeaponType: "Longsword", Damage: 15, Stamina: 13},
+			{WeaponType: "Longsword", Damage: 15, Stamina: 13, ID: 9},
 		}
 		crossbow = []Weapon{
-			{WeaponType: "Crossbow", Damage: 13, Stamina: 11},
+			{WeaponType: "Crossbow", Damage: 13, Stamina: 11, ID: 10},
 		}
 		scmonsters = []Monster{
 			{MonsterType: "Crystal guardian", HP: 100, Damage: 20, score: 60, coins: 13},
@@ -130,24 +133,24 @@ func seedData() {
 			{MonsterType: "Прывід", HP: 40, Damage: 5, score: 4, coins: 10},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Меч", Damage: 13, Stamina: 10},
-			{WeaponType: "Дзіда", Damage: 12, Stamina: 7},
-			{WeaponType: "Сякера", Damage: 16, Stamina: 15},
-			{WeaponType: "Кінжал", Damage: 11, Stamina: 5},
-			{WeaponType: "Лук", Damage: 11, Stamina: 9},
-			{WeaponType: "Доўгі лук", Damage: 11, Stamina: 9},
+			{WeaponType: "Меч", Damage: 13, Stamina: 10, ID: 1},
+			{WeaponType: "Дзіда", Damage: 12, Stamina: 7, ID: 2},
+			{WeaponType: "Сякера", Damage: 16, Stamina: 15, ID: 3},
+			{WeaponType: "Кінжал", Damage: 11, Stamina: 5, ID: 4},
+			{WeaponType: "Лук", Damage: 11, Stamina: 9, ID: 5},
+			{WeaponType: "Доўгі лук", Damage: 11, Stamina: 9, ID: 6},
 		}
 		musket = []Weapon{
-			{WeaponType: "Мушкет", Damage: 30, Stamina: 5},
+			{WeaponType: "Мушкет", Damage: 30, Stamina: 5, ID: 8},
 		}
 		crossbow = []Weapon{
-			{WeaponType: "Арбалет", Damage: 13, Stamina: 11},
+			{WeaponType: "Арбалет", Damage: 13, Stamina: 11, ID: 10},
 		}
 		lanter = []Weapon{
-			{WeaponType: "Ліхтар душы", Damage: 5, Stamina: 5},
+			{WeaponType: "Ліхтар душы", Damage: 5, Stamina: 5, ID: 7},
 		}
 		longsword = []Weapon{
-			{WeaponType: "Доўгі меч", Damage: 15, Stamina: 13},
+			{WeaponType: "Доўгі меч", Damage: 15, Stamina: 13, ID: 9},
 		}
 	} else if lang == "ua" {
 		vmonsters = []Monster{
@@ -170,24 +173,24 @@ func seedData() {
 			{MonsterType: "Привид", HP: 40, Damage: 5, score: 4, coins: 10},
 		}
 		weapons = []Weapon{
-			{WeaponType: "Меч", Damage: 13, Stamina: 10},
-			{WeaponType: "Спис", Damage: 12, Stamina: 7},
-			{WeaponType: "Сокира", Damage: 16, Stamina: 15},
-			{WeaponType: "Кинджал", Damage: 11, Stamina: 5},
-			{WeaponType: "Лук", Damage: 11, Stamina: 9},
-			{WeaponType: "Довгий лук", Damage: 11, Stamina: 9},
+			{WeaponType: "Меч", Damage: 13, Stamina: 10, ID: 1},
+			{WeaponType: "Спис", Damage: 12, Stamina: 7, ID: 2},
+			{WeaponType: "Сокира", Damage: 16, Stamina: 15, ID: 3},
+			{WeaponType: "Кинджал", Damage: 11, Stamina: 5, ID: 4},
+			{WeaponType: "Лук", Damage: 11, Stamina: 9, ID: 5},
+			{WeaponType: "Довгий лук", Damage: 11, Stamina: 9, ID: 6},
 		}
 		musket = []Weapon{
-			{WeaponType: "Мушкет", Damage: 30, Stamina: 5},
+			{WeaponType: "Мушкет", Damage: 30, Stamina: 5, ID: 8},
 		}
 		crossbow = []Weapon{
-			{WeaponType: "Арбалет", Damage: 13, Stamina: 11},
+			{WeaponType: "Арбалет", Damage: 13, Stamina: 11, ID: 10},
 		}
 		lanter = []Weapon{
-			{WeaponType: "Ліхтар душі", Damage: 5, Stamina: 5},
+			{WeaponType: "Ліхтар душі", Damage: 5, Stamina: 5, ID: 7},
 		}
 		longsword = []Weapon{
-			{WeaponType: "Довгий меч", Damage: 15, Stamina: 13},
+			{WeaponType: "Довгий меч", Damage: 15, Stamina: 13, ID: 9},
 		}
 	}
 }

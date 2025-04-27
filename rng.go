@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"math/rand"
 )
 
@@ -17,13 +16,12 @@ func rngHp() int {
     return rand.Intn(21) + 80
 }
 
-func getRandomWeapon() (string, int) {
+func getRandomWeapon() (string, int, int) {
 	if len(weapons) == 0 {
-		log.Println("Warning: No weapons available. Using default weapon (Fists, 2).")
-		return "Fists", 2
+		return "Fists", 2, 0
 	}
 	weapon := weapons[rand.Intn(len(weapons))]
-	return weapon.WeaponType, weapon.Damage
+	return weapon.WeaponType, weapon.Damage, weapon.ID
 }
 
 func getMusket(player *Player) {
@@ -33,6 +31,7 @@ func getMusket(player *Player) {
 	weapon := musket[rand.Intn(len(musket))]
 	player.WeaponType = weapon.WeaponType
 	player.Damage = weapon.Damage * rng()
+	player.WeaponID = weapon.ID
 }
 
 func getLanter(player *Player) {
@@ -42,18 +41,21 @@ func getLanter(player *Player) {
 	weapon := lanter[rand.Intn(len(lanter))]
 	player.WeaponType = weapon.WeaponType
 	player.Damage = weapon.Damage * rng()
+	player.WeaponID = weapon.ID
 }
 
 func getCrossbow(player *Player) {
 	weapon := crossbow[rand.Intn(len(crossbow))]
 	player.WeaponType = weapon.WeaponType
 	player.Damage = weapon.Damage * rng()
+	player.WeaponID = weapon.ID
 }
 
 func getLongsword(player *Player) {
 	weapon := longsword[rand.Intn(len(longsword))]
 	player.WeaponType = weapon.WeaponType
 	player.Damage = weapon.Damage * rng()
+	player.WeaponID = weapon.ID
 }
 
 func getRandomVMonster() *Monster {
