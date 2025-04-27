@@ -133,10 +133,9 @@ func seedData() {
 			{WeaponType: "Меч", Damage: 13, Stamina: 10},
 			{WeaponType: "Дзіда", Damage: 12, Stamina: 7},
 			{WeaponType: "Сякера", Damage: 16, Stamina: 15},
-			{WeaponType: "Доўгі меч", Damage: 15, Stamina: 13},
 			{WeaponType: "Кінжал", Damage: 11, Stamina: 5},
-			{WeaponType: "Арбалет", Damage: 12, Stamina: 11},
 			{WeaponType: "Лук", Damage: 11, Stamina: 9},
+			{WeaponType: "Доўгі лук", Damage: 11, Stamina: 9},
 		}
 		musket = []Weapon{
 			{WeaponType: "Мушкет", Damage: 30, Stamina: 5},
@@ -175,8 +174,8 @@ func seedData() {
 			{WeaponType: "Спис", Damage: 12, Stamina: 7},
 			{WeaponType: "Сокира", Damage: 16, Stamina: 15},
 			{WeaponType: "Кинджал", Damage: 11, Stamina: 5},
-			{WeaponType: "Арбалет", Damage: 12, Stamina: 11},
 			{WeaponType: "Лук", Damage: 11, Stamina: 9},
+			{WeaponType: "Довгий лук", Damage: 11, Stamina: 9},
 		}
 		musket = []Weapon{
 			{WeaponType: "Мушкет", Damage: 30, Stamina: 5},
