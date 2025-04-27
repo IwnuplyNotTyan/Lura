@@ -141,24 +141,23 @@ func DebugShell(L *lua.LState, player *Player) {
 
 func printHelp() {
 	help := `| Command | Description |
-		| ------- | ----------- |
-		| help | Show this help message |
-		| checkAll | List all monsters and weapons |
-		| setHP \<value\> | Set HP of the player |
-		| setDamage \<value\> | Set damage of the player |
-		| setLoc \<value\> | Set location of the player |
-		| setHeart \<value\> | Set heart of the player |
-		| setScore \<value\> | Set score of the player |
-		| addMonster \<name\> \<hp\> \<damage\> | Add a new monster |
-		| addWeapon \<name\> \<damage\> \<stamina\> | Add a new weapon |
-		| AddItem \<name\> \<effect\> \<value\> \<price\> | Add a new item to the inventory |
-		| listItem | List all items in the inventory |
-		| checkMods | Check loaded mods |
-		| seedData | Seed data for testing |
-		| runLua \<lua code\> | Execute Lua code |
-		| clear | Clear terminal logs |
-		| exit | Exit the debug shell |
-	`
+| ------- | ----------- |
+| help | Show this help message |
+| checkAll | List all monsters and weapons |
+| setHP \<value\> | Set HP of the player |
+| setDamage \<value\> | Set damage of the player |
+| setLoc \<value\> | Set location of the player |
+| setHeart \<value\> | Set heart of the player |
+| setScore \<value\> | Set score of the player |
+| addMonster \<name\> \<hp\> \<damage\> | Add a new monster |
+| addWeapon \<name\> \<damage\> \<stamina\> | Add a new weapon |
+| AddItem \<name\> \<effect\> \<value\> \<price\> | Add a new item to the inventory |
+| listItem | List all items in the inventory |
+| checkMods | Check loaded mods |
+| seedData | Seed data for testing |
+| runLua \<lua code\> | Execute Lua code |
+| clear | Clear terminal logs |
+| exit | Exit the debug shell |`
 	out, err := glamour.Render(help, "dark")
 	if err != nil {
 		log.Info("Error rendering help:", err)

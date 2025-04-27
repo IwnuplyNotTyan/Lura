@@ -33,13 +33,28 @@ func displayPositions(player *Player, monster *Monster) {
 
 func takeWeapon(player *Player, monster *Monster) {
 	var confirm bool
+	var a, b, c string
+
+	if lang == "en" {
+		a = "Do you want to take the weapon?"
+		b = "Yes"
+		c = "No"
+	} else if lang == "ua" {
+		a = "Ви хочете взяти зброю?"
+		b = "Так"
+		c = "Ні"
+	} else if lang == "be" {
+		a = "Вы хочаце ўзяць зброю?"
+		b = "Так"
+		c = "Не"
+	}
 
 	err := huh.NewForm(
 		huh.NewGroup(
 			huh.NewConfirm().
-				Title("You want to take her weapon?").
-				Affirmative("Take").
-				Negative("No").
+				Title(a).
+				Affirmative(b).
+				Negative(c).
 				Value(&confirm),
 		),
 	).Run()
