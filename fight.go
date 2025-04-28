@@ -377,8 +377,7 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 		}
 	}
 
-	isRangedWeapon := player.WeaponType == "Bow" || player.WeaponType == "Crossbow" || 
-	                  player.WeaponType == "Musket" || player.WeaponType == "Longbow"
+	isRangedWeapon := player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8
 
 	if !isRangedWeapon && player.Position != monster.Position-1 {
 		if lang == "en" {

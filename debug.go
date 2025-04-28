@@ -133,6 +133,8 @@ func DebugShell(L *lua.LState, player *Player) {
 		    player.Inventory.AddItem(args[1], args[2], value, price)
 		    fmt.Printf("Added item: %s (Effect: %s, Value: %d, Price: %d)\n", 
 		        args[1], args[2], value, price)
+		case "checkPlayer":
+			log.Infof("%+v", player)
 		default:
 			fmt.Println("Unknown command. Type 'help' for a list of commands.")
 				}
@@ -154,6 +156,7 @@ func printHelp() {
 | AddItem \<name\> \<effect\> \<value\> \<price\> | Add a new item to the inventory |
 | listItem | List all items in the inventory |
 | checkMods | Check loaded mods |
+| checkPlayer | Check player stats |
 | seedData | Seed data for testing |
 | runLua \<lua code\> | Execute Lua code |
 | clear | Clear terminal logs |
