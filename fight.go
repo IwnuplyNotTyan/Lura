@@ -206,19 +206,19 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				playerDefending = false
 			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
 				if player.Position < monster.Position-1 {
-					if player.WeaponType == "Bow" || player.WeaponType == "Crossbow" || player.WeaponType == "Musket" || player.WeaponType == "Longbow" {
+					if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
 						player.Position += 1
 					} else {
 						player.Position += 2
 						if lang == "en" {
-						fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-					} else if lang == "ua" {
-						fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти не так близько до %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-					} else if lang == "be" {
-						fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+							fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+						} else if lang == "ua" {
+							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти не так близько до %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+						} else if lang == "be" {
+							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+						}
 					}
-				}
-			}
+				} 
 				if player.Position == monster.Position-1 {
 					playerAttack(player, monster, &monsterDefending)
 				} else if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
