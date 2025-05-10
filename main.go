@@ -61,14 +61,17 @@ func main() {
 	fmt.Printf("\n")
 
 	weaponType, weaponDamage, weaponID := getRandomWeapon()
+	hp := rngHp()
+	st := rngHp()
+
 	player = Player{
 		WeaponType: weaponType,
 		Damage:     weaponDamage * rng(),
-		HP:         rngHp(),
-		maxHP:      player.HP,
+		HP:         hp,
+		maxHP:      hp,
 		Coins:      0,
-		Stamina:    rngHp(),
-		maxStamina: player.Stamina,
+		Stamina:    st,
+		maxStamina: st,
 		heart:      1,
 		loc:        1,
 		WeaponID:  weaponID,
