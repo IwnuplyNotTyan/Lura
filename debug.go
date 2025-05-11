@@ -33,6 +33,12 @@ func DebugShell(L *lua.LState, player *Player) {
 			clearScreen()
 		case "checkAll":
 			checkAll()
+		case "lang":
+			if len(args) < 2 {
+				log.Info("Usage: lang <language>")
+				continue
+			}
+			lang = os.Args[1]
 		case "setScore":
   			if len(args) < 2 {
         			log.Info("Usage: setScore <value>")
@@ -44,7 +50,6 @@ func DebugShell(L *lua.LState, player *Player) {
     			    continue
     			}
     			player.score = value
-    			log.Info("Player score set to %d\n", value)
 		case "setHP":
 			if len(args) < 2 {
 				fmt.Println("Usage: setHP <value>")
