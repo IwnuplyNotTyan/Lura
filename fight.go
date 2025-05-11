@@ -426,13 +426,13 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
     if monsterAction == "Defend" {
         if monster.Position < 5 {
             monster.Position += 1
-            if lang == "en" {
-                fmt.Println(termenv.String(fmt.Sprintf("󰒙  The %s moves back!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            } else if lang == "ua" {
-                fmt.Println(termenv.String(fmt.Sprintf("󰒙  %s відступає!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            } else if lang == "be" {
-                fmt.Println(termenv.String(fmt.Sprintf("󰒙  %s адступае!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            }
+            //if lang == "en" {
+            //    fmt.Println(termenv.String(fmt.Sprintf("󰒙  The %s moves back!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            //} else if lang == "ua" {
+            //    fmt.Println(termenv.String(fmt.Sprintf("󰒙  %s відступає!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            //} else if lang == "be" {
+            //    fmt.Println(termenv.String(fmt.Sprintf("󰒙  %s адступае!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+            //}
         }
         blockEnemyDialog()
         *monsterDefending = true
