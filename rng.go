@@ -9,7 +9,7 @@ func rng() int {
 }
 
 func rng2() int {
-	return rand.Intn(1) + 1
+	return rand.Intn(2) + 1
 }
 
 func rngHp() int {

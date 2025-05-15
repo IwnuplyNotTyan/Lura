@@ -178,7 +178,7 @@ func buffsAction(player *Player) {
 			if player.Coins > 50 {
 				player.heart = 0
 				player.Coins -= 50
-				fmt.Println(termenv.String("  null."))
+				fmt.Println(termenv.String("  heart = false"))
 			} else {
 				noBuffDialog()
 			}
