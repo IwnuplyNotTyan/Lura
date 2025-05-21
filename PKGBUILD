@@ -1,5 +1,5 @@
 pkgname=Lura
-pkgver=1.0.0
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="Simple turn based game ~"
 arch=('x86_64')
@@ -12,7 +12,7 @@ sha256sums=('SKIP')
 
 build() {
   cd "$srcdir/$pkgname"
-  go mod tidy
+  go mod download
   go build -o lura
 }
 
