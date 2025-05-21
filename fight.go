@@ -58,6 +58,7 @@ func takeWeapon(player *Player, monster *Monster) {
 				Value(&confirm),
 		),
 	).Run()
+	log.Info(confirm)
 
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -67,7 +68,7 @@ func takeWeapon(player *Player, monster *Monster) {
 	if confirm {
 		if monster.MonsterType == "Lanter keeper" || monster.MonsterType == "Ахоўца ліхтара" || monster.MonsterType == "Охоронець ліхтаря" {
 			getLanter(player)
-		} else if monster.MonsterType == "Musketeer" || monster.MonsterType == "Мушкетер" {
+		} else if monster.ID == 1 {
 			getMusket(player)
 		}
 	}
@@ -275,11 +276,11 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		monster.Position = 5
 
 		defeatMonster(monster)
-		if monster.MonsterType == "Lanter keeper" {
+		if monster.ID == 2 {
 			if rng2() == 1 {
 				takeWeapon(player, monster)
 			}
-		} else if monster.MonsterType == "Musketeer" {
+		} else if monster.ID == 1 {
 			if rng2() == 1 {
 				takeWeapon(player, monster)
 			}

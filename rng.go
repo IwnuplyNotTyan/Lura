@@ -18,7 +18,7 @@ func rngHp() int {
 
 func getRandomWeapon() (string, int, int) {
 	if len(weapons) == 0 {
-		return "Fists", 2, 0
+		return "Error", 0, 0
 	}
 	weapon := weapons[rand.Intn(len(weapons))]
 	return weapon.WeaponType, weapon.Damage, weapon.ID

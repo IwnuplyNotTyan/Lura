@@ -9,7 +9,7 @@ type Monster struct {
 	maxHP       int
 	score       int
 	coins       int
-	Position   int
+	Position    int
 }
 
 
@@ -70,15 +70,15 @@ var (
 func seedData() {
 	if lang == "en" {
 		vmonsters = []Monster{
-			{MonsterType: "Dragon", HP: 130, Damage: 25, score: 50, coins: 20},
-			{MonsterType: "Ork", HP: 50, Damage: 15, score: 20, coins: 7},
-			{MonsterType: "Goblin", HP: 40, Damage: 10, score: 15, coins: 5},
-			{MonsterType: "Troll", HP: 70, Damage: 20, score: 35, coins: 9},
-			{MonsterType: "Warrior", HP: 100, Damage: 20, score: 45, coins: 15},
-			{MonsterType: "Ogre", HP: 80, Damage: 20, score: 40, coins: 14},
-			{MonsterType: "Skeleton", HP: 50, Damage: 10, score: 20, coins: 6},
-			{MonsterType: "Zombie", HP: 60, Damage: 15, score: 30, coins: 11},
-			{MonsterType: "Musketeer", HP: 80, Damage: 30, score: 30, coins: 10},
+			{MonsterType: "Dragon", HP: 130, Damage: 25, score: 50, coins: 20, ID: 3},
+			{MonsterType: "Ork", HP: 50, Damage: 15, score: 20, coins: 7, ID: 4},
+			{MonsterType: "Goblin", HP: 40, Damage: 10, score: 15, coins: 5, ID: 5},
+			{MonsterType: "Troll", HP: 70, Damage: 20, score: 35, coins: 9, ID: 6},
+			{MonsterType: "Warrior", HP: 100, Damage: 20, score: 45, coins: 15, ID: 7},
+			{MonsterType: "Ogre", HP: 80, Damage: 20, score: 40, coins: 14, ID: 8},
+			{MonsterType: "Skeleton", HP: 50, Damage: 10, score: 20, coins: 6, ID: 9},
+			{MonsterType: "Zombie", HP: 60, Damage: 15, score: 30, coins: 11, ID: 10},
+			{MonsterType: "Musketeer", HP: 80, Damage: 30, score: 30, coins: 10, ID: 1},
 		}
 		weapons = []Weapon{
 			{WeaponType: "Sword", Damage: 13, Stamina: 10, ID: 1},
@@ -102,35 +102,35 @@ func seedData() {
 			{WeaponType: "Crossbow", Damage: 13, Stamina: 11, ID: 10},
 		}
 		scmonsters = []Monster{
-			{MonsterType: "Crystal guardian", HP: 100, Damage: 20, score: 60, coins: 13},
-			{MonsterType: "Golem", HP: 130, Damage: 10, score: 60, coins: 17},
-			{MonsterType: "Miner", HP: 60, Damage: 20, score: 20, coins: 14},
+			{MonsterType: "Crystal guardian", HP: 100, Damage: 20, score: 60, coins: 13, ID: 11},
+			{MonsterType: "Golem", HP: 130, Damage: 10, score: 60, coins: 17, ID: 12},
+			{MonsterType: "Miner", HP: 60, Damage: 20, score: 20, coins: 14, ID: 13},
 			{MonsterType: "Aetherite titan", HP: 100, Damage: 20, score: 70, coins: 14},
-			{MonsterType: "Lanter keeper", HP: 70, Damage: 10, score: 10, coins: 14},
-			{MonsterType: "Ghost", HP: 40, Damage: 5, score: 4, coins: 10},
+			{MonsterType: "Lanter keeper", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
+			{MonsterType: "Ghost", HP: 40, Damage: 5, score: 4, coins: 10, ID: 15},
 		}
 		boss = []Monster{
 			{MonsterType: "Colosus", HP: 200, Damage: 30, score: 100, coins: 50},
 		}
 	} else if lang == "be" {
 		vmonsters = []Monster{
-			{MonsterType: "Цмок", HP: 130, Damage: 25, score: 50, coins: 20},
-			{MonsterType: "Чалавек", HP: 60, Damage: 10, score: 30, coins: 10},
-			{MonsterType: "Орк", HP: 50, Damage: 15, score: 20, coins: 7},
-			{MonsterType: "Гоблін", HP: 40, Damage: 10, score: 15, coins: 5},
-			{MonsterType: "Троль", HP: 70, Damage: 20, score: 35, coins: 9},
-			{MonsterType: "Воін", HP: 100, Damage: 20, score: 45, coins: 15},
-			{MonsterType: "Огр", HP: 80, Damage: 20, score: 40, coins: 14},
-			{MonsterType: "Шкілет", HP: 50, Damage: 10, score: 20, coins: 6},
-			{MonsterType: "Зомбі", HP: 60, Damage: 15, score: 30, coins: 11},
+			{MonsterType: "Цмок", HP: 130, Damage: 25, score: 50, coins: 20, ID: 3},
+			{MonsterType: "Орк", HP: 50, Damage: 15, score: 20, coins: 7, ID: 4},
+			{MonsterType: "Гоблін", HP: 40, Damage: 10, score: 15, coins: 5, ID: 5},
+			{MonsterType: "Троль", HP: 70, Damage: 20, score: 35, coins: 9, ID: 6},
+			{MonsterType: "Воін", HP: 100, Damage: 20, score: 45, coins: 15, ID: 7},
+			{MonsterType: "Огр", HP: 80, Damage: 20, score: 40, coins: 14, ID: 8},
+			{MonsterType: "Шкілет", HP: 50, Damage: 10, score: 20, coins: 6, ID: 9},
+			{MonsterType: "Зомбі", HP: 60, Damage: 15, score: 30, coins: 11, ID: 10},
+			{MonsterType: "Мушкетэр", HP: 80, Damage: 30, score: 30, coins: 10, ID: 1},
 		}
 		scmonsters = []Monster{
-			{MonsterType: "Крыштальны ахоўнік", HP: 100, Damage: 20, score: 60, coins: 13},
-			{MonsterType: "Голем", HP: 130, Damage: 10, score: 60, coins: 17},
-			{MonsterType: "Шахцёр", HP: 60, Damage: 20, score: 20, coins: 14},
-			{MonsterType: "Эфірны тытан", HP: 100, Damage: 20, score: 70, coins: 14},
-			{MonsterType: "Ахоўца ліхтара", HP: 70, Damage: 10, score: 10, coins: 14},
-			{MonsterType: "Прывід", HP: 40, Damage: 5, score: 4, coins: 10},
+			{MonsterType: "Крыштальны ахоўнік", HP: 100, Damage: 20, score: 60, coins: 13, ID: 11},
+			{MonsterType: "Голем", HP: 130, Damage: 10, score: 60, coins: 17, ID: 12},
+			{MonsterType: "Шахцёр", HP: 60, Damage: 20, score: 20, coins: 14, ID: 13},
+			{MonsterType: "Эфірны тытан", HP: 100, Damage: 20, score: 70, coins: 14, ID: 14},
+			{MonsterType: "Ахоўца ліхтара", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
+			{MonsterType: "Прывід", HP: 40, Damage: 5, score: 4, coins: 10, ID: 15},
 		}
 		weapons = []Weapon{
 			{WeaponType: "Меч", Damage: 13, Stamina: 10, ID: 1},
@@ -154,23 +154,23 @@ func seedData() {
 		}
 	} else if lang == "ua" {
 		vmonsters = []Monster{
-			{MonsterType: "Дракон", HP: 130, Damage: 30, score: 50, coins: 20},
-			{MonsterType: "Людина", HP: 60, Damage: 10, score: 30, coins: 10},
-			{MonsterType: "Орк", HP: 50, Damage: 15, score: 20, coins: 7},
-			{MonsterType: "Гоблін", HP: 40, Damage: 10, score: 15, coins: 5},
-			{MonsterType: "Троль", HP: 70, Damage: 20, score: 35, coins: 9},
-			{MonsterType: "Воїн", HP: 100, Damage: 20, score: 45, coins: 15},
-			{MonsterType: "Огр", HP: 90, Damage: 25, score: 40, coins: 14},
-			{MonsterType: "Скелет", HP: 50, Damage: 10, score: 20, coins: 6},
-			{MonsterType: "Зомбі", HP: 60, Damage: 15, score: 30, coins: 11},
+			{MonsterType: "Дракон", HP: 130, Damage: 30, score: 50, coins: 20, ID: 3},
+			{MonsterType: "Орк", HP: 50, Damage: 15, score: 20, coins: 7, ID: 4},
+			{MonsterType: "Гоблін", HP: 40, Damage: 10, score: 15, coins: 5, ID: 5},
+			{MonsterType: "Троль", HP: 70, Damage: 20, score: 35, coins: 9, ID: 6},
+			{MonsterType: "Воїн", HP: 100, Damage: 20, score: 45, coins: 15, ID: 7},
+			{MonsterType: "Огр", HP: 90, Damage: 25, score: 40, coins: 14, ID: 8},
+			{MonsterType: "Скелет", HP: 50, Damage: 10, score: 20, coins: 6, ID: 9},
+			{MonsterType: "Зомбі", HP: 60, Damage: 15, score: 30, coins: 11, ID: 10},
+			{MonsterType: "Мушкетер", HP: 80, Damage: 30, score: 30, coins: 10, ID: 1},
 		}
 		scmonsters = []Monster{
-			{MonsterType: "Кристальний охоронець", HP: 100, Damage: 20, score: 60, coins: 13},
-			{MonsterType: "Голем", HP: 130, Damage: 10, score: 60, coins: 17},
-			{MonsterType: "Шахтар", HP: 60, Damage: 20, score: 20, coins: 14},
-			{MonsterType: "Аетеритний титан", HP: 100, Damage: 20, score: 70, coins: 14},
-			{MonsterType: "Охоронець ліхтаря", HP: 70, Damage: 10, score: 10, coins: 14},
-			{MonsterType: "Привид", HP: 40, Damage: 5, score: 4, coins: 10},
+			{MonsterType: "Кристальний охоронець", HP: 100, Damage: 20, score: 60, coins: 13, ID: 11},
+			{MonsterType: "Голем", HP: 130, Damage: 10, score: 60, coins: 17, ID: 12},
+			{MonsterType: "Шахтар", HP: 60, Damage: 20, score: 20, coins: 14, ID: 13},
+			{MonsterType: "Аетеритний титан", HP: 100, Damage: 20, score: 70, coins: 14, ID: 14},
+			{MonsterType: "Охоронець ліхтаря", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
+			{MonsterType: "Привид", HP: 40, Damage: 5, score: 4, coins: 10, ID: 15},
 		}
 		weapons = []Weapon{
 			{WeaponType: "Меч", Damage: 13, Stamina: 10, ID: 1},
