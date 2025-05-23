@@ -229,7 +229,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				playerSkip(player)
 			}
 
-			monsterAction := enemyTurn(monster)
+			monsterAction := enemyTurn(monster, player)
 			monsterTurnAction(monster, player, &monsterDefending, &playerDefending, monsterAction)
 
 			if player.HP <= 0 {
@@ -476,7 +476,7 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
     }
 }
 
-func enemyTurn(monster *Monster) string {
+/*func enemyTurn(monster *Monster) string {
 	rngChoice := rng() % 3
 
 	switch rngChoice {
@@ -487,6 +487,18 @@ func enemyTurn(monster *Monster) string {
 	case 2:
 		return "Heal"
 	default:
+		return "Attack"
+	}
+}*/
+
+func enemyTurn(monster *Monster, player *Player) string {
+	if monster.HP > 15 || player.HP < 15 {
+		return "Attack"
+	} else if monster.Position == player.Position+1 {
+		return "Defend"
+	} else if monster.HP < 15 {
+		return "Heal"
+	} else {
 		return "Attack"
 	}
 }
