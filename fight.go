@@ -492,12 +492,26 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
 }*/
 
 func enemyTurn(monster *Monster, player *Player) string {
-	if monster.HP > 15 || player.HP < 15 {
-		return "Attack"
-	} else if monster.Position == player.Position+1 {
-		return "Defend"
+	if player.Stamina < 10 {
+		switch rng2() {
+			case 1: return "Attack"
+			case 2: return "Heal"
+			default: return "Defend"}
+	} else if monster.HP > 15 || player.HP < 15 {
+		switch rng2() {
+			case 1: return "Attack"
+			case 2: return "Defend"
+			default: return "Heal"}
+	} else if monster.Position == player.Position-1 {
+		switch rng2() {
+			case 1: return "Defend"
+			case 2: return "Attack"
+			default: return "Heal"}
 	} else if monster.HP < 15 {
-		return "Heal"
+		switch rng2() {
+			case 1: return "Heal"
+			case 2: return "Defend"
+			default: return "Attack"}
 	} else {
 		return "Attack"
 	}
