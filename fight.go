@@ -476,44 +476,39 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
     }
 }
 
-/*func enemyTurn(monster *Monster) string {
-	rngChoice := rng() % 3
-
-	switch rngChoice {
-	case 0:
-		return "Attack"
-	case 1:
-		return "Defend"
-	case 2:
-		return "Heal"
-	default:
-		return "Attack"
-	}
-}*/
-
 func enemyTurn(monster *Monster, player *Player) string {
-	if player.Stamina < 10 {
-		switch rng2() {
-			case 1: return "Attack"
-			case 2: return "Heal"
-			default: return "Defend"}
-	} else if monster.HP > 15 || player.HP < 15 {
-		switch rng2() {
-			case 1: return "Attack"
-			case 2: return "Defend"
-			default: return "Heal"}
-	} else if monster.Position == player.Position-1 {
-		switch rng2() {
-			case 1: return "Defend"
-			case 2: return "Attack"
-			default: return "Heal"}
-	} else if monster.HP < 15 {
-		switch rng2() {
-			case 1: return "Heal"
-			case 2: return "Defend"
-			default: return "Attack"}
+	if monster.ID == 10 {
+		rngChoice := rng() % 3
+		switch rngChoice {
+		case 0: return "Attack"
+		case 1: return "Defend"
+		case 2: return "Heal"
+		default: return "Attack"
+	}
 	} else {
-		return "Attack"
+		if player.Stamina < 10 {
+			switch rng2() {
+				case 1: return "Attack"
+				case 2: return "Heal"
+				default: return "Defend"}
+		} else if monster.HP > 15 || player.HP < 15 {
+			switch rng2() {
+				case 1: return "Attack"
+				case 2: return "Defend"
+				default: return "Heal"}
+		} else if monster.Position == player.Position-1 {
+			switch rng2() {
+				case 1: return "Defend"
+				case 2: return "Attack"
+				default: return "Heal"}
+		} else if monster.HP < 15 {
+			switch rng2() {
+				case 1: return "Heal"
+				case 2: return "Defend"
+				default: return "Attack"}
+		} else {
+			return "Attack"
+		}
 	}
 }
 
