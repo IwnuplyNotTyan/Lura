@@ -1,0 +1,188 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+)
+
+type buff struct {
+	Name string
+	Desc string
+	Art  []string
+}
+
+type model struct {
+	buffs    []buff
+	cursor   int
+	selected map[int]bool
+	done     bool
+}
+
+func initialModel() model {
+	buffs := []buff{
+		{
+			Name: "Mountain",
+			Desc: "A towering peak covered in snow",
+			Art: []string{ 
+			},
+		},
+		{
+			Name: "House",
+			Desc: "A cozy home with a chimney",
+			Art: []string{
+				"    ___   ",
+				"   /   \\  ",
+				"  /_____\\ ",
+				"  |  _  | ",
+				"  | |_| | ",
+				"  |_____| ",
+				"  _______ ",
+			},
+		},
+		{
+			Name: "Tree",
+			Desc: "An old oak with spreading branches",
+			Art: []string{
+				"    ***   ",
+				"   *****  ",
+				"  *******  ",
+				"   *****  ",
+				"    |||   ",
+				"    |||   ",
+				"  ~~~~~~~  ",
+			},
+		},
+		{
+			Name: "Ship",
+			Desc: "A sailing vessel on the waves",
+			Art: []string{
+				"    |     ",
+				"   /|\\    ",
+				"  / | \\   ",
+				" |_____|  ",
+				" \\_____/  ",
+				"~~~~~~~~~~~",
+				"  ~~~~~   ",
+			},
+		},
+	}
+
+	return model{
+		buffs:    buffs,
+		selected: make(map[int]bool),
+	}
+}
+
+func (m model) Init() tea.Cmd {
+	return nil
+}
+
+func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		switch msg.String() {
+		case "ctrl+c", "q":
+			return m, tea.Quit
+
+		case "up", "k":
+			if m.cursor > 0 {
+				m.cursor--
+			}
+
+		case "down", "j":
+			if m.cursor < len(m.buffs)-1 {
+				m.cursor++
+			}
+
+		case " ":
+			if m.selected[m.cursor] {
+				delete(m.selected, m.cursor)
+			} else {
+				m.selected[m.cursor] = true
+			}
+
+		case "enter":
+			m.done = true
+			return m, tea.Quit
+		}
+	}
+
+	return m, nil
+}
+
+func (m model) View() string {
+	var s strings.Builder
+
+	// Header
+	headerStyle := lipgloss.NewStyle().
+		Bold(true).
+		Foreground(lipgloss.Color("205")).
+		MarginBottom(1)
+	
+	s.WriteString(headerStyle.Render("Select items (space to select, enter to continue)"))
+	s.WriteString("\n\n")
+
+	// Items
+	for i, item := range m.buffs {
+		nameStyle := lipgloss.NewStyle().Bold(true)
+		descStyle := lipgloss.NewStyle().
+			Foreground(lipgloss.Color("241")).
+			MarginLeft(3)
+
+		cursor := " "
+		if m.cursor == i {
+			cursor = ">"
+			nameStyle = nameStyle.Foreground(lipgloss.Color("212"))
+			descStyle = descStyle.Foreground(lipgloss.Color("212"))
+		}
+
+		checked := " "
+		if m.selected[i] {
+			checked = "✓"
+		}
+
+		itemName := fmt.Sprintf("%s [%s] %s", cursor, checked, item.Name)
+		itemDesc := fmt.Sprintf("   %s", item.Desc)
+
+		leftSide := nameStyle.Render(itemName) + "\n" + descStyle.Render(itemDesc)
+
+		if m.cursor == i {
+			artStyle := lipgloss.NewStyle().
+				Foreground(lipgloss.Color("33")).
+				MarginLeft(2)
+
+			var artLines []string
+			for _, line := range item.Art {
+				artLines = append(artLines, artStyle.Render(line))
+			}
+			rightSide := strings.Join(artLines, "\n")
+
+			leftStyle := lipgloss.NewStyle().Width(40)
+			rightStyle := lipgloss.NewStyle().Width(15)
+
+			row := lipgloss.JoinHorizontal(
+				lipgloss.Top,
+				leftStyle.Render(leftSide),
+				rightStyle.Render(rightSide),
+			)
+
+			s.WriteString(row)
+		} else {
+			s.WriteString(leftSide)
+		}
+
+		s.WriteString("\n\n")
+	}
+
+	footerStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("241")).
+		MarginTop(1)
+
+	footer := "Use ↑↓/jk to move, space to select, enter to continue, q to quit"
+	s.WriteString(footerStyle.Render(footer))
+
+	return s.String()
+}

@@ -12,6 +12,7 @@ import (
 	"github.com/charmbracelet/huh"
 	"github.com/muesli/termenv"
 	lua "github.com/yuin/gopher-lua"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 type Config struct {
@@ -35,6 +36,25 @@ func main() {
 	clearScreen()
 
 	dialWelcome()
+
+	p := tea.NewProgram(initialModel())
+	
+	m, err := p.Run()
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return
+	}
+
+	// Show results
+	if finalModel, ok := m.(model); ok && finalModel.done {
+		fmt.Println("\nSelected buffs:")
+		for i, selected := range finalModel.selected {
+			if selected {
+				fmt.Printf("- %s: %s\n", finalModel.buffs[i].Name, finalModel.buffs[i].Desc)
+			}
+		}
+	}
+
 
 	player := Player{}
 	cfg := config(&player)
