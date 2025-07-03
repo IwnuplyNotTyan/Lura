@@ -66,7 +66,7 @@ func takeWeapon(player *Player, monster *Monster) {
 	}
 
 	if confirm {
-		if monster.MonsterType == "Lanter keeper" || monster.MonsterType == "Ахоўца ліхтара" || monster.MonsterType == "Охоронець ліхтаря" {
+		if monster.ID == 2 {
 			getLanter(player)
 		} else if monster.ID == 1 {
 			getMusket(player)
