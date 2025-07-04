@@ -83,6 +83,7 @@ func main() {
 			NextID: 1,
 		},
 	}
+	tmp = -1
 
 	if *debugMode {
 		DebugShell(L, &player)

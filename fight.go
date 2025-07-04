@@ -174,12 +174,15 @@ func selectAttack() string {
 
 func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 	//afterLoc(player)
+	tmp = 10 
 	for player.HP > 0 {
-		//log.Info(player.score)
-		if player.loc == 0 {
+		switch player.loc {
+		case 0:
 			monster = getRandomCMonster()
-		} else if player.loc == 1 {
+		case 1:
 			monster = getRandomVMonster()
+		case 2:
+			monster = getRandomBoss()
 		}
 		if monster == nil {
 			fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
@@ -232,7 +235,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			monsterAction := enemyTurn(monster, player)
 			monsterTurnAction(monster, player, &monsterDefending, &playerDefending, monsterAction)
 
-			if player.HP <= 0 {
+			if player.HP <= 0 || tmp == 0 {
 				if player.heart == 1 {
 					if player.score > config.Score {
 						config.Score = player.score
@@ -402,6 +405,10 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 	} else if player.Stamina >= weapon.Stamina {
 		player.Stamina -= weapon.Stamina
 		monster.HP -= playerDamage
+		if monster.ID == 17 {
+			tmp -= 1
+			log.Printf("tmp: %d", tmp)
+		}
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else if lang == "be" {
