@@ -174,7 +174,7 @@ func selectAttack() string {
 
 func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 	//afterLoc(player)
-	tmp = 10 
+	tmp = 15
 	for player.HP > 0 {
 		switch player.loc {
 		case 0:
@@ -320,7 +320,17 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				player.loc = 1
 			} else if player.loc == 1 {
 				caveArt()
-				player.loc = 0
+				player.loc = 2
+			}
+		} else if player.loc == 2 {
+			forestArt()
+			player.loc = 0
+			if lang == "en" {
+				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
+			} else if lang == "ua" {
+				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
+			} else if lang == "be" {
+				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
 			}
 		} else {
 			player.buffs += 1
