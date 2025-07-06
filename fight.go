@@ -414,18 +414,33 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 		*monsterDefending = false
 	} else if player.Stamina >= weapon.Stamina {
 		player.Stamina -= weapon.Stamina
-		monster.HP -= playerDamage
 		if monster.ID == 17 {
 			tmp -= 1
-			log.Printf("tmp: %d", tmp)
+			if lang == "en" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", tmp)).Foreground(termenv.ANSIBlue))
+			} else if lang == "ua" {
+				
+			} else if lang == "be" {
+				
+			}
 		}
+		if rng() == 1 {
+			if lang == "en" {
+				fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))	
+			} else if lang == "ua" {
+				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))
+			} else if lang == "be" {
+				fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))
+			}
+		} else {
+		monster.HP -= playerDamage
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else if lang == "be" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атакаваў %s на %d здароўя! Цяпер у яго %d ХП. Засталось %d вынослівасьці.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		}
+		}}
 	} else {
 		noStaminaDialog()
 	}
