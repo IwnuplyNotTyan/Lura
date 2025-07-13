@@ -130,9 +130,8 @@ func crafting(player *Player) {
     }
 }
 
-func selectAttack() string {
+func selectAttack(player *Player) string {
 	var selectedAttack string
-
 	if lang == "ua" {
 		Attack = "Атакувати"
 		Heal = "Лікуватися"
@@ -149,21 +148,37 @@ func selectAttack() string {
 		Heal = "Heal"
 		Skip = "Skip"
 	}
-
-	f := huh.NewForm(
-		huh.NewGroup(
-			huh.NewSelect[string]().
-				Title(" Select action").
-				Options(
-					huh.NewOption(Attack, Attack),
-					huh.NewOption(Defend, Defend),
-					huh.NewOption(Heal, Heal),
-					huh.NewOption(Skip, Skip),
-				).
-				Value(&selectedAttack),
-		),
-	)
-
+	
+	var f *huh.Form
+	if !player.monster {
+		f = huh.NewForm(
+			huh.NewGroup(
+				huh.NewSelect[string]().
+					Title(" Select action").
+					Options(
+						huh.NewOption(Attack, Attack),
+						huh.NewOption(Defend, Defend),
+						huh.NewOption(Heal, Heal),
+						huh.NewOption(Skip, Skip),
+					).
+					Value(&selectedAttack),
+			),
+		)
+	} else {
+		f = huh.NewForm(
+			huh.NewGroup(
+				huh.NewSelect[string]().
+					Title(" Select action").
+					Options(
+						huh.NewOption(Attack, Attack),
+						huh.NewOption(Heal, Heal),
+						huh.NewOption(Defend, Defend),
+					).
+					Value(&selectedAttack),
+			),
+		)
+	}
+	
 	if err := f.Run(); err != nil {
 		fmt.Println("Error:", err)
 		return ""
@@ -178,9 +193,9 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 	for player.HP > 0 {
 		switch player.loc {
 		case 0:
-			monster = getRandomCMonster()
-		case 1:
 			monster = getRandomVMonster()
+		case 1:
+			monster = getRandomCMonster()
 		case 2:
 			monster = getRandomBoss()
 		}
@@ -197,7 +212,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		
 		for monster.HP > 0 && player.HP > 0 {
 			displayPositions(player, monster)
-			playerAction := selectAttack()
+			playerAction := selectAttack(player)
 
 			if playerAction == "Defend" || playerAction == "Захищатися" || playerAction == "Абараняцца" {
 				playerDefending = true
@@ -288,9 +303,10 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				takeWeapon(player, monster)
 			}
 		}
-		if player.WeaponType == "Lanter of the soul" {
+		if player.WeaponID == 7 {
 			if player.time == 1 {
 				player.Damage = monster.Damage * rng()
+				player.WeaponID = 0
 				player.monster = true
 				player.HP = monster.maxHP
 				player.maxHP = monster.maxHP
@@ -316,10 +332,9 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			player.buffs = 0
 			newLine()
 			if player.loc == 0 {
-				forestArt()
+				caveArt()
 				player.loc = 1
 			} else if player.loc == 1 {
-				caveArt()
 				player.loc = 2
 			}
 		} else if player.loc == 2 {

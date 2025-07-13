@@ -74,7 +74,7 @@ func main() {
 		Stamina:    st,
 		maxStamina: st,
 		heart:      1,
-		loc:        1,
+		loc:        0,
 		WeaponID:  weaponID,
 		monster:    false,
 		Position:   0,

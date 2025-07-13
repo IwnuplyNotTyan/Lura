@@ -16,7 +16,7 @@ var (
 
 func getRandomBuff(player *Player, excludeBuffs ...string) string {
 	var buffs []string
-	if player.loc == 1 {
+	if player.loc == 0 {
 		if lang == "en" {
 			buffs = []string{
 				"Upgrade Weapon",
@@ -45,7 +45,7 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 				"Арбалет",
 			}
 		}
-	} else if player.loc == 0 {
+	} else if player.loc == 1 {
 		if lang == "en" {
 			buffs = []string{
 				"Crystal heart",

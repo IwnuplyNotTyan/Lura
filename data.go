@@ -111,7 +111,7 @@ func seedData() {
 		}
 		boss = []Monster{
 			//{MonsterType: "Colosus", HP: 200, Damage: 30, score: 100, coins: 50, ID: 16},
-			{MonsterType: "Gato", HP: 300, Damage: 40, score: 150, coins: 100, ID: 17},
+			{MonsterType: "Crystal Crab", HP: 300, Damage: 40, score: 150, coins: 100, ID: 17},
 		}
 	} else if lang == "be" {
 		vmonsters = []Monster{

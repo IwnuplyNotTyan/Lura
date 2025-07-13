@@ -153,12 +153,14 @@ func defeatMonster(monster *Monster) {
 }
 
 func staminaDialog(player *Player) {
-	if lang == "en" {
-		fmt.Println(termenv.String(fmt.Sprintf("  You have %d stamina left", player.Stamina)).Foreground(termenv.ANSIGreen))
-	} else if lang == "ua" {
-		fmt.Println(termenv.String(fmt.Sprintf("  У тебе %d витривалостi залишилося", player.Stamina)).Foreground(termenv.ANSIGreen))
-	} else if lang == "be" {
-		fmt.Println(termenv.String(fmt.Sprintf("  У вас засталося %d вынослівасці", player.Stamina)).Foreground(termenv.ANSIGreen))
+	if !player.monster {
+		if lang == "en" {
+			fmt.Println(termenv.String(fmt.Sprintf("  You have %d stamina left", player.Stamina)).Foreground(termenv.ANSIGreen))
+		} else if lang == "ua" {
+			fmt.Println(termenv.String(fmt.Sprintf("  У тебе %d витривалостi залишилося", player.Stamina)).Foreground(termenv.ANSIGreen))
+		} else if lang == "be" {
+			fmt.Println(termenv.String(fmt.Sprintf("  У вас засталося %d вынослівасці", player.Stamina)).Foreground(termenv.ANSIGreen))
+		}
 	}
 }
 
