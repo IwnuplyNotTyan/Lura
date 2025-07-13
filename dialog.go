@@ -58,8 +58,8 @@ func clearScreen() {
 func displayFightIntro(player *Player, monster *Monster) {
 	if player.monster == false {
 		if lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf("  A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
-			fmt.Println(termenv.String(fmt.Sprintf("  You wield a %s dealing %d damage and have %d HP.", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
+			plStr := fmt.Sprintf(" : %d  : %d 󰓥 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
+			fmt.Println(style.Render(plStr))
 		} else if lang == "be" {
 			fmt.Println(termenv.String(fmt.Sprintf("  Пачвар %s з'явіўся %d ХП!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIGreen))
 			fmt.Println(termenv.String(fmt.Sprintf("  У цябе зброя %s наносіць %d пашкоджанняй, у цябе %d ХП", player.WeaponType, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
