@@ -40,7 +40,7 @@ func main() {
 	cfg := config(&player)
 	lang = cfg.Language
 	if lang == "" {
-		fmt.Printf("\n")
+		newLine()
 		lang = selectLanguage()
 		cfg.Language = lang
 		saveConfig(getConfigPath(), cfg)
@@ -59,7 +59,6 @@ func main() {
 	//}
 
 	//fmt.Print(termenv.String("  ").Foreground(termenv.ANSIMagenta).Bold())
-	fmt.Printf("\n")
 
 	weaponType, weaponDamage, weaponID := getRandomWeapon()
 	hp := rngHp()

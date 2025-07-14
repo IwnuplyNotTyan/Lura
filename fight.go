@@ -288,6 +288,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		clearScreen()
 		player.score += monster.score
 		player.Coins += monster.coins
+		monster.LVL += 1
 
 		player.Position = 0
 		monster.Position = 5

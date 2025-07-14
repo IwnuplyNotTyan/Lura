@@ -94,7 +94,7 @@ func displayFightIntro(player *Player, monster *Monster) {
 			output.WriteString(fmt.Sprintf("%-40s %s\n", left, right))
 		}
 
-		fmt.Println(output.String())
+		fmt.Print(output.String())
 	} else {
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("  A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
