@@ -58,7 +58,6 @@ func takeWeapon(player *Player, monster *Monster) {
 				Value(&confirm),
 		),
 	).Run()
-	log.Info(confirm)
 
 	if err != nil {
 		fmt.Println("Error:", err)
