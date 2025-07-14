@@ -449,6 +449,9 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 			}
 		} else {
 		monster.HP -= playerDamage
+		if player.WeaponID == 4 {
+			monster.HP -= playerDamage
+		}
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else if lang == "be" {

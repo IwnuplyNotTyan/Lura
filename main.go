@@ -28,6 +28,9 @@ var (
 //go:embed assets/*
 var assetsFS embed.FS
 
+//go:embed assets/monster/*
+var monsterFS embed.FS
+
 func main() {
 	flag.Parse()
 	L := lua.NewState()
@@ -75,7 +78,7 @@ func main() {
 		maxStamina: st,
 		heart:      1,
 		loc:        0,
-		WeaponID:  weaponID,
+		WeaponID:   weaponID,
 		monster:    false,
 		Position:   0,
 		Inventory: Inventory{
