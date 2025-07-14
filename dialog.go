@@ -3,19 +3,30 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/muesli/termenv"
 )
 
+// Colorscheme
 var style = lipgloss.NewStyle().
 	Bold(true).
 	Foreground(lipgloss.Color("#FAFAFA")).
 	Background(lipgloss.Color("#7D56F4")).
 	Padding(1).
 	Height(4).
-	Width(40)
+	Width(50)
+
+
+var statStyle = lipgloss.NewStyle().
+	Bold(true).
+	Foreground(lipgloss.Color("#FAFAFA")).
+	Background(lipgloss.Color("#7D56F4")).
+	Padding(1).
+	Height(4).
+	Width(42)
 
 // Welcome
 func dialWelcome() {
@@ -54,11 +65,36 @@ func clearScreen() {
 	fmt.Print("\033[H\033[2J")
 }
 
+func getLine(lines []string, index int) string {
+	if index < len(lines) {
+		return lines[index]
+	}
+	return ""
+}
+
 // Fight
 func displayFightIntro(player *Player, monster *Monster) {
 	if player.monster == false {
-			plStr := fmt.Sprintf(" : %d  : %d 󰓥 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
-			fmt.Println(style.Render(plStr))
+		text := fmt.Sprintf(" : %d  : %d 󰓥 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
+		lipText := statStyle.Render(text)
+
+		filename := fmt.Sprintf("assets/monster/%d.txt", monster.ID)
+			
+		linesLeft := strings.Split(lipText, "\n")
+		
+   		content, _ := assetsFS.ReadFile(filename)
+    		linesRight := strings.Split(string(content), "\n")
+	
+		var output strings.Builder
+		maxLines := max(len(linesLeft), len(linesRight))
+	
+		for i := 0; i < maxLines; i++ {
+			left := getLine(linesLeft, i)
+			right := getLine(linesRight, i)
+			output.WriteString(fmt.Sprintf("%-40s %s\n", left, right))
+		}
+
+		fmt.Println(output.String())
 	} else {
 		if lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("  A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))

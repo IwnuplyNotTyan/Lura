@@ -28,16 +28,13 @@ var (
 //go:embed assets/*
 var assetsFS embed.FS
 
-//go:embed assets/monster/*
-var monsterFS embed.FS
-
 func main() {
 	flag.Parse()
 	L := lua.NewState()
 	defer L.Close()
 	clearScreen()
 
-	dialWelcome()
+	//dialWelcome()
 
 	player := Player{}
 	cfg := config(&player)
