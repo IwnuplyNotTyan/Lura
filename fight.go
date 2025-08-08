@@ -35,18 +35,19 @@ func takeWeapon(player *Player, monster *Monster) {
 	var confirm bool
 	var a, b, c string
 
-	if lang == "en" {
-		a = "Do you want to take the weapon?"
-		b = "Yes"
-		c = "No"
-	} else if lang == "ua" {
+	switch {
+	case lang == "ua":
 		a = "Ви хочете взяти зброю?"
 		b = "Так"
 		c = "Ні"
-	} else if lang == "be" {
+	case lang == "be":
 		a = "Вы хочаце ўзяць зброю?"
 		b = "Так"
 		c = "Не"
+	default:
+		a = "Do you want to take the weapon?"
+		b = "Yes"
+		c = "No"
 	}
 
 	err := huh.NewForm(
@@ -236,7 +237,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 						}
 					}
-				} 
+				}
 				if player.Position == monster.Position-1 {
 					playerAttack(player, monster, &monsterDefending)
 				} else if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
@@ -298,7 +299,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			if rng2() == 1 {
 				takeWeapon(player, monster)
 			}
-		} else if monster.ID == 1 {
+		} else if monster.ID == 17 {
 			if rng2() == 1 {
 				takeWeapon(player, monster)
 			}
@@ -434,9 +435,9 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 			if lang == "en" {
 				fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", tmp)).Foreground(termenv.ANSIBlue))
 			} else if lang == "ua" {
-				
+				fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до смерті", tmp)).Foreground(termenv.ANSIBlue))
 			} else if lang == "be" {
-				
+				fmt.Println(termenv.String(fmt.Sprintf("  %d крокаў да мертвості", tmp)).Foreground(termenv.ANSIBlue))
 			}
 		}
 		if rng() == 1 {
@@ -445,7 +446,7 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 			} else if lang == "ua" {
 				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))
 			} else if lang == "be" {
-				fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))
+				fmt.Println(termenv.String("󰓥  Cпадарыня").Foreground(termenv.ANSIBlue))
 			}
 		} else {
 		monster.HP -= playerDamage

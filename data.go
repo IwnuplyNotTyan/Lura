@@ -90,7 +90,7 @@ func seedData() {
 			//{WeaponType: "Torch", Damage: 6, Stamina: 3},
 		}
 		lanter = []Weapon{
-			{WeaponType: "Lanter of the soul", Damage: 5, Stamina: 5, ID: 7},
+			{WeaponType: "Mirror", Damage: 5, Stamina: 5, ID: 7},
 		}
 		musket = []Weapon{
 			{WeaponType: "Musket", Damage: 30, Stamina: 5, ID: 8},
@@ -111,7 +111,7 @@ func seedData() {
 		}
 		boss = []Monster{
 			//{MonsterType: "Colosus", HP: 200, Damage: 30, score: 100, coins: 50, ID: 16},
-			{MonsterType: "Crystal Crab", HP: 300, Damage: 40, score: 150, coins: 100, ID: 17},
+			{MonsterType: "Gato", HP: 300, Damage: 40, score: 150, coins: 100, ID: 17},
 		}
 	} else if lang == "be" {
 		vmonsters = []Monster{
@@ -148,10 +148,13 @@ func seedData() {
 			{WeaponType: "Арбалет", Damage: 13, Stamina: 11, ID: 10},
 		}
 		lanter = []Weapon{
-			{WeaponType: "Ліхтар душы", Damage: 5, Stamina: 5, ID: 7},
+			{WeaponType: "Люстэрка", Damage: 5, Stamina: 5, ID: 7},
 		}
 		longsword = []Weapon{
 			{WeaponType: "Доўгі меч", Damage: 15, Stamina: 13, ID: 9},
+		}
+		boss = []Monster{
+			{MonsterType: "Гато", HP: 300, Damage: 40, score: 150, coins: 100, ID: 17},
 		}
 	} else if lang == "ua" {
 		vmonsters = []Monster{
@@ -173,6 +176,9 @@ func seedData() {
 			{MonsterType: "Охоронець ліхтаря", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
 			{MonsterType: "Привид", HP: 40, Damage: 5, score: 4, coins: 10, ID: 15},
 		}
+		boss = []Monster{
+			{MonsterType: "Гато", HP: 300, Damage: 40, score: 150, coins: 100, ID: 17},
+		}
 		weapons = []Weapon{
 			{WeaponType: "Меч", Damage: 13, Stamina: 10, ID: 1},
 			{WeaponType: "Спис", Damage: 12, Stamina: 7, ID: 2},
@@ -188,7 +194,7 @@ func seedData() {
 			{WeaponType: "Арбалет", Damage: 13, Stamina: 11, ID: 10},
 		}
 		lanter = []Weapon{
-			{WeaponType: "Ліхтар душі", Damage: 5, Stamina: 5, ID: 7},
+			{WeaponType: "Зеркало", Damage: 5, Stamina: 5, ID: 7},
 		}
 		longsword = []Weapon{
 			{WeaponType: "Довгий меч", Damage: 15, Stamina: 13, ID: 9},

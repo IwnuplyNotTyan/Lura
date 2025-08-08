@@ -75,7 +75,7 @@ func getLine(lines []string, index int) string {
 // Fight
 func displayFightIntro(player *Player, monster *Monster) {
 	if player.monster == false {
-		text := fmt.Sprintf(" : %d  : %d 󰓥 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
+		text := fmt.Sprintf(" : %d  : %d 󰓥 : %d 󱡅 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.Damage, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
 		lipText := statStyle.Render(text)
 
 		filename := fmt.Sprintf("assets/monster/%d.txt", monster.ID)
