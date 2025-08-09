@@ -34,13 +34,11 @@ func main() {
 	defer L.Close()
 	clearScreen()
 
-	//dialWelcome()
-
 	player := Player{}
 	cfg := config(&player)
 	lang = cfg.Language
 	if lang == "" {
-		newLine()
+		fmt.Println()
 		lang = selectLanguage()
 		cfg.Language = lang
 		saveConfig(getConfigPath(), cfg)

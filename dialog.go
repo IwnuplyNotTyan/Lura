@@ -56,9 +56,14 @@ func forestArt() {
 	os.Stdout.Sync()
 }
 
-// Etc
-func newLine() {
-	fmt.Println()
+func catArt() {
+	data, err := assetsFS.ReadFile("assets/cat.txt")
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+	fmt.Print(string(data))
+	os.Stdout.Sync()
 }
 
 func clearScreen() {

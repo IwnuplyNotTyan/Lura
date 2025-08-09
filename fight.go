@@ -66,7 +66,7 @@ func takeWeapon(player *Player, monster *Monster) {
 	}
 
 	if confirm {
-		if monster.ID == 2 {
+		if monster.ID == 17 {
 			getLanter(player)
 		} else if monster.ID == 1 {
 			getMusket(player)
@@ -331,15 +331,15 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				buffsAction(player)
 			}
 			player.buffs = 0
-			newLine()
+			fmt.Println()
 			if player.loc == 0 {
 				caveArt()
 				player.loc = 1
 			} else if player.loc == 1 {
 				player.loc = 2
+				catArt()
 			}
 		} else if player.loc == 2 {
-			forestArt()
 			player.loc = 0
 			if lang == "en" {
 				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
@@ -348,6 +348,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			} else if lang == "be" {
 				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
 			}
+			forestArt()
 		} else {
 			player.buffs += 1
 			if lang == "en" {
