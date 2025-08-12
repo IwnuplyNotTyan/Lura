@@ -41,8 +41,7 @@ func getRandomBuff(player *Player, excludeBuffs ...string) string {
 				//"Випадкова зброя",
 				"Розбите серце",
 				"Щиток черепахи",
-				"Довгий меч",
-				"Арбалет",
+				"Довгий меч", "Арбалет",
 			}
 		}
 	} else if player.loc == 1 {
@@ -121,7 +120,7 @@ func buffsAction(player *Player) {
 			if player.Coins > 20 {
 				w := player.WeaponType
 				getLongsword(player)
-				fmt.Println(termenv.String(fmt.Sprintf("  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -130,7 +129,7 @@ func buffsAction(player *Player) {
 			if player.Coins > 20 {
 				w := player.WeaponType
 				getCrossbow(player)
-				fmt.Println(termenv.String(fmt.Sprintf("  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("󱡁  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -140,7 +139,7 @@ func buffsAction(player *Player) {
 				player.Coins -= 20
 				currentHp := player.HP
 				player.HP += 50
-				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentHp, player.HP)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentHp, player.HP)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -149,7 +148,7 @@ func buffsAction(player *Player) {
 			if player.Coins > 50 {
 				player.Coins -= 50
 				player.heart = 2
-				fmt.Println(termenv.String("  Your heart regenerate new power"))
+				fmt.Println(termenv.String("󰩖  Your heart regenerate new power").Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -159,7 +158,7 @@ func buffsAction(player *Player) {
 				player.Coins -= 10
 				currentMaxStamina := player.maxStamina
 				player.maxStamina += 10
-				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxStamina, player.maxStamina)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxStamina, player.maxStamina)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -169,7 +168,7 @@ func buffsAction(player *Player) {
 				player.Coins -= 5
 				currentMaxHP := player.maxHP
 				player.maxHP += 10
-				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxHP, player.maxHP)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("󱐮  %d  %d", currentMaxHP, player.maxHP)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -178,7 +177,7 @@ func buffsAction(player *Player) {
 			if player.Coins > 50 {
 				player.heart = 0
 				player.Coins -= 50
-				fmt.Println(termenv.String("  heart = false"))
+				fmt.Println(termenv.String("  heart = false").Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -188,7 +187,7 @@ func buffsAction(player *Player) {
 				player.Coins -= 30
 				CurrentDamage := player.Damage
 				player.Damage += 10
-				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", CurrentDamage, player.Damage)).Foreground(termenv.ANSIGreen))
+				fmt.Println(termenv.String(fmt.Sprintf("󰞇  %d  %d", CurrentDamage, player.Damage)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
