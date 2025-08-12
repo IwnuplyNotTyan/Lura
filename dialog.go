@@ -26,7 +26,7 @@ var statStyle = lipgloss.NewStyle().
 	Background(lipgloss.Color("#7D56F4")).
 	Padding(1).
 	Height(4).
-	Width(42)
+	Width(41)
 
 // Welcome
 func dialWelcome() {
