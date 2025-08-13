@@ -295,14 +295,12 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		monster.Position = 5
 
 		defeatMonster(monster)
-		if monster.ID == 2 {
+		if monster.ID == 1 {
 			if rng2() == 1 {
 				takeWeapon(player, monster)
 			}
 		} else if monster.ID == 17 {
-			if rng2() == 1 {
 				takeWeapon(player, monster)
-			}
 		}
 		if player.WeaponID == 7 {
 			if player.time == 1 {
