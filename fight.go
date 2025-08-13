@@ -323,9 +323,9 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 				player.time = 1
 			}
 		}
-
+		if player.HP > 0 {
 		if player.buffs == 4 {
-			if player.monster == false {
+			if !player.monster {
 				buffsAction(player)
 			}
 			player.buffs = 0
@@ -356,7 +356,7 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			} else if lang == "be" {
 				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			}
-		}
+		}}
 	}
 
 	if player.heart == 2 {

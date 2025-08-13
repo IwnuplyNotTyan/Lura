@@ -130,7 +130,7 @@ func seedData() {
 			{MonsterType: "Голем", HP: 130, Damage: 10, score: 60, coins: 17, ID: 12},
 			{MonsterType: "Шахцёр", HP: 60, Damage: 20, score: 20, coins: 14, ID: 13},
 			{MonsterType: "Эфірны тытан", HP: 100, Damage: 20, score: 70, coins: 14, ID: 14},
-			{MonsterType: "Ахоўца ліхтара", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
+		//	{MonsterType: "Ахоўца ліхтара", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
 			{MonsterType: "Прывід", HP: 40, Damage: 5, score: 4, coins: 10, ID: 15},
 		}
 		weapons = []Weapon{
@@ -173,7 +173,7 @@ func seedData() {
 			{MonsterType: "Голем", HP: 130, Damage: 10, score: 60, coins: 17, ID: 12},
 			{MonsterType: "Шахтар", HP: 60, Damage: 20, score: 20, coins: 14, ID: 13},
 			{MonsterType: "Аетеритний титан", HP: 100, Damage: 20, score: 70, coins: 14, ID: 14},
-			{MonsterType: "Охоронець ліхтаря", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
+		//	{MonsterType: "Охоронець ліхтаря", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
 			{MonsterType: "Привид", HP: 40, Damage: 5, score: 4, coins: 10, ID: 15},
 		}
 		boss = []Monster{

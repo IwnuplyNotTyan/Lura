@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
@@ -27,11 +28,6 @@ var statStyle = lipgloss.NewStyle().
 	Padding(1).
 	Height(4).
 	Width(41)
-
-// Welcome
-func dialWelcome() {
-	fmt.Println(style.Render("Lura ~ open source turn based rpg in CLI, fight in many locations with many monster and etc. Made with "))
-}
 
 // ASCII Art
 func caveArt() {
@@ -78,41 +74,46 @@ func getLine(lines []string, index int) string {
 }
 
 // Fight
+func fixDisplayDialog(player *Player, monster *Monster) {
+}
+
 func displayFightIntro(player *Player, monster *Monster) {
-	if player.monster == false {
-		text := fmt.Sprintf(" : %d  : %d 󰓥 : %d 󱡅 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.Damage, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
-		lipText := statStyle.Render(text)
-
-		filename := fmt.Sprintf("assets/monster/%d.txt", monster.ID)
-			
-		linesLeft := strings.Split(lipText, "\n")
-		
-   		content, _ := assetsFS.ReadFile(filename)
-    		linesRight := strings.Split(string(content), "\n")
-	
-		var output strings.Builder
-		maxLines := max(len(linesLeft), len(linesRight))
-	
-		for i := 0; i < maxLines; i++ {
-			left := getLine(linesLeft, i)
-			right := getLine(linesRight, i)
-			output.WriteString(fmt.Sprintf("%-40s %s\n", left, right))
-		}
-
-		fmt.Print(output.String())
+	var text string
+	if !player.monster {
+		text = fmt.Sprintf(" : %d  : %d 󰓥 : %d 󱡅 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.Damage, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
 	} else {
-		if lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf("  A wild %s appears with %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
-			fmt.Println(termenv.String(fmt.Sprintf("  You %s, dealing %d damage and have %d HP.", player.name, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
-		} else if lang == "be" {
-			fmt.Println(termenv.String(fmt.Sprintf("  Пачвар %s з'явіўся %d ХП!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIGreen))
-			fmt.Println(termenv.String(fmt.Sprintf("  У цябе зброя %s наносіць %d пашкоджанняй, у цябе %d ХП", player.name, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
-		} else if lang == "ua" {
-			fmt.Println(termenv.String(fmt.Sprintf("  %s з'являється з %d HP!", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIBlue))
-			fmt.Println(termenv.String(fmt.Sprintf("  Ти %s, наносиш %d пошкодження, у тебе %d здоров'я.", player.name, player.Damage, player.HP)).Foreground(termenv.ANSIGreen))
-		}
-
+		text = fmt.Sprintf(" : %d  : %d 󰓥 : %d 󰙊 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.Damage, player.name, monster.HP, monster.Damage, monster.MonsterType)
 	}
+	maxLength := 68
+	truncatedText := text
+	
+	if utf8.RuneCountInString(text) > maxLength {
+		if maxLength <= 3 {
+			truncatedText = "..."
+		} else {
+			runes := []rune(text)
+			truncatedText = string(runes[:maxLength-3]) + "..."
+		}
+	}
+	
+	lipText := statStyle.Render(truncatedText)
+	
+	filename := fmt.Sprintf("assets/monster/%d.txt", monster.ID)
+	content, _ := assetsFS.ReadFile(filename)
+	
+	linesLeft := strings.Split(lipText, "\n")
+	linesRight := strings.Split(string(content), "\n")
+	
+	var output strings.Builder
+	maxLines := max(len(linesLeft), len(linesRight))
+	
+	for i := 0; i < maxLines; i++ {
+		left := getLine(linesLeft, i)
+		right := getLine(linesRight, i)
+		output.WriteString(fmt.Sprintf("%-40s %s\n", left, right))
+	}
+	
+	fmt.Print(output.String())
 }
 
 func healDialog(player *Player) {
