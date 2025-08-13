@@ -365,7 +365,10 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 }
 
 func healPlayer(player *Player) {
-	player.HP = min(player.HP+15, player.maxHP)
+	if player.HP >= player.maxHP {
+	} else {
+		player.HP = min(player.HP+15, player.maxHP)
+	}
 	healDialog(player)
 }
 
