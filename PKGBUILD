@@ -1,5 +1,5 @@
 pkgname=lura
-pkgver=1.2.0
+pkgver=1.3
 pkgrel=1
 pkgdesc="Simple turn based game"
 arch=('x86_64')
