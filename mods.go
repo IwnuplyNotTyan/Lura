@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	
+
+	"Lura/data"
+
 	"github.com/charmbracelet/log"
 	lua "github.com/yuin/gopher-lua"
 )
@@ -72,19 +74,19 @@ func registerTypes(L *lua.LState) {
 
 	// Expose global monsters and weapons tables to Lua
 	monstersTable := L.NewTable()
-	for _, monster := range vmonsters {
+	for _, monster := range data.Vmonsters {
 		monsterTable := L.NewTable()
 		L.SetField(monsterTable, "MonsterType", lua.LString(monster.MonsterType))
 		L.SetField(monsterTable, "HP", lua.LNumber(monster.HP))
 		L.SetField(monsterTable, "Damage", lua.LNumber(monster.Damage))
 		L.SetField(monsterTable, "LVL", lua.LNumber(monster.LVL))
-		L.SetField(monsterTable, "maxHP", lua.LNumber(monster.maxHP))
+		L.SetField(monsterTable, "maxHP", lua.LNumber(monster.MaxHP))
 		monstersTable.Append(monsterTable)
 	}
 	L.SetGlobal("monsters", monstersTable)
 
 	weaponsTable := L.NewTable()
-	for _, weapon := range weapons {
+	for _, weapon := range data.Weapons {
 		weaponTable := L.NewTable()
 		L.SetField(weaponTable, "WeaponType", lua.LString(weapon.WeaponType))
 		L.SetField(weaponTable, "Damage", lua.LNumber(weapon.Damage))
@@ -95,78 +97,78 @@ func registerTypes(L *lua.LState) {
 }
 
 func newMonster(L *lua.LState) int {
-	monster := &Monster{
+	monster := &data.Monster{
 		MonsterType: L.CheckString(1),
 		HP:          L.CheckInt(2),
 		Damage:      L.CheckInt(3),
 	}
-	vmonsters = append(vmonsters, *monster)
-	L.Push(lua.LNumber(len(vmonsters) - 1))
+	data.Vmonsters = append(data.Vmonsters, *monster)
+	L.Push(lua.LNumber(len(data.Vmonsters) - 1))
 	return 1
 }
 
 func setMonsterHP(L *lua.LState) int {
 	idx := L.CheckInt(1)
 	hp := L.CheckInt(2)
-	vmonsters[idx].HP = hp
+	data.Vmonsters[idx].HP = hp
 	return 0
 }
 
 func getMonsterHP(L *lua.LState) int {
 	idx := L.CheckInt(1)
-	L.Push(lua.LNumber(vmonsters[idx].HP))
+	L.Push(lua.LNumber(data.Vmonsters[idx].HP))
 	return 1
 }
 
 func newWeapon(L *lua.LState) int {
-	weapon := &Weapon{
+	weapon := &data.Weapon{
 		WeaponType: L.CheckString(1),
 		Damage:     L.CheckInt(2),
 		Stamina:    L.CheckInt(3),
 	}
-	weapons = append(weapons, *weapon)
+	data.Weapons = append(data.Weapons, *weapon)
 	//log.Printf("New weapon added: %+v", weapon)
-	L.Push(lua.LNumber(len(weapons) - 1))
+	L.Push(lua.LNumber(len(data.Weapons) - 1))
 	return 1
 }
 
 func setWeaponDamage(L *lua.LState) int {
 	idx := L.CheckInt(1)
 	damage := L.CheckInt(2)
-	weapons[idx].Damage = damage
+	data.Weapons[idx].Damage = damage
 	return 0
 }
 
 func removeMonster(L *lua.LState) int {
 	idx := L.CheckInt(1)
-	if idx < 0 || idx >= len(vmonsters) {
+	if idx < 0 || idx >= len(data.Vmonsters) {
 		L.Push(lua.LString("Invalid monster index"))
 		return 1
 	}
 
-	vmonsters = append(vmonsters[:idx], vmonsters[idx+1:]...)
+	data.Vmonsters = append(data.Vmonsters[:idx], data.Vmonsters[idx+1:]...)
 	L.Push(lua.LString("Monster removed successfully"))
 	return 1
 }
 
 func removeWeapon(L *lua.LState) int {
 	idx := L.CheckInt(1) // Get the index from Lua
-	if idx < 0 || idx >= len(weapons) {
+	if idx < 0 || idx >= len(data.Weapons) {
 		L.Push(lua.LString("Invalid weapon index"))
 		return 1
 	}
 
-	weapons = append(weapons[:idx], weapons[idx+1:]...)
+	data.Weapons = append(data.Weapons[:idx], data.Weapons[idx+1:]...)
 	L.Push(lua.LString("Weapon removed successfully"))
 	return 1
 }
 
 func removeMonsterByName(L *lua.LState) int {
 	name := L.CheckString(1) // Get the name from Lua
-	for i, monster := range vmonsters {
+	for i, monster := range data.Vmonsters {
 		if monster.MonsterType == name {
 			// Remove the monster from the slice
-			vmonsters = append(vmonsters[:i], vmonsters[i+1:]...)
+			data.Vmonsters = append(data.Vmonsters[:i], data.Vmonsters[i+1:]...)
 			L.Push(lua.LString("Monster removed successfully"))
 			return 1
 		}
@@ -178,10 +180,10 @@ func removeMonsterByName(L *lua.LState) int {
 
 func removeWeaponByName(L *lua.LState) int {
 	name := L.CheckString(1) // Get the name from Lua
-	for i, weapon := range weapons {
+	for i, weapon := range data.Weapons {
 		if weapon.WeaponType == name {
 			// Remove the weapon from the slice
-			weapons = append(weapons[:i], weapons[i+1:]...)
+			data.Weapons = append(data.Weapons[:i], data.Weapons[i+1:]...)
 			L.Push(lua.LString("Weapon removed successfully"))
 			return 1
 		}

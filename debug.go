@@ -7,13 +7,15 @@ import (
 	"strconv"
 	"strings"
 
+	"Lura/data"
+
 	"github.com/charmbracelet/glamour"
 	"github.com/muesli/termenv"
 	"github.com/charmbracelet/log"
 	lua "github.com/yuin/gopher-lua"
 )
 
-func DebugShell(L *lua.LState, player *Player) {
+func DebugShell(L *lua.LState, player *data.Player) {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -38,7 +40,7 @@ func DebugShell(L *lua.LState, player *Player) {
 				log.Info("Usage: lang <language>")
 				continue
 			}
-			lang = os.Args[1]
+			data.Lang = os.Args[1]
 		case "setScore":
   			if len(args) < 2 {
         			log.Info("Usage: setScore <value>")
@@ -49,7 +51,7 @@ func DebugShell(L *lua.LState, player *Player) {
     			    log.Info("Invalid value. Must be an integer.")
     			    continue
     			}
-    			player.score = value
+    			player.Score = value
 		case "setHP":
 			if len(args) < 2 {
 				fmt.Println("Usage: setHP <value>")
@@ -96,13 +98,13 @@ func DebugShell(L *lua.LState, player *Player) {
 		        checkMods()
 
 		case "seedData":
-			seedData()
+			data.SeedData()
 
 		case "exit":
 			fmt.Println("Exiting debug shell.")
 			return
 		case "listItem":
-			ShowInventory(player)
+			data.ShowInventory(player)
 		case "addItem":
 		    if len(args) < 5 {
 		        fmt.Println("Usage: addItem <name> <effect> <value> <price>")
@@ -186,28 +188,28 @@ func checkMods() {
     }
 }
 
-func setLoc(valueStr string, player *Player) {
+func setLoc(valueStr string, player *data.Player) {
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
 		log.Info("Invalid value. Must be an integer.")
 		return
 	}
-	player.loc = value
+	player.Loc = value
 	fmt.Printf("Player location set to %d\n", value)
 }
 
-func setHeart(valueStr string, player *Player) {
+func setHeart(valueStr string, player *data.Player) {
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
 		fmt.Println("Invalid value. Must be an integer.")
 		return
 	}
 
-	player.heart = value
+	player.Heart = value
 	fmt.Printf("Player heartbeat set to %d\n", value)
 }
 
-func setHP(valueStr string, player *Player) {
+func setHP(valueStr string, player *data.Player) {
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
 		fmt.Println("Invalid value. Must be an integer.")
@@ -218,7 +220,7 @@ func setHP(valueStr string, player *Player) {
 	fmt.Printf("Player HP set to %d\n", value)
 }
 
-func setDamage(valueStr string, player *Player) {
+func setDamage(valueStr string, player *data.Player) {
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
 		fmt.Println("Invalid value. Must be an integer.")
@@ -242,7 +244,7 @@ func addMonster(name, hpStr, damageStr string) {
 		return
 	}
 
-	vmonsters = append(vmonsters, Monster{MonsterType: name, HP: hp, Damage: damage})
+	data.Vmonsters = append(data.Vmonsters, data.Monster{MonsterType: name, HP: hp, Damage: damage})
 	fmt.Printf("Added monster: %s (HP: %d, Damage: %d)\n", name, hp, damage)
 }
 
@@ -259,7 +261,7 @@ func addWeapon(name, damageStr, staminaStr string) {
 		return
 	}
 
-	weapons = append(weapons, Weapon{WeaponType: name, Damage: damage, Stamina: stamina})
+	data.Weapons = append(data.Weapons, data.Weapon{WeaponType: name, Damage: damage, Stamina: stamina})
 	fmt.Printf("Added weapon: %s (Damage: %d, Stamina: %d)\n", name, damage, stamina)
 }
 
@@ -274,20 +276,20 @@ func runLua(L *lua.LState, code string) {
 func checkAllVWeapons() {
 	fmt.Println(termenv.String("\n All V Weapons:").Foreground(termenv.ANSIBlue).Bold())
 
-	for _, weapon := range weapons {
+	for _, weapon := range data.Weapons {
 		fmt.Printf("Weapon: %s, Damage: %d, Stamina Cost: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
 	}
 
 	fmt.Println(termenv.String("\nDrops from monster:").Foreground(termenv.ANSICyan).Italic())
-	for _, weapon := range musket {
+	for _, weapon := range data.Musket {
 		fmt.Printf("Weapon: %s, Damage: %d, Stamina: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
 	}
 
 	fmt.Println(termenv.String("\nFrom buffs:").Foreground(termenv.ANSICyan).Italic())
-	for _, weapon := range longsword {
+	for _, weapon := range data.Longsword {
 		fmt.Printf("Weapon: %s, Damage: %d, Stamina: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
 	}
-	for _, weapon := range crossbow {
+	for _, weapon := range data.Crossbow {
 		fmt.Printf("Weapon: %s, Damage: %d, Stamina: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
 	}
 }
@@ -295,7 +297,7 @@ func checkAllVWeapons() {
 func checkAllSCWeapon() {
 	fmt.Println(termenv.String("\n All SC Weapons:").Foreground(termenv.ANSIBlue).Bold())
 	fmt.Println(termenv.String("\nDrops from monster:").Foreground(termenv.ANSICyan).Italic())
-	for _, weapon := range lanter {
+	for _, weapon := range data.Lanter {
 		fmt.Printf("Weapon: %s, Damage: %d, Stamina: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
 	}
 
@@ -303,7 +305,7 @@ func checkAllSCWeapon() {
 func checkAllVMonsters() {
 	fmt.Println(termenv.String("\n All V Monsters:").Foreground(termenv.ANSIBlue).Bold())
 
-	for _, monster := range vmonsters {
+	for _, monster := range data.Vmonsters {
 		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
 	}
 }
@@ -311,7 +313,7 @@ func checkAllVMonsters() {
 func checkAllSCMonsters() {
 	fmt.Println(termenv.String("\n All CC Monsters:").Foreground(termenv.ANSIBlue).Bold())
 
-	for _, monster := range scmonsters {
+	for _, monster := range data.Scmonsters {
 		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
 	}
 }

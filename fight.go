@@ -5,6 +5,10 @@ import (
 	"strings"
 	"time"
 
+	"Lura/data"
+	"Lura/module/buffs"
+	"Lura/module/rng"
+
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/log"
 	"github.com/muesli/termenv"
@@ -19,7 +23,7 @@ var (
 	Skip             string
 )
 
-func displayPositions(player *Player, monster *Monster) {
+func displayPositions(player *data.Player, monster *data.Monster) {
     positions := make([]string, 6)
     for i := range positions {
         positions[i] = " "
@@ -31,16 +35,16 @@ func displayPositions(player *Player, monster *Monster) {
     fmt.Println(strings.Join(positions, ""))
 }
 
-func takeWeapon(player *Player, monster *Monster) {
+func takeWeapon(player *data.Player, monster *data.Monster) {
 	var confirm bool
 	var a, b, c string
 
 	switch {
-	case lang == "ua":
+	case data.Lang == "ua":
 		a = "Ви хочете взяти зброю?"
 		b = "Так"
 		c = "Ні"
-	case lang == "be":
+	case data.Lang == "be":
 		a = "Вы хочаце ўзяць зброю?"
 		b = "Так"
 		c = "Не"
@@ -67,14 +71,14 @@ func takeWeapon(player *Player, monster *Monster) {
 
 	if confirm {
 		if monster.ID == 17 {
-			getLanter(player)
+			rng.GetLanter(player)
 		} else if monster.ID == 1 {
-			getMusket(player)
+			rng.GetMusket(player)
 		}
 	}
 }
 
-func afterLoc(player *Player) {
+func afterLoc(player *data.Player) {
 var confirm string
 
 err := huh.NewSelect[string]().
@@ -95,7 +99,7 @@ if err != nil {
 
 if confirm == "sleep" {
 	log.Info(player.Stamina)
-	staminaSleep := player.maxStamina + 20
+	staminaSleep := player.MaxStamina + 20
 	player.Stamina = staminaSleep
 	log.Info(player.Stamina)
 } else if confirm == "craft" {
@@ -109,7 +113,7 @@ if confirm == "sleep" {
 }
 }
 
-func crafting(player *Player) {
+func crafting(player *data.Player) {
     var selections []string 
     err := huh.NewMultiSelect[string]().
         Title("Crafting").
@@ -130,14 +134,14 @@ func crafting(player *Player) {
     }
 }
 
-func selectAttack(player *Player) string {
+func selectAttack(player *data.Player) string {
 	var selectedAttack string
-	if lang == "ua" {
+	if data.Lang == "ua" {
 		Attack = "Атакувати"
 		Heal = "Лікуватися"
 		Defend = "Захищатися"
 		Skip = "Пропустити"
-	} else if lang == "be" {
+	} else if data.Lang == "be" {
 		Attack = "Атакаваць"
 		Heal = "Вылечвацца"
 		Defend = "Абараняцца"
@@ -150,7 +154,7 @@ func selectAttack(player *Player) string {
 	}
 	
 	var f *huh.Form
-	if !player.monster {
+	if !player.Monster {
 		f = huh.NewForm(
 			huh.NewGroup(
 				huh.NewSelect[string]().
@@ -187,17 +191,17 @@ func selectAttack(player *Player) string {
 	return selectedAttack
 }
 
-func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
+func fight(player *data.Player, monster *data.Monster, config *data.Config, weapon *data.Weapon) {
 	//afterLoc(player)
-	tmp = 15
+	data.Tmp = 15
 	for player.HP > 0 {
-		switch player.loc {
+		switch player.Loc {
 		case 0:
-			monster = getRandomVMonster()
+			monster = rng.GetRandomVMonster()
 		case 1:
-			monster = getRandomCMonster()
+			monster = rng.GetRandomCMonster()
 		case 2:
-			monster = getRandomBoss()
+			monster = rng.GetRandomBoss()
 		}
 		if monster == nil {
 			fmt.Println(termenv.String("No monsters found!").Foreground(termenv.ANSIYellow))
@@ -229,11 +233,11 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 						player.Position += 1
 					} else {
 						player.Position += 2
-						if lang == "en" {
+						if data.Lang == "en" {
 							fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-						} else if lang == "ua" {
+						} else if data.Lang == "ua" {
 							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти не так близько до %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-						} else if lang == "be" {
+						} else if data.Lang == "be" {
 							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 						}
 					}
@@ -250,36 +254,36 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 			monsterAction := enemyTurn(monster, player)
 			monsterTurnAction(monster, player, &monsterDefending, &playerDefending, monsterAction)
 
-			if player.HP <= 0 || tmp == 0 {
-				if player.heart == 1 {
-					if player.score > config.Score {
-						config.Score = player.score
-						if lang == "en" {
-							fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
-						} else if lang == "ua" {
-							fmt.Println(termenv.String(fmt.Sprintf("  Новий рекорд, %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
-						} else if lang == "be" {
-							fmt.Println(termenv.String(fmt.Sprintf("  Новы рэкорд, %d", player.score)).Foreground(termenv.ANSIBrightRed).Bold())
+			if player.HP <= 0 || data.Tmp == 0 {
+				if player.Heart == 1 {
+					if player.Score > config.Score {
+						config.Score = player.Score
+						if data.Lang == "en" {
+							fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+						} else if data.Lang == "ua" {
+							fmt.Println(termenv.String(fmt.Sprintf("  Новий рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+						} else if data.Lang == "be" {
+							fmt.Println(termenv.String(fmt.Sprintf("  Новы рэкорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
 						}
-						if err := saveConfig(getConfigPath(), *config); err != nil {
+						if err := data.SaveConfig(data.GetConfigPath(), *config); err != nil {
 							log.Printf("Error saving high score: %v", err)
 						}
 					} else {
-						fmt.Println(termenv.String(fmt.Sprintf("  %d", player.score)).Foreground(termenv.ANSIRed).Bold())
+						fmt.Println(termenv.String(fmt.Sprintf("  %d", player.Score)).Foreground(termenv.ANSIRed).Bold())
 					}
 					return
-				} else if player.heart == 0 {
-					player.maxHP = player.maxHP / 2
-					player.HP = player.maxHP
+				} else if player.Heart == 0 {
+					player.MaxHP = player.MaxHP / 2
+					player.HP = player.MaxHP
 					player.Damage = player.Damage * 2
-					if lang == "en" {
+					if data.Lang == "en" {
 						fmt.Println(termenv.String(fmt.Sprintf("  Your heart is broken! HP set to %d, Damage increased to %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
-					} else if lang == "ua" {
+					} else if data.Lang == "ua" {
 						fmt.Println(termenv.String(fmt.Sprintf("  Ваше серце розбито! HP встановлено на %d, Пошкодження збільшено до %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
-					} else if lang == "be" {
+					} else if data.Lang == "be" {
 						fmt.Println(termenv.String(fmt.Sprintf("  Ваша сэрца разбіта! HP устаноўлена на %d, Пашкоджанні павялічаны да %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 					}
-					player.heart = 1
+					player.Heart = 1
 					fight(player, monster, config, weapon)
 				}
 			}
@@ -287,8 +291,8 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 		}
 
 		clearScreen()
-		player.score += monster.score
-		player.Coins += monster.coins
+		player.Score += monster.Score
+		player.Coins += monster.Coins
 		monster.LVL += 1
 
 		player.Position = 0
@@ -296,113 +300,113 @@ func fight(player *Player, monster *Monster, config *Config, weapon *Weapon) {
 
 		defeatMonster(monster)
 		if monster.ID == 1 {
-			if rng2() == 1 {
+			if rng.Rng2() == 1 {
 				takeWeapon(player, monster)
 			}
 		} else if monster.ID == 17 {
 				takeWeapon(player, monster)
 		}
 		if player.WeaponID == 7 {
-			if player.time == 1 {
-				player.Damage = monster.Damage * rng()
+			if player.Time == 1 {
+				player.Damage = monster.Damage * rng.Rng()
 				player.WeaponID = 0
-				player.monster = true
-				player.HP = monster.maxHP
-				player.maxHP = monster.maxHP
-				player.name = monster.MonsterType
+				player.Monster = true
+				player.HP = monster.MaxHP
+				player.MaxHP = monster.MaxHP
+				player.Name = monster.MonsterType
 				player.WeaponType = ""
 
-				if lang == "en" {
-					fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.name)).Foreground(termenv.ANSIRed).Bold())
-				} else if lang == "ua" {
-					fmt.Println(termenv.String(fmt.Sprintf("  Тепер ти %s", player.name)).Foreground(termenv.ANSIRed).Bold())
-				} else if lang == "be" {
-					fmt.Println(termenv.String(fmt.Sprintf("  Цяпер ты %s", player.name)).Foreground(termenv.ANSIRed).Bold())
+				if data.Lang == "en" {
+					fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
+				} else if data.Lang == "ua" {
+					fmt.Println(termenv.String(fmt.Sprintf("  Тепер ти %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
+				} else if data.Lang == "be" {
+					fmt.Println(termenv.String(fmt.Sprintf("  Цяпер ты %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
 				}
 			} else {
-				player.time = 1
+				player.Time = 1
 			}
 		}
 		if player.HP > 0 {
-		if player.buffs == 4 {
-			if !player.monster {
-				buffsAction(player)
+		if player.Buffs == 4 {
+			if !player.Monster {
+				buff.BuffsAction(player)
 			}
-			player.buffs = 0
+			player.Buffs = 0
 			fmt.Println()
-			if player.loc == 0 {
+			if player.Loc == 0 {
 				caveArt()
-				player.loc = 1
-			} else if player.loc == 1 {
-				player.loc = 2
+				player.Loc = 1
+			} else if player.Loc == 1 {
+				player.Loc = 2
 				catArt()
 			}
-		} else if player.loc == 2 {
-			player.loc = 0
-			if lang == "en" {
+		} else if player.Loc == 2 {
+			player.Loc = 0
+			if data.Lang == "en" {
 				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
-			} else if lang == "ua" {
+			} else if data.Lang == "ua" {
 				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
-			} else if lang == "be" {
+			} else if data.Lang == "be" {
 				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
 			}
 			forestArt()
 		} else {
-			player.buffs += 1
-			if lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			} else if lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до iншого мiсця", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			} else if lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			player.Buffs += 1
+			if data.Lang == "en" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			} else if data.Lang == "ua" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до iншого мiсця", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			} else if data.Lang == "be" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			}
 		}}
 	}
 
-	if player.heart == 2 {
+	if player.Heart == 2 {
 		player.HP += 10
 	}
 }
 
-func healPlayer(player *Player) {
-	if player.HP >= player.maxHP {
+func healPlayer(player *data.Player) {
+	if player.HP >= player.MaxHP {
 	} else {
-		player.HP = min(player.HP+15, player.maxHP)
+		player.HP = min(player.HP+15, player.MaxHP)
 	}
 	healDialog(player)
 }
 
-func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
-	var weapon *Weapon
-	for _, w := range weapons {
+func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *bool) {
+	var weapon *data.Weapon
+	for _, w := range data.Weapons {
 		if w.WeaponType == player.WeaponType {
 			weapon = &w
 			break
 		}
 	}
 
-	for _, w := range musket {
+	for _, w := range data.Musket {
 		if w.WeaponType == player.WeaponType {
 			weapon = &w
 			break
 		}
 	}
 
-	for _, w := range lanter {
+	for _, w := range data.Lanter {
 		if w.WeaponType == player.WeaponType {
 			weapon = &w
 			break
 		}
 	}
 
-	for _, w := range crossbow {
+	for _, w := range data.Crossbow {
 		if w.WeaponType == player.WeaponType {
 			weapon = &w
 			break
 		}
 	}
 
-	for _, w := range longsword {
+	for _, w := range data.Longsword {
 		if w.WeaponType == player.WeaponType {
 			weapon = &w
 			break
@@ -412,42 +416,42 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 	isRangedWeapon := player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8
 
 	if !isRangedWeapon && player.Position != monster.Position-1 {
-		if lang == "en" {
+		if data.Lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You're too far from %s to attack with your %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
-		} else if lang == "ua" {
+		} else if data.Lang == "ua" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти занадто далеко від %s щоб атакувати своїм %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
-		} else if lang == "be" {
+		} else if data.Lang == "be" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты занадта далёка ад %s каб атакаваць сваім %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
 		}
 		return
 	}
 
 	if weapon == nil {
-		weapon = &Weapon{WeaponType: "Fists", Damage: 2, Stamina: 0}
+		weapon = &data.Weapon{WeaponType: "Fists", Damage: 2, Stamina: 0}
 	}
 
-	playerDamage := player.Damage + rng()
+	playerDamage := player.Damage + rng.Rng()
 	if *monsterDefending {
 		blockUDialog()
 		*monsterDefending = false
 	} else if player.Stamina >= weapon.Stamina {
 		player.Stamina -= weapon.Stamina
 		if monster.ID == 17 {
-			tmp -= 1
-			if lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", tmp)).Foreground(termenv.ANSIBlue))
-			} else if lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до смерті", tmp)).Foreground(termenv.ANSIBlue))
-			} else if lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d крокаў да мертвості", tmp)).Foreground(termenv.ANSIBlue))
+			data.Tmp -= 1
+			if data.Lang == "en" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", data.Tmp)).Foreground(termenv.ANSIBlue))
+			} else if data.Lang == "ua" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до смерті", data.Tmp)).Foreground(termenv.ANSIBlue))
+			} else if data.Lang == "be" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d крокаў да мертвості", data.Tmp)).Foreground(termenv.ANSIBlue))
 			}
 		}
-		if rng() == 1 {
-			if lang == "en" {
+		if rng.Rng() == 1 {
+			if data.Lang == "en" {
 				fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))	
-			} else if lang == "ua" {
+			} else if data.Lang == "ua" {
 				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))
-			} else if lang == "be" {
+			} else if data.Lang == "be" {
 				fmt.Println(termenv.String("󰓥  Cпадарыня").Foreground(termenv.ANSIBlue))
 			}
 		} else {
@@ -455,9 +459,9 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 		if player.WeaponID == 4 {
 			monster.HP -= playerDamage
 		}
-		if lang == "en" {
+		if data.Lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		} else if lang == "be" {
+		} else if data.Lang == "be" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атакаваў %s на %d здароўя! Цяпер у яго %d ХП. Засталось %d вынослівасьці.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
@@ -467,16 +471,16 @@ func playerAttack(player *Player, monster *Monster, monsterDefending *bool) {
 	}
 }
 
-func playerSkip(player *Player) {
+func playerSkip(player *data.Player) {
 	if player.Stamina < 100 {
-		player.Stamina = min(player.Stamina+20, player.maxStamina)
+		player.Stamina = min(player.Stamina+20, player.MaxStamina)
 		staminaDialog(player)
 	} else {
 		staminaDialog(player)
 	}
 }
 
-func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool, playerDefending *bool, monsterAction string) {
+func monsterTurnAction(monster *data.Monster, player *data.Player, monsterDefending *bool, playerDefending *bool, monsterAction string) {
     if monsterAction == "Defend" {
         if monster.Position < 5 {
             monster.Position += 1
@@ -491,7 +495,7 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
         blockEnemyDialog()
         *monsterDefending = true
     } else if monsterAction == "Heal" {
-        monster.HP = min(monster.HP+15, monster.maxHP)
+        monster.HP = min(monster.HP+15, monster.MaxHP)
         healMonsterDialog(monster)
         *monsterDefending = false
     } else {
@@ -500,16 +504,16 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
         }
 
         if monster.Position == player.Position+1 {
-            monsterDamage := monster.Damage + rng() + monster.LVL
+            monsterDamage := monster.Damage + rng.Rng() + monster.LVL
             if *playerDefending {
                 blockEnemyAttack()
                 *playerDefending = false
             } else {
                 player.HP -= monsterDamage
-                if lang == "en" {
+                if data.Lang == "en" {
                     fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", 
                         monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
-                } else if lang == "be" {
+                } else if data.Lang == "be" {
                     fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.", 
                         monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
                 } else {
@@ -518,20 +522,20 @@ func monsterTurnAction(monster *Monster, player *Player, monsterDefending *bool,
                 }
             }
         } else {
-            if lang == "en" {
+            if data.Lang == "en" {
                 fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s is too far away to attack!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            } else if lang == "ua" {
+            } else if data.Lang == "ua" {
                 fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадто далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            } else if lang == "be" {
+            } else if data.Lang == "be" {
                 fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадта далёка для атакі!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
             }
         }
     }
 }
 
-func enemyTurn(monster *Monster, player *Player) string {
+func enemyTurn(monster *data.Monster, player *data.Player) string {
 	if monster.ID == 10 {
-		rngChoice := rng() % 3
+		rngChoice := rng.Rng() % 3
 		switch rngChoice {
 		case 0: return "Attack"
 		case 1: return "Defend"
@@ -540,22 +544,22 @@ func enemyTurn(monster *Monster, player *Player) string {
 	}
 	} else {
 		if player.Stamina < 10 {
-			switch rng2() {
+			switch rng.Rng2() {
 				case 1: return "Attack"
 				case 2: return "Heal"
 				default: return "Defend"}
 		} else if monster.HP > 15 || player.HP < 15 {
-			switch rng2() {
+			switch rng.Rng2() {
 				case 1: return "Attack"
 				case 2: return "Defend"
 				default: return "Heal"}
 		} else if monster.Position == player.Position-1 {
-			switch rng2() {
+			switch rng.Rng2() {
 				case 1: return "Defend"
 				case 2: return "Attack"
 				default: return "Heal"}
 		} else if monster.HP < 15 {
-			switch rng2() {
+			switch rng.Rng2() {
 				case 1: return "Heal"
 				case 2: return "Defend"
 				default: return "Attack"}

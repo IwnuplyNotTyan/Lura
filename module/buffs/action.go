@@ -1,88 +1,15 @@
-package main
+package buff
 
 import (
 	"fmt"
-	"math/rand"
 
-	"github.com/charmbracelet/huh"
+	"Lura/data"
+	"Lura/module/rng"
+
 	"github.com/muesli/termenv"
 )
 
-var (
-	buff1 string
-	buff2 string
-	buff3 string
-)
-
-func getRandomBuff(player *Player, excludeBuffs ...string) string {
-	var buffs []string
-	if player.loc == 0 {
-		if lang == "en" {
-			buffs = []string{
-				"Upgrade Weapon",
-				"Longsword",
-				"Crossbow",
-				//"Random Weapon",
-				"Broken heart",
-				"Turtle scute",
-			}
-		} else if lang == "be" {
-			buffs = []string{
-				"Палепшыць зброю",
-				//"Выпадковая зброя",
-				"Разбітае сэрца",
-				"Шчыт чарапахі",
-				"Доўгі меч",
-				"Арбалет",
-			}
-		} else {
-			buffs = []string{
-				"Покращити зброю",
-				//"Випадкова зброя",
-				"Розбите серце",
-				"Щиток черепахи",
-				"Довгий меч", "Арбалет",
-			}
-		}
-	} else if player.loc == 1 {
-		if lang == "en" {
-			buffs = []string{
-				"Crystal heart",
-				"Lotus",
-				"Tears",
-				//"Amethyst necklace",
-				//"Flask with star tears",
-			}
-		} else if lang == "be" {
-			buffs = []string{
-				"Кристалічнае сэрца",
-				"Лотас",
-				"Слёзы",
-			}
-		} else if lang == "ua" {
-			buffs = []string{
-				"Кристалічне серце",
-				"Лотос",
-				"Сльози",
-			}
-		}
-	}
-
-	availableBuffs := make([]string, 0, len(buffs))
-	for _, buff := range buffs {
-		if !contains(excludeBuffs, buff) {
-			availableBuffs = append(availableBuffs, buff)
-		}
-	}
-
-	if len(availableBuffs) == 0 {
-		return ""
-	}
-
-	return availableBuffs[rand.Intn(len(availableBuffs))]
-}
-
-func buffsAction(player *Player) {
+func BuffsAction(player *data.Player) {
 	currentCoins(player)
 
 	buff1 = getRandomBuff(player)
@@ -119,7 +46,7 @@ func buffsAction(player *Player) {
 		case "Longsword", "Довгий меч", "Доўгі меч":
 			if player.Coins > 20 {
 				w := player.WeaponType
-				getLongsword(player)
+				rng.GetLongsword(player)
 				fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
@@ -128,7 +55,7 @@ func buffsAction(player *Player) {
 		case "Crossbow", "Арбалет":
 			if player.Coins > 20 {
 				w := player.WeaponType
-				getCrossbow(player)
+				rng.GetCrossbow(player)
 				fmt.Println(termenv.String(fmt.Sprintf("󱡁  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
@@ -147,7 +74,7 @@ func buffsAction(player *Player) {
 		case "Crystal heart", "Кристалічнае сэрца", "Кристалічне серце":
 			if player.Coins > 50 {
 				player.Coins -= 50
-				player.heart = 2
+				player.Heart = 2
 				fmt.Println(termenv.String("󰩖  Your heart regenerate new power").Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
@@ -156,9 +83,9 @@ func buffsAction(player *Player) {
 		case "Lotus", "Лотус", "Лотас":
 			if player.Coins > 10 {
 				player.Coins -= 10
-				currentMaxStamina := player.maxStamina
-				player.maxStamina += 10
-				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxStamina, player.maxStamina)).Foreground(termenv.ANSIGreen))
+				currentMaxStamina := player.MaxStamina
+				player.MaxStamina += 10
+				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxStamina, player.MaxStamina)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
@@ -166,16 +93,16 @@ func buffsAction(player *Player) {
 		case "Tears", "Сльози", "Слёзы":
 			if player.Coins > 5 {
 				player.Coins -= 5
-				currentMaxHP := player.maxHP
-				player.maxHP += 10
-				fmt.Println(termenv.String(fmt.Sprintf("󱐮  %d  %d", currentMaxHP, player.maxHP)).Foreground(termenv.ANSIGreen))
+				currentMaxHP := player.MaxHP
+				player.MaxHP += 10
+				fmt.Println(termenv.String(fmt.Sprintf("󱐮  %d  %d", currentMaxHP, player.MaxHP)).Foreground(termenv.ANSIGreen))
 			} else {
 				noBuffDialog()
 			}
 
 		case "Broken heart", "Розбите серце", "Разбітае сэрца":
 			if player.Coins > 50 {
-				player.heart = 0
+				player.Heart = 0
 				player.Coins -= 50
 				fmt.Println(termenv.String("  heart = false").Foreground(termenv.ANSIGreen))
 			} else {
@@ -198,39 +125,3 @@ func buffsAction(player *Player) {
 	}
 }
 
-func selectBuff(player *Player) []string {
-	var selectedBuffs []string
-
-	buff1 := getRandomBuff(player)
-	buff2 := getRandomBuff(player, buff1)
-	buff3 := getRandomBuff(player, buff1, buff2)
-
-	f := huh.NewForm(
-		huh.NewGroup(
-			huh.NewMultiSelect[string]().
-				Title(" Select card").
-				Options(
-					huh.NewOption(buff1, buff1),
-					huh.NewOption(buff2, buff2),
-					huh.NewOption(buff3, buff3),
-				).
-				Value(&selectedBuffs),
-		),
-	)
-
-	if err := f.Run(); err != nil {
-		fmt.Println("Error:", err)
-		return nil
-	}
-
-	return selectedBuffs
-}
-
-func contains(slice []string, str string) bool {
-	for _, v := range slice {
-		if v == str {
-			return true
-		}
-	}
-	return false
-}
