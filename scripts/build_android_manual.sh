@@ -11,12 +11,12 @@ ANDROID_API=${ANDROID_API:-23}
 TARGETS=${TARGETS:-"android/arm,android/arm64,android/amd64"}
 AAR_NAME=${AAR_NAME:-"lura.aar"}
 
-command -v gomobile >/dev/null 2>&1 || {
-  echo "[build] gomobile not found; installing..." >&2
-  go install golang.org/x/mobile/cmd/gomobile@latest
-  go install golang.org/x/mobile/cmd/gobind@latest
-  gomobile init
-}
+if ! command -v gomobile >/dev/null 2>&1; then
+  echo "[build] gomobile not found; will ensure deps"
+fi
+
+echo "[build] Ensuring gomobile deps"
+bash "$(cd "$(dirname "$0")" && pwd)/ensure_gomobile_deps.sh"
 
 echo "[build] Building AAR from ./termbridge"
 gomobile bind -target=${TARGETS} -androidapi=${ANDROID_API} -o "/tmp/${AAR_NAME}" ./termbridge

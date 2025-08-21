@@ -34,11 +34,9 @@ jobs:
           flutter-version: '3.22.3'
           channel: 'stable'
 
-      - name: Install gomobile
+      - name: Ensure gomobile deps
         run: |
-          go install golang.org/x/mobile/cmd/gomobile@latest
-          go install golang.org/x/mobile/cmd/gobind@latest
-          gomobile init
+          bash scripts/ensure_gomobile_deps.sh
 
       - name: Android SDK licenses
         run: yes | sudo ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses || true
