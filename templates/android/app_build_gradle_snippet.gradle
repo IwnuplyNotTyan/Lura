@@ -1,0 +1,10 @@
+android {
+    packagingOptions {
+        pickFirst "lib/**/libgojni.so"
+    }
+}
+
+dependencies {
+    implementation(name: 'lura', ext: 'aar')
+}
+
