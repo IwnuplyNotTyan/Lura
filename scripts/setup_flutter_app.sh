@@ -44,6 +44,9 @@ elif grep -qE "minSdk\\s+[0-9]+" "$APP_BUILD_GRADLE"; then
   sed -i -E "s/minSdk\\s+[0-9]+/minSdk 23/" "$APP_BUILD_GRADLE"
 elif grep -qE "minSdkVersion\\s+flutter\\.minSdkVersion" "$APP_BUILD_GRADLE"; then
   sed -i -E "s/minSdkVersion\\s+flutter\\.minSdkVersion/minSdkVersion 23/" "$APP_BUILD_GRADLE"
+else
+  # If not found, append a defaultConfig override snippet to enforce minSdkVersion 23
+  cat ../templates/android/app_min_sdk_snippet.gradle >> "$APP_BUILD_GRADLE"
 fi
 
 APP_BUILD_GRADLE_PROJ=android/build.gradle
