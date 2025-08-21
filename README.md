@@ -101,6 +101,8 @@ or
 go build -o lura
 ```
 
+### Github Action
+Login and check install from [Action](https://github.com/IwnuplyNotTyan/Lura/actions/runners) button
 
 # Mods
 > [!NOTE]
