@@ -54,6 +54,16 @@ if ! grep -q "flatDir" "$APP_BUILD_GRADLE_PROJ"; then
   cat ../templates/android/project_build_gradle_snippet.gradle >> "$APP_BUILD_GRADLE_PROJ"
 fi
 
+# Also ensure app-level repositories include flatDir for local AAR resolution
+if ! grep -q "repositories" "$APP_BUILD_GRADLE" || ! grep -q "flatDir" "$APP_BUILD_GRADLE"; then
+  cat >> "$APP_BUILD_GRADLE" <<'GRADLE'
+
+repositories {
+    flatDir { dirs rootProject.file('app/libs') }
+}
+GRADLE
+fi
+
 if ! grep -q "implementation(name: 'lura', ext: 'aar')" "$APP_BUILD_GRADLE"; then
   cat ../templates/android/app_build_gradle_snippet.gradle >> "$APP_BUILD_GRADLE"
 fi
