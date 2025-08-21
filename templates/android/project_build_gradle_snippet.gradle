@@ -1,6 +1,6 @@
 allprojects {
     repositories {
-        flatDir { dirs 'app/libs' }
+        flatDir { dirs rootProject.file('app/libs') }
     }
 }
 

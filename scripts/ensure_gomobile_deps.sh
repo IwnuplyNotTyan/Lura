@@ -8,6 +8,10 @@ ANDROID_API=${ANDROID_API:-23}
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)"
 cd "${REPO_ROOT}"
 
+# Ensure GOBIN and PATH include Go bin directory
+export GOBIN="${GOBIN:-$HOME/go/bin}"
+export PATH="$GOBIN:$PATH"
+
 echo "[deps] Installing gomobile tools"
 go install golang.org/x/mobile/cmd/gomobile@latest
 go install golang.org/x/mobile/cmd/gobind@latest
@@ -21,7 +25,6 @@ GO111MODULE=on GOFLAGS=-mod=mod GOWORK=off GOPROXY="https://proxy.golang.org,dir
   go mod tidy
 
 echo "[deps] Initializing gomobile"
-gomobile init
+"$GOBIN/gomobile" init
 
 echo "[deps] Ready"
-

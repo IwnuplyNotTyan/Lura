@@ -28,7 +28,8 @@ gomobile bind -target=${TARGETS} -androidapi=${ANDROID_API} -o "/tmp/${AAR_NAME}
 echo "[build] Ensuring Flutter app exists and libs folder present"
 [[ -d "${APP_DIR}" ]] || { echo "[build] Flutter app '${APP_DIR}' not found. Run scripts/setup_flutter_app.sh first." >&2; exit 1; }
 mkdir -p "${APP_DIR}/android/app/libs"
-cp -f "/tmp/${AAR_NAME}" "${APP_DIR}/android/app/libs/${AAR_NAME}"
+cp -v "/tmp/${AAR_NAME}" "${APP_DIR}/android/app/libs/${AAR_NAME}"
+ls -l "${APP_DIR}/android/app/libs" || true
 
 echo "[build] Building Flutter APK (release)"
 pushd "${APP_DIR}" >/dev/null
