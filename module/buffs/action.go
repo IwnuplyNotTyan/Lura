@@ -4,13 +4,14 @@ import (
 	"fmt"
 
 	"Lura/data"
+	"Lura/module/dialog"
 	"Lura/module/rng"
 
 	"github.com/muesli/termenv"
 )
 
 func BuffsAction(player *data.Player) {
-	currentCoins(player)
+	dialog.CurrentCoins(player)
 
 	buff1 = getRandomBuff(player)
 	buff2 = getRandomBuff(player)
@@ -18,7 +19,7 @@ func BuffsAction(player *data.Player) {
 
 	selectedBuffs := selectBuff(player)
 	if len(selectedBuffs) == 0 {
-		noBuffDialog()
+		dialog.NoBuffDialog()
 		return
 	}
 
@@ -49,7 +50,7 @@ func BuffsAction(player *data.Player) {
 				rng.GetLongsword(player)
 				fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		case "Crossbow", "Арбалет":
@@ -58,7 +59,7 @@ func BuffsAction(player *data.Player) {
 				rng.GetCrossbow(player)
 				fmt.Println(termenv.String(fmt.Sprintf("󱡁  %s  %s", w, player.WeaponType)).Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		case "Щиток черепахи", "Turtle scute", "Шчыт чарапахі":
@@ -68,7 +69,7 @@ func BuffsAction(player *data.Player) {
 				player.HP += 50
 				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentHp, player.HP)).Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		case "Crystal heart", "Кристалічнае сэрца", "Кристалічне серце":
@@ -77,7 +78,7 @@ func BuffsAction(player *data.Player) {
 				player.Heart = 2
 				fmt.Println(termenv.String("󰩖  Your heart regenerate new power").Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		case "Lotus", "Лотус", "Лотас":
@@ -87,7 +88,7 @@ func BuffsAction(player *data.Player) {
 				player.MaxStamina += 10
 				fmt.Println(termenv.String(fmt.Sprintf("  %d  %d", currentMaxStamina, player.MaxStamina)).Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		case "Tears", "Сльози", "Слёзы":
@@ -97,7 +98,7 @@ func BuffsAction(player *data.Player) {
 				player.MaxHP += 10
 				fmt.Println(termenv.String(fmt.Sprintf("󱐮  %d  %d", currentMaxHP, player.MaxHP)).Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		case "Broken heart", "Розбите серце", "Разбітае сэрца":
@@ -106,7 +107,7 @@ func BuffsAction(player *data.Player) {
 				player.Coins -= 50
 				fmt.Println(termenv.String("  heart = false").Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		case "Upgrade Weapon", "Покращити зброю", "Палепшыць зброю":
@@ -116,11 +117,11 @@ func BuffsAction(player *data.Player) {
 				player.Damage += 10
 				fmt.Println(termenv.String(fmt.Sprintf("󰞇  %d  %d", CurrentDamage, player.Damage)).Foreground(termenv.ANSIGreen))
 			} else {
-				noBuffDialog()
+				dialog.NoBuffDialog()
 			}
 
 		default:
-			noBuffDialog()
+			dialog.NoBuffDialog()
 		}
 	}
 }

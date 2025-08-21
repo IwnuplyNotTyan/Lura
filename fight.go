@@ -8,6 +8,7 @@ import (
 	"Lura/data"
 	"Lura/module/buffs"
 	"Lura/module/rng"
+	"Lura/module/dialog"
 
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/log"
@@ -187,7 +188,7 @@ func selectAttack(player *data.Player) string {
 		fmt.Println("Error:", err)
 		return ""
 	}
-	clearScreen()
+	dialog.ClearScreen()
 	return selectedAttack
 }
 
@@ -209,7 +210,7 @@ func fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 		}
 		monster.Position = 5
 
-		displayFightIntro(player, monster)
+		dialog.DisplayFightIntro(player, monster)
 
 		playerDefending := false
 		monsterDefending := false
@@ -220,7 +221,7 @@ func fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 
 			if playerAction == "Defend" || playerAction == "Захищатися" || playerAction == "Абараняцца" {
 				playerDefending = true
-				blockDialog()
+				dialog.BlockDialog()
 				if player.Position > 0 {
 					player.Position--
 				}
@@ -290,7 +291,7 @@ func fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			time.Sleep(time.Second)
 		}
 
-		clearScreen()
+		dialog.ClearScreen()
 		player.Score += monster.Score
 		player.Coins += monster.Coins
 		monster.LVL += 1
@@ -298,7 +299,7 @@ func fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 		player.Position = 0
 		monster.Position = 5
 
-		defeatMonster(monster)
+		dialog.DefeatMonster(monster)
 		if monster.ID == 1 {
 			if rng.Rng2() == 1 {
 				takeWeapon(player, monster)
@@ -335,11 +336,11 @@ func fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			player.Buffs = 0
 			fmt.Println()
 			if player.Loc == 0 {
-				caveArt()
+				dialog.CaveArt()
 				player.Loc = 1
 			} else if player.Loc == 1 {
 				player.Loc = 2
-				catArt()
+				dialog.CatArt()
 			}
 		} else if player.Loc == 2 {
 			player.Loc = 0
@@ -350,7 +351,7 @@ func fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			} else if data.Lang == "be" {
 				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
 			}
-			forestArt()
+			dialog.ForestArt()
 		} else {
 			player.Buffs += 1
 			if data.Lang == "en" {
@@ -373,7 +374,7 @@ func healPlayer(player *data.Player) {
 	} else {
 		player.HP = min(player.HP+15, player.MaxHP)
 	}
-	healDialog(player)
+	dialog.HealDialog(player)
 }
 
 func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *bool) {
@@ -432,7 +433,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 
 	playerDamage := player.Damage + rng.Rng()
 	if *monsterDefending {
-		blockUDialog()
+		dialog.BlockUDialog()
 		*monsterDefending = false
 	} else if player.Stamina >= weapon.Stamina {
 		player.Stamina -= weapon.Stamina
@@ -467,16 +468,16 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		}}
 	} else {
-		noStaminaDialog()
+		dialog.NoStaminaDialog()
 	}
 }
 
 func playerSkip(player *data.Player) {
 	if player.Stamina < 100 {
 		player.Stamina = min(player.Stamina+20, player.MaxStamina)
-		staminaDialog(player)
+		dialog.StaminaDialog(player)
 	} else {
-		staminaDialog(player)
+		dialog.StaminaDialog(player)
 	}
 }
 
@@ -492,11 +493,11 @@ func monsterTurnAction(monster *data.Monster, player *data.Player, monsterDefend
             //    fmt.Println(termenv.String(fmt.Sprintf("󰒙  %s адступае!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
             //}
         }
-        blockEnemyDialog()
+        dialog.BlockEnemyDialog()
         *monsterDefending = true
     } else if monsterAction == "Heal" {
         monster.HP = min(monster.HP+15, monster.MaxHP)
-        healMonsterDialog(monster)
+        dialog.HealMonsterDialog(monster)
         *monsterDefending = false
     } else {
         if monster.Position > player.Position+1 {
@@ -506,7 +507,7 @@ func monsterTurnAction(monster *data.Monster, player *data.Player, monsterDefend
         if monster.Position == player.Position+1 {
             monsterDamage := monster.Damage + rng.Rng() + monster.LVL
             if *playerDefending {
-                blockEnemyAttack()
+                dialog.BlockEnemyAttack()
                 *playerDefending = false
             } else {
                 player.HP -= monsterDamage

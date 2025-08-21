@@ -1,4 +1,4 @@
-package buff
+package dialog
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/muesli/termenv"
 )
 
-func noBuffDialog() {
+func NoBuffDialog() {
 	if data.Lang == "ua" {
 		fmt.Println(termenv.String("  Бафф не застосовано.").Foreground(termenv.ANSIYellow))
 	} else if data.Lang == "en" {
@@ -18,7 +18,7 @@ func noBuffDialog() {
 	}
 }
 
-func currentCoins(player *data.Player) {
+func CurrentCoins(player *data.Player) {
 	if data.Lang == "en" {
 		fmt.Printf("  You have %d coins\n", player.Coins)
 	} else if data.Lang == "ua" {

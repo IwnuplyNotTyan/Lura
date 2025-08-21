@@ -1,12 +1,14 @@
 package main
 
 import (
-	"embed"
 	"flag"
 	"fmt"
 
 	"Lura/data"
 	"Lura/module/rng"
+	"Lura/module/mods"
+	"Lura/module/debug"
+	"Lura/module/dialog"
 
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/huh"
@@ -18,14 +20,11 @@ var (
 	specificMonster *data.Monster
 )
 
-//go:embed assets/*
-var assetsFS embed.FS
-
 func main() {
 	flag.Parse()
 	L := lua.NewState()
 	defer L.Close()
-	clearScreen()
+	dialog.ClearScreen()
 
 	player := data.Player{}
 	cfg := data.TouchConfig(&player)
@@ -39,10 +38,10 @@ func main() {
 	}
 
 	data.SeedData()
-	registerTypes(L)
+	mods.RegisterTypes(L)
 	L.SetGlobal("lang", lua.LString(data.Lang))
 
-	if err := AutoLoadMods(L); err != nil {
+	if err := mods.AutoLoadMods(L); err != nil {
 		log.Fatalf("Failed to auto-load mods: %v", err)
 	}
 
@@ -77,7 +76,7 @@ func main() {
 	data.Tmp = -1
 
 	if *debugMode {
-		DebugShell(L, &player)
+		debug.DebugShell(L, &player)
 	}
 	fight(&player, specificMonster, &data.Config{}, &data.Weapon{})
 }

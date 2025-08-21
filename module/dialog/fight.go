@@ -1,82 +1,20 @@
-package main
+package dialog
 
 import (
 	"fmt"
-	"os"
 	"strings"
 	"unicode/utf8"
 
 	"Lura/data"
+	"Lura/assets"
 
-	"github.com/charmbracelet/lipgloss"
-	"github.com/charmbracelet/log"
 	"github.com/muesli/termenv"
 )
 
-// Colorscheme
-var style = lipgloss.NewStyle().
-	Bold(true).
-	Foreground(lipgloss.Color("#FAFAFA")).
-	Background(lipgloss.Color("#7D56F4")).
-	Padding(1).
-	Height(4).
-	Width(50)
-
-
-var statStyle = lipgloss.NewStyle().
-	Bold(true).
-	Foreground(lipgloss.Color("#FAFAFA")).
-	Background(lipgloss.Color("#7D56F4")).
-	Padding(1).
-	Height(4).
-	Width(41)
-
 // ASCII Art
-func caveArt() {
-	data, err := assetsFS.ReadFile("assets/cave.txt")
-
-	if err != nil {
-		log.Info("Error reading file:", err)
-		return
-	}
-
-	fmt.Print(string(data))
-	os.Stdout.Sync()
-}
-
-func forestArt() {
-	data, err := assetsFS.ReadFile("assets/forest.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-	fmt.Print(string(data))
-	os.Stdout.Sync()
-}
-
-func catArt() {
-	data, err := assetsFS.ReadFile("assets/cat.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-	fmt.Print(string(data))
-	os.Stdout.Sync()
-}
-
-func clearScreen() {
-	fmt.Print("\033[H\033[2J")
-}
-
-func getLine(lines []string, index int) string {
-	if index < len(lines) {
-		return lines[index]
-	}
-	return ""
-}
 
 // Fight
-func displayFightIntro(player *data.Player, monster *data.Monster) {
+func DisplayFightIntro(player *data.Player, monster *data.Monster) {
 	var text string
 	if !player.Monster {
 		text = fmt.Sprintf(" : %d  : %d 󰓥 : %d 󱡅 : %s\n : %d 󰓥 : %d 󰙊 : %s", player.HP, player.Stamina, player.Damage, player.WeaponType, monster.HP, monster.Damage, monster.MonsterType)
@@ -97,8 +35,8 @@ func displayFightIntro(player *data.Player, monster *data.Monster) {
 	
 	lipText := statStyle.Render(truncatedText)
 	
-	filename := fmt.Sprintf("assets/monster/%d.txt", monster.ID)
-	content, _ := assetsFS.ReadFile(filename)
+	filename := fmt.Sprintf("preview/monster/%d.txt", monster.ID)
+	content, _ := asset.FS.ReadFile(filename)
 	
 	linesLeft := strings.Split(lipText, "\n")
 	linesRight := strings.Split(string(content), "\n")
@@ -107,15 +45,15 @@ func displayFightIntro(player *data.Player, monster *data.Monster) {
 	maxLines := max(len(linesLeft), len(linesRight))
 	
 	for i := 0; i < maxLines; i++ {
-		left := getLine(linesLeft, i)
-		right := getLine(linesRight, i)
+		left := GetLine(linesLeft, i)
+		right := GetLine(linesRight, i)
 		output.WriteString(fmt.Sprintf("%-40s %s\n", left, right))
 	}
 	
 	fmt.Print(output.String())
 }
 
-func healDialog(player *data.Player) {
+func HealDialog(player *data.Player) {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  You heal! Your HP is now %d.", player.HP)).Foreground(termenv.ANSIGreen))
 	} else if data.Lang == "ua" {
@@ -125,7 +63,7 @@ func healDialog(player *data.Player) {
 	}
 }
 
-func healMonsterDialog(monster *data.Monster) {
+func HealMonsterDialog(monster *data.Monster) {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  The %s heals! It now has %d HP.", monster.MonsterType, monster.HP)).Foreground(termenv.ANSIGreen))
 	} else if data.Lang == "ua" {
@@ -135,7 +73,7 @@ func healMonsterDialog(monster *data.Monster) {
 	}
 }
 
-func blockDialog() {
+func BlockDialog() {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  You block the attack!")).Foreground(termenv.ANSIYellow))
 	} else if data.Lang == "ua" {
@@ -145,7 +83,7 @@ func blockDialog() {
 	}
 }
 
-func blockUDialog() {
+func BlockUDialog() {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  The monster blocked your attack!")).Foreground(termenv.ANSIGreen))
 	} else if data.Lang == "ua" {
@@ -155,7 +93,7 @@ func blockUDialog() {
 	}
 }
 
-func blockEnemyAttack() {
+func BlockEnemyAttack() {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  You blocked the enemy's attack!")).Foreground(termenv.ANSIYellow))
 	} else if data.Lang == "ua" {
@@ -165,7 +103,7 @@ func blockEnemyAttack() {
 	}
 }
 
-func blockEnemyDialog() {
+func BlockEnemyDialog() {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  The monster prepares to block!")).Foreground(termenv.ANSIGreen))
 	} else if data.Lang == "ua" {
@@ -175,7 +113,7 @@ func blockEnemyDialog() {
 	}
 }
 
-func defeatMonster(monster *data.Monster) {
+func DefeatMonster(monster *data.Monster) {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String(fmt.Sprintf("  The %s has been defeated!\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
 	} else if data.Lang == "ua" {
@@ -185,7 +123,7 @@ func defeatMonster(monster *data.Monster) {
 	}
 }
 
-func staminaDialog(player *data.Player) {
+func StaminaDialog(player *data.Player) {
 	if !player.Monster {
 		if data.Lang == "en" {
 			fmt.Println(termenv.String(fmt.Sprintf("  You have %d stamina left", player.Stamina)).Foreground(termenv.ANSIGreen))
@@ -197,7 +135,7 @@ func staminaDialog(player *data.Player) {
 	}
 }
 
-func noStaminaDialog() {
+func NoStaminaDialog() {
 	if data.Lang == "en" {
 		fmt.Println(termenv.String("  Not enough stamina to attack!").Foreground(termenv.ANSIRed))
 	} else if data.Lang == "ua" {
