@@ -37,6 +37,15 @@ if ! grep -q "packagingOptions" "$APP_BUILD_GRADLE"; then
   cat ../templates/android/app_build_gradle_snippet.gradle >> "$APP_BUILD_GRADLE"
 fi
 
+echo "[setup] Ensuring minSdk >= 23"
+if grep -qE "minSdkVersion\\s+[0-9]+" "$APP_BUILD_GRADLE"; then
+  sed -i -E "s/minSdkVersion\\s+[0-9]+/minSdkVersion 23/" "$APP_BUILD_GRADLE"
+elif grep -qE "minSdk\\s+[0-9]+" "$APP_BUILD_GRADLE"; then
+  sed -i -E "s/minSdk\\s+[0-9]+/minSdk 23/" "$APP_BUILD_GRADLE"
+elif grep -qE "minSdkVersion\\s+flutter\\.minSdkVersion" "$APP_BUILD_GRADLE"; then
+  sed -i -E "s/minSdkVersion\\s+flutter\\.minSdkVersion/minSdkVersion 23/" "$APP_BUILD_GRADLE"
+fi
+
 APP_BUILD_GRADLE_PROJ=android/build.gradle
 if ! grep -q "flatDir" "$APP_BUILD_GRADLE_PROJ"; then
   cat ../templates/android/project_build_gradle_snippet.gradle >> "$APP_BUILD_GRADLE_PROJ"
