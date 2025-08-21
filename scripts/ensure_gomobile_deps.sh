@@ -13,10 +13,12 @@ go install golang.org/x/mobile/cmd/gomobile@latest
 go install golang.org/x/mobile/cmd/gobind@latest
 
 echo "[deps] Ensuring golang.org/x/mobile modules present in go.mod"
-# Add mobile and bind packages into the module graph so gobind-generated imports resolve
-go get golang.org/x/mobile@latest
-go get golang.org/x/mobile/bind@latest || true
-go mod tidy
+GO111MODULE=on GOFLAGS=-mod=mod GOWORK=off GOPROXY="https://proxy.golang.org,direct" \
+  go get golang.org/x/mobile@latest
+GO111MODULE=on GOFLAGS=-mod=mod GOWORK=off GOPROXY="https://proxy.golang.org,direct" \
+  go get golang.org/x/mobile/cmd/gobind@latest
+GO111MODULE=on GOFLAGS=-mod=mod GOWORK=off GOPROXY="https://proxy.golang.org,direct" \
+  go mod tidy
 
 echo "[deps] Initializing gomobile"
 gomobile init

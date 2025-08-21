@@ -19,6 +19,10 @@ echo "[build] Ensuring gomobile deps"
 bash "$(cd "$(dirname "$0")" && pwd)/ensure_gomobile_deps.sh"
 
 echo "[build] Building AAR from ./termbridge"
+GO111MODULE=on \
+GOFLAGS=-mod=mod \
+GOWORK=off \
+GOPROXY="https://proxy.golang.org,direct" \
 gomobile bind -target=${TARGETS} -androidapi=${ANDROID_API} -o "/tmp/${AAR_NAME}" ./termbridge
 
 echo "[build] Ensuring Flutter app exists and libs folder present"
