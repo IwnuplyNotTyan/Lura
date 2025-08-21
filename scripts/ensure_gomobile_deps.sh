@@ -19,7 +19,7 @@ go get golang.org/x/mobile/bind@latest || true
 go mod tidy
 
 echo "[deps] Initializing gomobile"
-gomobile init -androidapi=${ANDROID_API}
+gomobile init
 
 echo "[deps] Ready"
 
