@@ -1,0 +1,42 @@
+name: Lura autobuild
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows]
+        goarch: [amd64]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+
+    - name: Build binary
+      env:
+        GOOS: ${{ matrix.goos }}
+        GOARCH: ${{ matrix.goarch }}
+        CGO_ENABLED: 0
+      run: |
+        if [ "${{ matrix.goos }}" = "windows" ]; then
+          go build -o lura-${{ matrix.goos }}-${{ matrix.goarch }}.exe ./cmd/lura/main.go
+        else
+          go build -o lura-${{ matrix.goos }}-${{ matrix.goarch }} ./cmd/lura/main.go
+        fi
+
+    - name: Upload binaries
+      uses: actions/upload-artifact@v3
+      with:
+        name: lura-${{ matrix.goos }}-${{ matrix.goarch }}
+        path: lura-${{ matrix.goos }}-${{ matrix.goarch }}*
