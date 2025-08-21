@@ -103,7 +103,7 @@ go build -o lura
 ```
 
 ### Github Action
-Login and check install from [Action](https://github.com/IwnuplyNotTyan/Lura/actions/runners) button
+Login and check install from [Action](https://github.com/IwnuplyNotTyan/Lura/actions/workflows/build.yml) button
 
 # Mods
 > [!NOTE]
