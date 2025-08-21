@@ -12,6 +12,7 @@
   - [Gnumake](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
   - [Just](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#just)
   - [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
+  - [Github Action](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#github-action)
 - [Mods](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#mods)
   - [Adding weapon & monster mod](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#adding-weapon--monster-mod)
   - [Removing weapon & monster mod](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#removing-weapon--monster-mod)
