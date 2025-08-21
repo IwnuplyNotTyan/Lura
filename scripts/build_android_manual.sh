@@ -31,6 +31,17 @@ mkdir -p "${APP_DIR}/android/app/libs"
 cp -v "/tmp/${AAR_NAME}" "${APP_DIR}/android/app/libs/${AAR_NAME}"
 ls -l "${APP_DIR}/android/app/libs" || true
 
+echo "[build] Verifying AAR package name and classes"
+unzip -l "${APP_DIR}/android/app/libs/${AAR_NAME}" | sed -n '1,80p'
+
+echo "[build] Adjusting Kotlin imports to match AAR package"
+MAIN_ACTIVITY_FILE=$(find "${APP_DIR}/android/app/src/main/kotlin" -name MainActivity.kt | head -n 1)
+if unzip -l "${APP_DIR}/android/app/libs/${AAR_NAME}" | grep -q " termbridge/Mobile.class"; then
+  sed -i -E 's/^import (go\.)?termbridge\./import termbridge\./' "$MAIN_ACTIVITY_FILE"
+elif unzip -l "${APP_DIR}/android/app/libs/${AAR_NAME}" | grep -q " go/termbridge/Mobile.class"; then
+  sed -i -E 's/^import (go\.)?termbridge\./import go.termbridge\./' "$MAIN_ACTIVITY_FILE"
+fi
+
 echo "[build] Building Flutter APK (release)"
 pushd "${APP_DIR}" >/dev/null
 flutter build apk --release

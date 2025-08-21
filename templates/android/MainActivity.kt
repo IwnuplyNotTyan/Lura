@@ -3,8 +3,8 @@ package ${PACKAGE_NAME}
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
-import go.termbridge.Mobile
-import go.termbridge.Output
+import termbridge.Mobile
+import termbridge.Output
 
 class MainActivity: FlutterActivity() {
     private val method = "${CHANNEL_METHOD}"
