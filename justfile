@@ -1,6 +1,6 @@
 build:
 	go mod download
-	go build -o lura
+	go build -o lura ./cmd/lura/main.go
 
 install:
 	go install

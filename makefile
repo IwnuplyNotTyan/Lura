@@ -1,6 +1,6 @@
 BINARY_NAME=lura
 
-SRC_DIR=./
+SRC_DIR=./cmd/lura/
 BUILD_DIR=./bin
 
 GO=go
