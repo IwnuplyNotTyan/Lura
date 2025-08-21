@@ -36,7 +36,7 @@ jobs:
         fi
 
     - name: Upload binaries
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: lura-${{ matrix.goos }}-${{ matrix.goarch }}
         path: lura-${{ matrix.goos }}-${{ matrix.goarch }}*
