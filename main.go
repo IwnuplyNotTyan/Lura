@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"Lura/data"
+	"Lura/fight"
 	"Lura/module/rng"
 	"Lura/module/mods"
 	"Lura/module/debug"
@@ -78,7 +79,7 @@ func main() {
 	if *debugMode {
 		debug.DebugShell(L, &player)
 	}
-	fight(&player, specificMonster, &data.Config{}, &data.Weapon{})
+	fight.Fight(&player, specificMonster, &data.Config{}, &data.Weapon{})
 }
 
 func selectLanguage() string {
