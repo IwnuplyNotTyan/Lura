@@ -12,12 +12,12 @@ import (
 	"Lura/module/dialog"
 
 	"github.com/charmbracelet/log"
-	"github.com/charmbracelet/huh"
 	lua "github.com/yuin/gopher-lua"
 )
 
 var (
 	debugMode       = flag.Bool("debug", false, "Enable debug shell")
+	verboseMode 	= flag.Bool("v", false, "Enable verbose mode")
 	specificMonster *data.Monster
 )
 
@@ -33,7 +33,7 @@ func main() {
 	data.Lang = cfg.Language
 	if data.Lang == "" {
 		fmt.Println()
-		data.Lang = selectLanguage()
+		data.Lang = data.SelectLanguage()
 		cfg.Language = data.Lang
 		data.SaveConfig(data.GetConfigPath(), cfg)
 	}
@@ -79,33 +79,9 @@ func main() {
 	if *debugMode {
 		debug.DebugShell(L, &player)
 	}
+
+	if *verboseMode {
+		data.Verbose = true
+	}
 	fight.Fight(&player, specificMonster, &data.Config{}, &data.Weapon{})
-}
-
-func selectLanguage() string {
-	var selectedLang string
-	f := huh.NewForm(
-		huh.NewGroup(
-			huh.NewSelect[string]().
-				Title(" Select Language").
-				Options(
-					huh.NewOption("English", "en"),
-					huh.NewOption("Українська", "ua"),
-					huh.NewOption("Беларускiй", "be"),
-				).
-				Value(&selectedLang),
-		),
-	)
-
-	if err := f.Run(); err != nil {
-		log.Printf("Error selecting language: %v", err)
-		return "en"
-	}
-
-	switch selectedLang {
-	case "en", "ua", "be":
-		return selectedLang
-	default:
-		return "en"
-	}
 }

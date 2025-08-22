@@ -9,66 +9,9 @@ import (
 	"Lura/module/rng"
 	"Lura/module/dialog"
 
-	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/log"
 	"github.com/muesli/termenv"
 )
-
-func afterLoc(player *data.Player) {
-var confirm string
-
-err := huh.NewSelect[string]().
-	Title("Good night! What want?").
-	Options(
-		huh.NewOption("Sleep", "sleep"),
-		huh.NewOption("Cooking", "cook"),
-		huh.NewOption("Crafting", "craft"),
-		huh.NewOption("Mining", "mine"),
-	).
-	Value(&confirm).
-	Run()
-
-if err != nil {
-	log.Info(err)
-	return
-}
-
-if confirm == "sleep" {
-	log.Info(player.Stamina)
-	staminaSleep := player.MaxStamina + 20
-	player.Stamina = staminaSleep
-	log.Info(player.Stamina)
-} else if confirm == "craft" {
-	crafting(player)
-} else if confirm == "mine" {
-	log.Info("Mining...")
-} else if confirm == "cook" {
-	log.Info("Cooking...")
-} else {
-	log.Info("Invalid selection")
-}
-}
-
-func crafting(player *data.Player) {
-    var selections []string 
-    err := huh.NewMultiSelect[string]().
-        Title("Crafting").
-        Options(
-            huh.NewOption("Bell", "bell"),
-        ).
-        Value(&selections).
-        Run()
-    if err != nil {
-        log.Info(err)
-        return
-    }
-    
-    for _, selection := range selections {
-        if selection == "bell" {
-            log.Info("Crafting a bell")
-        }
-    }
-}
 
 func Fight(player *data.Player, monster *data.Monster, config *data.Config, weapon *data.Weapon) {
 	//afterLoc(player)

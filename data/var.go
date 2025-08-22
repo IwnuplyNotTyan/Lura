@@ -65,4 +65,5 @@ var (
 	Longsword  []Weapon
 	Lang       string
 	Tmp        int
+	Verbose    bool
 )
