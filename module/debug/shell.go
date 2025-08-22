@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"Lura/data"
+	"Lura/module/inv"
 	"Lura/module/dialog"
 
 	"github.com/muesli/termenv"
@@ -104,7 +105,7 @@ func DebugShell(L *lua.LState, player *data.Player) {
 			fmt.Println("Exiting debug shell.")
 			return
 		case "listItem":
-			data.ShowInventory(player)
+			inv.ShowInventory(player)
 		case "addItem":
 		    if len(args) < 5 {
 		        fmt.Println("Usage: addItem <name> <effect> <value> <price>")
@@ -137,7 +138,7 @@ func DebugShell(L *lua.LState, player *data.Player) {
 		        continue
 		    }
     
-		    player.Inventory.AddItem(args[1], args[2], value, price)
+		    inv.AddItem(&player.Inventory, args[1], args[2], value, price)
 		    fmt.Printf("Added item: %s (Effect: %s, Value: %d, Price: %d)\n", 
 		        args[1], args[2], value, price)
 		case "checkPlayer":

@@ -6,4 +6,4 @@ install:
 	go install
 
 run:
-	go run .
+	go run ./cmd/lura/main.go

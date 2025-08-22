@@ -88,7 +88,7 @@ func UseItem(player *data.Player, id int) {
                 }
             }
             
-            player.Inventory.RemoveItem(id, 1)
+            RemoveItem(&player.Inventory, id, 1)
             return
         }
     }
