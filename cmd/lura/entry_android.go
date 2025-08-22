@@ -3,6 +3,7 @@
 package main
 
 import (
+    "Lura/lurarun"
     "Lura/termbridge"
 )
 
@@ -10,7 +11,7 @@ import (
 // can start the game without modifying game code.
 func init() {
     termbridge.RegisterEntrypoint(func() {
-        main()
+        lurarun.Run()
     })
 }
 
