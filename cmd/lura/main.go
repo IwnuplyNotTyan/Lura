@@ -8,7 +8,7 @@ import (
 	"Lura/fight"
 	"Lura/module/rng"
 	"Lura/module/mods"
-	"Lura/module/debug"
+	"Lura/debug/shell"
 	"Lura/module/dialog"
 
 	"github.com/charmbracelet/log"
