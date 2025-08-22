@@ -59,11 +59,13 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 
 	if !isRangedWeapon && player.Position != monster.Position-1 {
 		if data.Lang == "en" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You're too far from %s to attack with your %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты слишком далеко от %s чтобы атаковать своим %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
 		} else if data.Lang == "ua" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти занадто далеко від %s щоб атакувати своїм %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
 		} else if data.Lang == "be" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты занадта далёка ад %s каб атакаваць сваім %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
+		} else {
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You're too far from %s to attack with your %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
 		}
 		return
 	}
@@ -81,33 +83,40 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 		if monster.ID == 17 {
 			data.Tmp -= 1
 			if data.Lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", data.Tmp)).Foreground(termenv.ANSIBlue))
+				fmt.Println(termenv.String(fmt.Sprintf("  %d шагов до смерти", data.Tmp)).Foreground(termenv.ANSIBlue))
 			} else if data.Lang == "ua" {
 				fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до смерті", data.Tmp)).Foreground(termenv.ANSIBlue))
 			} else if data.Lang == "be" {
 				fmt.Println(termenv.String(fmt.Sprintf("  %d крокаў да мертвості", data.Tmp)).Foreground(termenv.ANSIBlue))
+			} else {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", data.Tmp)).Foreground(termenv.ANSIBlue))
 			}
 		}
 		if rng.Rng() == 1 {
 			if data.Lang == "en" {
-				fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))	
+				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))	
 			} else if data.Lang == "ua" {
 				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))
 			} else if data.Lang == "be" {
 				fmt.Println(termenv.String("󰓥  Cпадарыня").Foreground(termenv.ANSIBlue))
+			} else {
+				fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))	
 			}
 		} else {
 		monster.HP -= playerDamage
 		if player.WeaponID == 4 {
 			monster.HP -= playerDamage
 		}
-		if data.Lang == "en" {
+		if data.Lang == "ru" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else if data.Lang == "be" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атакаваў %s на %d здароўя! Цяпер у яго %d ХП. Засталось %d вынослівасьці.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		} else {
+		} else if data.Lang == "ua" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		}}
+		} else {
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
+		}
+	}
 	} else {
 		dialog.NoStaminaDialog()
 	}
@@ -152,25 +161,30 @@ func monsterTurnAction(monster *data.Monster, player *data.Player, monsterDefend
                 *playerDefending = false
             } else {
                 player.HP -= monsterDamage
-                if data.Lang == "en" {
+                if data.Lang == "ru" {
                     fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", 
                         monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
                 } else if data.Lang == "be" {
                     fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.", 
                         monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
-                } else {
+                } else if data.Lang == "ua" {
 		     fmt.Println(termenv.String(fmt.Sprintf("󰓥  Тебе атакував %s з силою %d! Тепер в тебе %d здоров'я.", 
                         monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
-                }
+                } else {
+                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", 
+                        monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
+		}
             }
         } else {
-            if data.Lang == "en" {
+            if data.Lang == "ru" {
                 fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s is too far away to attack!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
             } else if data.Lang == "ua" {
                 fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадто далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
             } else if data.Lang == "be" {
                 fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадта далёка для атакі!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            }
+            } else {
+                fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s is too far away to attack!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+	    }
         }
     }
 }

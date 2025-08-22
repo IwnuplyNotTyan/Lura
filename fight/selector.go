@@ -22,6 +22,11 @@ func SelectAttack(player *data.Player) string {
 		Heal = "Вылечвацца"
 		Defend = "Абараняцца"
 		Skip = "Прапусціць"
+	} else if data.Lang == "ru" {
+		Attack = "Атаковать"
+		Heal = "Лечиться"
+		Defend = "Защищаться"
+		Skip = "Пропустить"
 	} else {
 		Attack = "Attack"
 		Defend = "Defend"
@@ -76,6 +81,10 @@ func takeWeapon(player *data.Player, monster *data.Monster) {
 		a = "Ви хочете взяти зброю?"
 		b = "Так"
 		c = "Ні"
+	case data.Lang == "ru":
+		a = "Вы хотите взять оружие?"
+		b = "Да"
+		c = "Нет"
 	case data.Lang == "be":
 		a = "Вы хочаце ўзяць зброю?"
 		b = "Так"
