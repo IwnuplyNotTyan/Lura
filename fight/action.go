@@ -58,7 +58,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 	isRangedWeapon := player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8
 
 	if !isRangedWeapon && player.Position != monster.Position-1 {
-		if data.Lang == "en" {
+		if data.Lang == "ru" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты слишком далеко от %s чтобы атаковать своим %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
 		} else if data.Lang == "ua" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти занадто далеко від %s щоб атакувати своїм %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
@@ -82,7 +82,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 		player.Stamina -= weapon.Stamina
 		if monster.ID == 17 {
 			data.Tmp -= 1
-			if data.Lang == "en" {
+			if data.Lang == "ru" {
 				fmt.Println(termenv.String(fmt.Sprintf("  %d шагов до смерти", data.Tmp)).Foreground(termenv.ANSIBlue))
 			} else if data.Lang == "ua" {
 				fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до смерті", data.Tmp)).Foreground(termenv.ANSIBlue))
@@ -93,7 +93,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 			}
 		}
 		if rng.Rng() == 1 {
-			if data.Lang == "en" {
+			if data.Lang == "ru" {
 				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))	
 			} else if data.Lang == "ua" {
 				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))

@@ -77,7 +77,7 @@ func main() {
 	data.Tmp = -1
 
 	if *debugMode {
-		debug.DebugShell(L, &player)
+		debug.DebugShell(L, &player, &data.Monster{})
 	}
 
 	if *verboseMode {

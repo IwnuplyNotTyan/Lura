@@ -16,7 +16,7 @@ import (
 	lua "github.com/yuin/gopher-lua"
 )
 
-func DebugShell(L *lua.LState, player *data.Player) {
+func DebugShell(L *lua.LState, player *data.Player, monsters *data.Monster) {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -36,6 +36,8 @@ func DebugShell(L *lua.LState, player *data.Player) {
 			dialog.ClearScreen()
 		case "checkAll":
 			checkAll()
+		case "checkAllDialog":
+			checkkAllDialog(player, monsters)
 		case "lang":
 			if len(args) < 2 {
 				log.Info("Usage: lang <language>")

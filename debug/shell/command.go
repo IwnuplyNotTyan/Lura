@@ -5,11 +5,12 @@ import (
 	"strconv"
 
 	"Lura/data"
+	"Lura/module/dialog"
 	"Lura/module/mods"
 
 	"github.com/charmbracelet/glamour"
-	"github.com/muesli/termenv"
 	"github.com/charmbracelet/log"
+	"github.com/muesli/termenv"
 	lua "github.com/yuin/gopher-lua"
 )
 
@@ -138,8 +139,24 @@ func runLua(L *lua.LState, code string) {
 	}
 }
 
+func checkkAllDialog(player *data.Player, monsters *data.Monster) {
+	fmt.Println(termenv.String("\n  All Dialogs:").Foreground(termenv.ANSIBlue).Bold())
+	fmt.Println(termenv.String("\n%s:", data.Lang).Foreground(termenv.ANSICyan).Italic())
+	dialog.BlockDialog()
+	dialog.BlockEnemyAttack()
+	dialog.BlockEnemyDialog()
+	dialog.BlockUDialog()
+	dialog.DefeatMonster(monsters)
+	dialog.HealDialog(player)
+	dialog.HealMonsterDialog(monsters)
+	dialog.NoBuffDialog()
+	dialog.NoStaminaDialog()
+	dialog.StaminaDialog(player)
+	dialog.NoBuffDialog()
+}
+
 func checkAllVWeapons() {
-	fmt.Println(termenv.String("\n All V Weapons:").Foreground(termenv.ANSIBlue).Bold())
+	fmt.Println(termenv.String("\n  All V Weapons:").Foreground(termenv.ANSIBlue).Bold())
 
 	for _, weapon := range data.Weapons {
 		fmt.Printf("Weapon: %s, Damage: %d, Stamina Cost: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
@@ -160,7 +177,7 @@ func checkAllVWeapons() {
 }
 
 func checkAllSCWeapon() {
-	fmt.Println(termenv.String("\n All SC Weapons:").Foreground(termenv.ANSIBlue).Bold())
+	fmt.Println(termenv.String("\n  All SC Weapons:").Foreground(termenv.ANSIBlue).Bold())
 	fmt.Println(termenv.String("\nDrops from monster:").Foreground(termenv.ANSICyan).Italic())
 	for _, weapon := range data.Lanter {
 		fmt.Printf("Weapon: %s, Damage: %d, Stamina: %d\n", weapon.WeaponType, weapon.Damage, weapon.Stamina)
@@ -168,7 +185,7 @@ func checkAllSCWeapon() {
 
 }
 func checkAllVMonsters() {
-	fmt.Println(termenv.String("\n All V Monsters:").Foreground(termenv.ANSIBlue).Bold())
+	fmt.Println(termenv.String("\n  All V Monsters:").Foreground(termenv.ANSIBlue).Bold())
 
 	for _, monster := range data.Vmonsters {
 		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
@@ -176,7 +193,7 @@ func checkAllVMonsters() {
 }
 
 func checkAllSCMonsters() {
-	fmt.Println(termenv.String("\n All CC Monsters:").Foreground(termenv.ANSIBlue).Bold())
+	fmt.Println(termenv.String("\n  All CC Monsters:").Foreground(termenv.ANSIBlue).Bold())
 
 	for _, monster := range data.Scmonsters {
 		fmt.Printf("Monster: %s, HP: %d, Damage: %d, Level: %d\n", monster.MonsterType, monster.HP, monster.Damage, monster.LVL)
