@@ -40,27 +40,29 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			DisplayPositions(player, monster)
 			playerAction := SelectAttack(player)
 
-			if playerAction == "Defend" || playerAction == "Захищатися" || playerAction == "Абараняцца" {
+			if playerAction == "Defend" || playerAction == "Захищатися" || playerAction == "Абараняцца" || playerAction == "Защищаться" {
 				playerDefending = true
 				dialog.BlockDialog()
 				if player.Position > 0 {
 					player.Position--
 				}
-			} else if playerAction == "Heal" || playerAction == "Лікуватися" || playerAction == "Вылечвацца" {
+			} else if playerAction == "Heal" || playerAction == "Лікуватися" || playerAction == "Вылечвацца" || playerAction == "Лечиться" {
 				healPlayer(player)
 				playerDefending = false
-			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" {
+			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" || playerAction == "Атаковать" {
 				if player.Position < monster.Position-1 {
 					if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
 						player.Position += 1
 					} else {
 						player.Position += 2
-						if data.Lang == "en" {
-							fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+						if data.Lang == "ru" {
+							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так близко к %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 						} else if data.Lang == "ua" {
 							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти не так близько до %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 						} else if data.Lang == "be" {
 							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+						} else {
+							fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
 						}
 					}
 				}
@@ -69,7 +71,7 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 				} else if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
 					playerAttack(player, monster, &monsterDefending)
 				}
-			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" {
+			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" || playerAction == "Пропустить" {
 				playerSkip(player)
 			}
 
@@ -80,12 +82,14 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 				if player.Heart == 1 {
 					if player.Score > config.Score {
 						config.Score = player.Score
-						if data.Lang == "en" {
-							fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+						if data.Lang == "ru" {
+							fmt.Println(termenv.String(fmt.Sprintf("  Новый рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
 						} else if data.Lang == "ua" {
 							fmt.Println(termenv.String(fmt.Sprintf("  Новий рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
 						} else if data.Lang == "be" {
 							fmt.Println(termenv.String(fmt.Sprintf("  Новы рэкорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+						} else {
+							fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
 						}
 						if err := data.SaveConfig(data.GetConfigPath(), *config); err != nil {
 							log.Printf("Error saving high score: %v", err)
@@ -98,12 +102,14 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 					player.MaxHP = player.MaxHP / 2
 					player.HP = player.MaxHP
 					player.Damage = player.Damage * 2
-					if data.Lang == "en" {
-						fmt.Println(termenv.String(fmt.Sprintf("  Your heart is broken! HP set to %d, Damage increased to %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
+					if data.Lang == "ru" {
+						fmt.Println(termenv.String(fmt.Sprintf("  Ваше сердце разбито! HP установлено на %d, Пошкоджение увеличено до %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 					} else if data.Lang == "ua" {
 						fmt.Println(termenv.String(fmt.Sprintf("  Ваше серце розбито! HP встановлено на %d, Пошкодження збільшено до %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 					} else if data.Lang == "be" {
 						fmt.Println(termenv.String(fmt.Sprintf("  Ваша сэрца разбіта! HP устаноўлена на %d, Пашкоджанні павялічаны да %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
+					} else {
+						fmt.Println(termenv.String(fmt.Sprintf("  Your heart is broken! HP set to %d, Damage increased to %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 					}
 					player.Heart = 1
 					Fight(player, monster, config, weapon)
@@ -138,12 +144,14 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 				player.Name = monster.MonsterType
 				player.WeaponType = ""
 
-				if data.Lang == "en" {
-					fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
+				if data.Lang == "ru" {
+					fmt.Println(termenv.String(fmt.Sprintf("  Тепер ты %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
 				} else if data.Lang == "ua" {
 					fmt.Println(termenv.String(fmt.Sprintf("  Тепер ти %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
 				} else if data.Lang == "be" {
 					fmt.Println(termenv.String(fmt.Sprintf("  Цяпер ты %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
+				} else {
+					fmt.Println(termenv.String(fmt.Sprintf("  Now you %s", player.Name)).Foreground(termenv.ANSIRed).Bold())
 				}
 			} else {
 				player.Time = 1
@@ -165,22 +173,26 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			}
 		} else if player.Loc == 2 {
 			player.Loc = 0
-			if data.Lang == "en" {
-				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
+			if data.Lang == "ru" {
+				fmt.Println(termenv.String("󰒙  Босс побежден").Foreground(termenv.ANSIBrightGreen).Bold())
 			} else if data.Lang == "ua" {
-				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
+				fmt.Println(termenv.String("󰒙  Босс переможений").Foreground(termenv.ANSIBrightGreen).Bold())
 			} else if data.Lang == "be" {
+				fmt.Println(termenv.String("󰒙  Босс пераможаны").Foreground(termenv.ANSIBrightGreen).Bold())
+			} else {
 				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
 			}
 			dialog.ForestArt()
 		} else {
 			player.Buffs += 1
-			if data.Lang == "en" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			if data.Lang == "ru" {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Шагов до другого локации", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			} else if data.Lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до iншого мiсця", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до iншого локацiї", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			} else if data.Lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да баффу", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да iншага локацы", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+			} else {
+				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 			}
 		}}
 	}

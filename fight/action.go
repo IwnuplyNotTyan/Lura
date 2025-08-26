@@ -108,7 +108,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 			monster.HP -= playerDamage
 		}
 		if data.Lang == "ru" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атаковал %s на %d урона! У него %d здоровья. Осталось %d выносливости.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else if data.Lang == "be" {
 			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атакаваў %s на %d здароўя! Цяпер у яго %d ХП. Засталось %d вынослівасьці.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
 		} else if data.Lang == "ua" {
@@ -162,7 +162,7 @@ func monsterTurnAction(monster *data.Monster, player *data.Player, monsterDefend
             } else {
                 player.HP -= monsterDamage
                 if data.Lang == "ru" {
-                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", 
+                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атаковал %s на %d урона! У тебе %d здоровья.", 
                         monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
                 } else if data.Lang == "be" {
                     fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.", 
@@ -177,7 +177,7 @@ func monsterTurnAction(monster *data.Monster, player *data.Player, monsterDefend
             }
         } else {
             if data.Lang == "ru" {
-                fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s is too far away to attack!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+                fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s слишком далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
             } else if data.Lang == "ua" {
                 fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадто далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
             } else if data.Lang == "be" {
