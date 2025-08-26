@@ -15,6 +15,7 @@ func SelectLanguage() string {
 					huh.NewOption("English", "en"),
 					huh.NewOption("Українська", "ua"),
 					huh.NewOption("Беларускiй", "be"),
+					huh.NewOption("Русский", "ru"),
 				).
 				Value(&selectedLang),
 		),
@@ -26,7 +27,7 @@ func SelectLanguage() string {
 	}
 
 	switch selectedLang {
-	case "en", "ua", "be":
+	case "en", "ua", "be", "ru":
 		return selectedLang
 	default:
 		return "en"
