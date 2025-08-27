@@ -89,11 +89,7 @@ Default binary path: `~/go/bin/`
 ### Build manually
 ```sh
 go mod download
-go install
-```
-or
-```sh
-go build -o lura
+go build -o ./bin/lura ./cmd/lura/main.go
 ```
 
 ### Github Action
@@ -102,6 +98,9 @@ Login and check install from [Action](https://github.com/IwnuplyNotTyan/Lura/act
 # Mods
 > [!NOTE]
 > Use `nix develop` to run in dev env, or `nix-shell` to enter dev shell
+
+> [!WARNING]
+> UNMAINTAINED
 
 ### Mod folder in `~/.local/share/Lura/mods/`, all mods must be in lua
 

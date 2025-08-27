@@ -1,6 +1,6 @@
 BINARY_NAME=lura
 
-SRC_DIR=./cmd/lura/
+SRC_DIR=./cmd/lura/main.go
 BUILD_DIR=./bin
 
 GO=go
@@ -11,7 +11,7 @@ all: build
 
 .PHONY: build
 build: clean
-	$(GO) build -o $(BUILD_DIR)/$(BINARY_NAME) $(SRC_DIR)/*.go
+	$(GO) build -o $(BUILD_DIR)/$(BINARY_NAME) $(SRC_DIR)
 
 .PHONY: run
 run: build
@@ -23,19 +23,7 @@ clean:
 
 .PHONY: install
 install:
-	$(GO) install -buildvcs=false
-
-.PHONY: lint
-lint:
-	golint $(SRC_DIR)/...
-
-.PHONY: test
-test:
-	$(GO) test -v $(SRC_DIR)/...
-
-.PHONY: format
-format:
-	$(GO) fmt $(SRC_DIR)/...
+	$(GO) install $(SRC_DIR) -buildvcs=false
 
 .PHONY: help
 help:
