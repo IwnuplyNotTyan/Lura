@@ -1,57 +1,48 @@
 {
-  description = "Lura ~";
+  description = "Lura (not) simple game";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
+
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-        };
-        go = pkgs.go_1_24;
-        
-        packageName = "lura";
-      in
-      {
-        packages.default = pkgs.buildGoModule {
-          pname = packageName;
-          version = "1.2.0";
-          
-          src = ./.;
-          
-          vendorHash = "sha256-E5RjjrBus7iECoz+09mUCMWNGuJFT8aeI+qyAHR5xKs=";
-          
-          proxyVendor = true;
-          
-          env = {
-            CGO_ENABLED = "0";
+        pkgs = nixpkgs.legacyPackages.${system};
+      in {
+        packages.default = pkgs.buildGoModule rec {
+          pname = "lura";
+          version = "1.3";
+
+          src = pkgs.fetchFromGitHub {
+            owner = "iwnuplynottyan";          
+            repo = "lura";          
+            rev = version;                    
+            sha256 = "sha256-QsmqE3PfRdKWbFLFXrqvzD0ogfTNK0A/gDBOkZVY2AU=";
           };
-          
-          ldflags = ["-s" "-w" "-extldflags '-static'"];
-          
-          # preBuild = ''
-          #   go mod vendor
-          # '';
+
+          vendorHash = "sha256-Ua63ON+SjMiRDAOicSRS047Kd0JjGqjgkQuUs0JNEgU=";
+          # vendorHash = null;
+
+          meta = with pkgs.lib; {
+            description = "Lura (not) simple game";
+            homepage = "https://github.com/iwnuplynottyan/lura";
+            license = licenses.mit;
+            maintainers = [ "iwnuplynottyan" ];
+          };
         };
+
+        apps.default = {
+          type = "app";
+          program = "${self.packages.${system}.default}/bin/lura";
+        };
+
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             go
             gopls
-          #  gocode
-            delve
-            gotestsum
-            git
           ];
-          shellHook = ''
-            export GOPATH=$HOME/go
-            export PATH=$GOPATH/bin:$PATH
-            export GO111MODULE=on
-            
-            export PROJECT_ROOT=$(pwd)         
-          '';
         };
-      }
-    );
+      });
 }

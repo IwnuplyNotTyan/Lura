@@ -50,12 +50,6 @@ just run
 
 ### Nix
 
-> [!WARNING]
-> UNMAINTAINED
-
-> [!IMPORTANT]
-> *Troubleshooting:* update sha256 in `flake.nix` to needed version
-
 ```sh
 nix build
 ```
