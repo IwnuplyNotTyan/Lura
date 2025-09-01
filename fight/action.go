@@ -93,15 +93,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 			}
 		}
 		if rng.Rng() == 1 {
-			if data.Lang == "ru" {
-				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))	
-			} else if data.Lang == "ua" {
-				fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))
-			} else if data.Lang == "be" {
-				fmt.Println(termenv.String("󰓥  Cпадарыня").Foreground(termenv.ANSIBlue))
-			} else {
-				fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))	
-			}
+			dialog.MissDialog()
 		} else {
 		monster.HP -= playerDamage
 		if player.WeaponID == 4 {
