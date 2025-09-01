@@ -82,15 +82,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 		player.Stamina -= weapon.Stamina
 		if monster.ID == 17 {
 			data.Tmp -= 1
-			if data.Lang == "ru" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d шагов до смерти", data.Tmp)).Foreground(termenv.ANSIBlue))
-			} else if data.Lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до смерті", data.Tmp)).Foreground(termenv.ANSIBlue))
-			} else if data.Lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d крокаў да мертвості", data.Tmp)).Foreground(termenv.ANSIBlue))
-			} else {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", data.Tmp)).Foreground(termenv.ANSIBlue))
-			}
+			dialog.GatoDialog()
 		}
 		if rng.Rng() == 1 {
 			dialog.MissDialog()
@@ -153,30 +145,10 @@ func monsterTurnAction(monster *data.Monster, player *data.Player, monsterDefend
                 *playerDefending = false
             } else {
                 player.HP -= monsterDamage
-                if data.Lang == "ru" {
-                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атаковал %s на %d урона! У тебе %d здоровья.", 
-                        monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
-                } else if data.Lang == "be" {
-                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.", 
-                        monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
-                } else if data.Lang == "ua" {
-		     fmt.Println(termenv.String(fmt.Sprintf("󰓥  Тебе атакував %s з силою %d! Тепер в тебе %d здоров'я.", 
-                        monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
-                } else {
-                    fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.", 
-                        monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
-		}
+		dialog.AttackDialog(monster, player, monsterDamage)
             }
         } else {
-            if data.Lang == "ru" {
-                fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s слишком далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            } else if data.Lang == "ua" {
-                fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадто далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            } else if data.Lang == "be" {
-                fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадта далёка для атакі!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-            } else {
-                fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s is too far away to attack!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
-	    }
+		dialog.FarDialog(monster)
         }
     }
 }

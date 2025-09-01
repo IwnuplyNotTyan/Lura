@@ -50,6 +50,19 @@ func DisplayFightIntro(player *data.Player, monster *data.Monster) {
 	fmt.Print(output.String())
 }
 
+func MissDialog() {
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))
+		case "ua":
+			fmt.Println(termenv.String("󰓥  Мимо").Foreground(termenv.ANSIBlue))
+		case "be":
+			fmt.Println(termenv.String("󰓥  Cпадарыня").Foreground(termenv.ANSIBlue))
+		default:
+			fmt.Println(termenv.String("󰓥  Miss").Foreground(termenv.ANSIBlue))
+	}
+}
+
 func HealDialog(player *data.Player) {
 	fmt.Println(termenv.String(fmt.Sprintf("  %d / %d", player.HP, player.MaxHP)).Foreground(termenv.ANSIGreen))
 }
@@ -134,4 +147,48 @@ func NoStaminaDialog() {
 	} else {
 		fmt.Println(termenv.String("  Not enough stamina").Foreground(termenv.ANSIRed))
 	}
+}
+
+func GatoDialog() {
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String(fmt.Sprintf("  %d шагов до смерти", data.Tmp)).Foreground(termenv.ANSIBlue))
+		case "ua":
+			fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до смерті", data.Tmp)).Foreground(termenv.ANSIBlue))
+		case "be":
+			fmt.Println(termenv.String(fmt.Sprintf("  %d крокаў да мертвості", data.Tmp)).Foreground(termenv.ANSIBlue))
+		default:
+			fmt.Println(termenv.String(fmt.Sprintf("  %d steps to die", data.Tmp)).Foreground(termenv.ANSIBlue))
+
+	}
+}
+
+func FarDialog(monster *data.Monster) {
+	    switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s слишком далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+		case "ua":
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадто далеко для атаки!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+		case "be":
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s занадта далёка для атакі!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+		default:
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s is too far away to attack!", monster.MonsterType)).Foreground(termenv.ANSIYellow))
+	    }
+}
+
+func AttackDialog(monster *data.Monster, player *data.Player, monsterDamage int) {
+		switch data.Lang {
+			case "ru":
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атаковал %s на %d урона! У тебе %d здоровья.",
+					monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
+			case "ua":
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  Тебе атакував %s з силою %d! Тепер в тебе %d здоров'я.",
+					monster.MonsterType, monster.Damage, player.HP)).Foreground(termenv.ANSIBlue))
+			case "be":
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  %s атакаваў цябе на %d здароўя! Цяпер у цябе %d ХП.",
+					monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
+			default:
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  The %s attacks you for %d damage! You now have %d HP.",
+					monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
+		}
 }
