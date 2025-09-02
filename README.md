@@ -90,7 +90,7 @@ repository=https://raw.githubusercontent.com/binarylinuxx/void-extras/x86_64/pkg
 
 Or manualy
 
-Download `lura-*_1-x86_64.xbps` from [releases](https://github.com/IwnuplyNotTyan/Lura/releases/tag/v1.0.0)
+Download `lura-*_1-x86_64.xbps` from releases, https://github.com/IwnuplyNotTyan/Lura/releases/latest
 ```sh
 xbps-install -R ~/path/to/lura-0.1.0-1-x86_64.xbps
 ```
@@ -112,10 +112,32 @@ cd ./path/to/void-packages/
 
 ### Gnumake
 
+<details>
+  <summary>Install</summary>
+
 ```sh
 sudo make install
 ```
 Default binary path: `~/go/bin/`
+</details>
+
+<details>
+  <summary>Build</summary>
+
+```sh
+make build
+```
+Binary path: `./bin/`
+
+</details>
+
+<details>
+  <summary>Run</summary>
+
+```sh
+make run
+```
+</details>
 
 ### Build manually
 ```sh
