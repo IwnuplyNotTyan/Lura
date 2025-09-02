@@ -65,6 +65,7 @@ just build
 
 <details>
   <summary>Run</summary>
+
 ```sh
 just run
 ```
