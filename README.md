@@ -1,4 +1,15 @@
-# ✨ ~ **Lura**, CLI turn based roguelike
+<div align="center">
+  <h1>✨ Lura</h1>
+  <p>CLI Roguelike Powered By Love</p>
+</div>
+
+<p align="center">
+  <a href="https://github.com/IwnuplyNotTyan/Lura/actions/workflows/build.yml">
+    <img src="https://github.com/IwnuplyNotTyan/Lura/actions/workflows/build.yml/badge.svg" alt="Build Status"/>
+  </a>
+  <img src="https://img.shields.io/github/license/IwnuplyNotTyan/Lura?style=flat-square" alt="License"/>
+  <img src="https://img.shields.io/github/stars/IwnuplyNotTyan/Lura?style=flat-square" alt="Stars"/>
+</p>
 
 ![Preview](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/preview.png?raw=true)
 
