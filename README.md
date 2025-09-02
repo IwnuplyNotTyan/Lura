@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://github.com/IwnuplyNotTyan/Lura/actions/workflows/build.yml">
-    <img src="https://github.com/IwnuplyNotTyan/Lura/actions/workflows/build.yml/badge.svg" alt="Build Status"/>
+    <img src="https://img.shields.io/github/actions/workflow/status/IwnuplyNotTyan/Lura/build.yml?style=flat-square" alt="Build Status"/>
   </a>
   <img src="https://img.shields.io/github/license/IwnuplyNotTyan/Lura?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/github/stars/IwnuplyNotTyan/Lura?style=flat-square" alt="Stars"/>
