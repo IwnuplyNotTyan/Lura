@@ -45,18 +45,31 @@ makepkg -si
 ```
 
 ### Just
-*Install*
+<details>
+  <summary>Install</summary>
+
 ```sh
 just install
 ```
-*Build*
+
+</details>
+
+<details>
+  <summary>Build</summary>
+
 ```sh
 just build
 ```
-*Run*
+
+</details>
+
+<details>
+  <summary>Run</summary>
 ```sh
 just run
 ```
+
+</details>
 
 ### Nix
 
