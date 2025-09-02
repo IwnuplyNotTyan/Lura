@@ -18,8 +18,7 @@
   - [Windows](https://github.com/iwnuplynottyan/lura?tab=readme-ov-file#windows)
   - [Arch-Based](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#makepkg)
   - [Nix](https://github.com/iwnuplynottyan/lura?tab=readme-ov-file#nix)
-  - [Xbps-install](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-install)
-  - [Xbps-src](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps-src)
+  - [Xbps-install](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#xbps)
   - [Gnumake](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
   - [Just](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#just)
   - [Manual](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#gnumake)
@@ -65,7 +64,9 @@ just run
 nix build
 ```
 
-### Xbps-install
+### XBPS
+<details>
+  <summary>Xbps-install</summary>
 From unofficial repo
 
 Write in `/etc/xbps.d/void-extras.conf` this:
@@ -79,9 +80,12 @@ Download `lura-*_1-x86_64.xbps` from [releases](https://github.com/IwnuplyNotTya
 ```sh
 xbps-install -R ~/path/to/lura-0.1.0-1-x86_64.xbps
 ```
+</details>
 
-### Xbps-src
+<details>
+  <summary>Xbps-src</summary>
 Install [xbps-src](https://github.com/void-linux/void-packages)
+
 ```sh
 git clone https://github.com/IwnuplyNotTyan/Lura
 mkdir -p ~/path/to/void-packages/srcpkgs/Lura
@@ -89,6 +93,8 @@ cp ~/Lura/template ./path/to/void-packages/srcpkgs/Lura/
 cd ./path/to/void-packages/
 ./xbps-src pkg Lura
 ```
+
+</details>
 
 ### Gnumake
 
