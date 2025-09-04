@@ -66,7 +66,7 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 						}
 					}
 				}
-				if player.Position == monster.Position-1 {
+				if player.Position == monster.Position-1 || player.Position == monster.Position {
 					playerAttack(player, monster, &monsterDefending)
 				} else if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
 					playerAttack(player, monster, &monsterDefending)
