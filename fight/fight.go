@@ -121,6 +121,9 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 		dialog.ClearScreen()
 		player.Score += monster.Score
 		player.Coins += monster.Coins
+
+		player.MaxHP += 3
+		player.Damage += 1
 		monster.LVL += 1
 
 		player.Position = 0
