@@ -134,9 +134,10 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			if rng.Rng2() == 1 {
 				takeWeapon(player, monster)
 			}
-		} else if monster.ID == 17 {
-				takeWeapon(player, monster)
 		}
+		//} else if monster.ID == 17 {
+		//		takeWeapon(player, monster)
+		//}
 		if player.WeaponID == 7 {
 			if player.Time == 1 {
 				player.Damage = monster.Damage * rng.Rng()
