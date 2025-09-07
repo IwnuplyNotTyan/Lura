@@ -13,6 +13,19 @@
 
 ![Screenshot](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/screenshot.png?raw=true)
 
+# Features
+🍜 ~ Nice UI
+
+👾 ~ Unique Monsters
+
+🗡️ ~ Many Weapons Types
+
+🪷 ~ Bosses
+
+💝 ~ Buffs
+
+---
+
 # Tree
 - [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#installing)
   - [Windows](https://github.com/iwnuplynottyan/lura?tab=readme-ov-file#windows)
@@ -28,6 +41,8 @@
   - [Removing weapon & monster mod](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#removing-weapon--monster-mod)
   - [Debug console](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#removing-weapon--monster-mod)
 - [Credits](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#mods)
+
+---
 
 # Installing
 > [!NOTE]
@@ -148,6 +163,8 @@ go build -o ./bin/lura ./cmd/lura/main.go
 ### Github Action
 Login and check install from [Action](https://github.com/IwnuplyNotTyan/Lura/actions/workflows/build.yml) button
 
+---
+
 # Mods
 > [!NOTE]
 > Use `nix develop` to run in dev env, or `nix-shell` to enter dev shell
@@ -210,6 +227,8 @@ local monsterResult = Monster.removeByName(monsterToRemove)
 
 ### Debug console, add flag `-debug`, all command in help
 
+---
+
 # Credits
 UA translate by [Purple Sky](https://github.com/Osian-linux) and me
 
@@ -217,6 +236,12 @@ BE translate by [Табунов Артем](https://t.me/perakladadkata)
 
 Void package by [Binarnik](https://github.com/binarylinuxx/)
 
+---
+
 ![Preview](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/preview.png?raw=true)
 
-# Made with ❤️
+---
+
+<div align="center">
+  <h1>Made with ❤️ </h1>
+</div>
