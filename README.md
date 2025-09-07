@@ -14,15 +14,15 @@
 ![Screenshot](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/screenshot.png?raw=true)
 
 # Features
-🍜 ~ Nice UI
+- 🍜 ~ **Nice UI**
 
-👾 ~ Unique Monsters
+- 👾 ~ **Unique Monsters**
 
-🗡️ ~ Many Weapons Types
+- 🗡️ ~ **Many Weapons Types**
 
-🪷 ~ Bosses
+- 🪷 ~ **Bosses**
 
-💝 ~ Buffs
+- 💝 ~ **Buffs**
 
 ---
 
