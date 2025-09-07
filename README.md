@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/github/stars/IwnuplyNotTyan/Lura?style=flat-square" alt="Stars"/>
   <img src="https://img.shields.io/github/forks/IwnuplyNotTyan/Lura?style=flat-square" alt="Forks"/>
   <img src="https://img.shields.io/github/last-commit/IwnuplyNotTyan/Lura?style=flat-square" alt="Last Commit"/>
-  <img src="https://img.shields.io/github/v/release/iwnuplynottyan/lura" alt="Version"/>
+  <img src="https://img.shields.io/github/v/release/iwnuplynottyan/lura?style=flat-square" alt="Version"/>
 </p>
 
 ![Screenshot](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/screenshot.png?raw=true)
