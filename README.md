@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/github/stars/IwnuplyNotTyan/Lura?style=flat-square" alt="Stars"/>
 </p>
 
-![Preview](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/preview.png?raw=true)
+![Screenshot](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/screenshot.png?raw=true)
 
 # Tree
 - [Installing](https://github.com/IwnuplyNotTyan/Lura?tab=readme-ov-file#installing)
@@ -216,5 +216,7 @@ UA translate by [Purple Sky](https://github.com/Osian-linux) and me
 BE translate by [Табунов Артем](https://t.me/perakladadkata)
 
 Void package by [Binarnik](https://github.com/binarylinuxx/)
+
+![Preview](https://github.com/IwnuplyNotTyan/Lura/blob/main/assets/preview.png?raw=true)
 
 # Made with ❤️
