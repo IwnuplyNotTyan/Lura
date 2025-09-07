@@ -72,62 +72,67 @@ func HealMonsterDialog(monster *data.Monster) {
 }
 
 func BlockDialog() {
-	if data.Lang == "ru" {
-		fmt.Println(termenv.String("  Вы блокируете атаку!").Foreground(termenv.ANSIYellow))
-	} else if data.Lang == "ua" {
-		fmt.Println(termenv.String("  Ти блокуєш атаку!").Foreground(termenv.ANSIYellow))
-	} else if data.Lang == "be" {
-		fmt.Println(termenv.String("  Вы блакуеце атаку!").Foreground(termenv.ANSIYellow))
-	} else {
-		fmt.Println(termenv.String("  You block the attack!").Foreground(termenv.ANSIYellow))
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String("  Вы блокируете атаку!").Foreground(termenv.ANSIYellow))
+		case "ua":
+			fmt.Println(termenv.String("  Ти блокуєш атаку!").Foreground(termenv.ANSIYellow))
+		case "be":
+			fmt.Println(termenv.String("  Вы блакуеце атаку!").Foreground(termenv.ANSIYellow))
+		default:
+			fmt.Println(termenv.String("  You block the attack!").Foreground(termenv.ANSIYellow))
 	}
 }
 
 func BlockUDialog() {
-	if data.Lang == "ru" {
-		fmt.Println(termenv.String("  Монстр заблокировал вашу атаку!").Foreground(termenv.ANSIGreen))
-	} else if data.Lang == "ua" {
-		fmt.Println(termenv.String("  Монстр заблокував твою атаку!").Foreground(termenv.ANSIGreen))
-	} else if data.Lang == "be" {
-		fmt.Println(termenv.String("  Монстр заблакаваў тваю атаку!").Foreground(termenv.ANSIGreen))
-	} else {
-		fmt.Println(termenv.String("  The monster blocked your attack!").Foreground(termenv.ANSIGreen))
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String("  Монстр заблокировал вашу атаку!").Foreground(termenv.ANSIGreen))
+		case "ua":
+			fmt.Println(termenv.String("  Монстр заблокував твою атаку!").Foreground(termenv.ANSIGreen))
+		case "be":
+			fmt.Println(termenv.String("  Монстр заблакаваў тваю атаку!").Foreground(termenv.ANSIGreen))
+		default:
+			fmt.Println(termenv.String("  The monster blocked your attack!").Foreground(termenv.ANSIGreen))
 	}
 }
 
 func BlockEnemyAttack() {
-	if data.Lang == "ru" {
-		fmt.Println(termenv.String("  Вы заблокировали атаку врага!").Foreground(termenv.ANSIYellow))
-	} else if data.Lang == "ua" {
-		fmt.Println(termenv.String("  Ти заблокував атаку ворога!").Foreground(termenv.ANSIYellow))
-	} else if data.Lang == "be" {
-		fmt.Println(termenv.String("  Вы заблакавалі атаку ворага!").Foreground(termenv.ANSIYellow))
-	} else {
-		fmt.Println(termenv.String("  You blocked the enemy's attack!").Foreground(termenv.ANSIYellow))
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String("  Вы блокируете атаку врага!").Foreground(termenv.ANSIYellow))
+		case "ua":
+			fmt.Println(termenv.String("  Ти блокуєш атаку ворога!").Foreground(termenv.ANSIYellow))
+		case "be":
+			fmt.Println(termenv.String("  Вы блакуеце атаку ворага!").Foreground(termenv.ANSIYellow))
+		default:
+			fmt.Println(termenv.String("  You block the enemy's attack!").Foreground(termenv.ANSIYellow))
 	}
 }
 
 func BlockEnemyDialog() {
-	if data.Lang == "ru" {
-		fmt.Println(termenv.String("  Монстр готовится блокировать!").Foreground(termenv.ANSIGreen))
-	} else if data.Lang == "ua" {
-		fmt.Println(termenv.String("  Монстр готується заблокувати!").Foreground(termenv.ANSIGreen))
-	} else if data.Lang == "be" {
-		fmt.Println(termenv.String("  Монстр рыхтуецца блакаваць!").Foreground(termenv.ANSIGreen))
-	} else {
-		fmt.Println(termenv.String("  The monster prepares to block!").Foreground(termenv.ANSIGreen))
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String("  Монстр готовится блокировать!").Foreground(termenv.ANSIGreen))
+		case "ua":
+			fmt.Println(termenv.String("  Монстр готується заблокувати!").Foreground(termenv.ANSIGreen))
+		case "be":
+			fmt.Println(termenv.String("  Монстр рыхтуецца блакаваць!").Foreground(termenv.ANSIGreen))
+		default:
+			fmt.Println(termenv.String("  The monster prepares to block!").Foreground(termenv.ANSIGreen))
 	}
 }
 
 func DefeatMonster(monster *data.Monster) {
-	if data.Lang == "ru" {
-		fmt.Println(termenv.String(fmt.Sprintf("  %s был побежден!\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
-	} else if data.Lang == "ua" {
-		fmt.Println(termenv.String(fmt.Sprintf("  %s був переможений\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
-	} else if data.Lang == "be" {
-		fmt.Println(termenv.String(fmt.Sprintf("  %s быў пераможаны\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
-	} else {
-		fmt.Println(termenv.String(fmt.Sprintf("  The %s has been defeated!\n", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String(fmt.Sprintf("  %s был побежден!", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
+		case "ua":
+			fmt.Println(termenv.String(fmt.Sprintf("  %s был побежден!", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
+		case "be":
+			fmt.Println(termenv.String(fmt.Sprintf("  %s быў пераможаны!", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
+		default:
+			fmt.Println(termenv.String(fmt.Sprintf("  The %s has been defeated!", monster.MonsterType)).Foreground(termenv.ANSIGreen).Bold())
 	}
 }
 
@@ -138,14 +143,15 @@ func StaminaDialog(player *data.Player) {
 }
 
 func NoStaminaDialog() {
-	if data.Lang == "ru" {
-		fmt.Println(termenv.String("  Недостаточно выносливости").Foreground(termenv.ANSIRed))
-	} else if data.Lang == "ua" {
-		fmt.Println(termenv.String("  Недостатньо витривалості").Foreground(termenv.ANSIRed))
-	} else if data.Lang == "be" {
-		fmt.Println(termenv.String("  Недастаткова вынослівасці").Foreground(termenv.ANSIRed))
-	} else {
-		fmt.Println(termenv.String("  Not enough stamina").Foreground(termenv.ANSIRed))
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String("  Недостаточно выносливости").Foreground(termenv.ANSIRed))
+		case "ua":
+			fmt.Println(termenv.String("  Недостатньо витривалості").Foreground(termenv.ANSIRed))
+		case "be":
+			fmt.Println(termenv.String("  Недастаткова вынослівасці").Foreground(termenv.ANSIRed))
+		default:
+			fmt.Println(termenv.String("  Not enough stamina").Foreground(termenv.ANSIRed))
 	}
 }
 

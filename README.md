@@ -23,6 +23,8 @@
 
 - 👾 ~ **Unique Monsters**
 
+- 🏳️‍🌈 ~ **Languages**
+
 - 🗡️ ~ **Many Weapons Types**
 
 - 🪷 ~ **Bosses**
