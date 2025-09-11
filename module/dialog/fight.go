@@ -198,3 +198,29 @@ func AttackDialog(monster *data.Monster, player *data.Player, monsterDamage int)
 					monster.MonsterType, monsterDamage, player.HP)).Foreground(termenv.ANSIRed))
 		}
 }
+
+func BossDialog() {
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String("󰒙  Босс побежден").Foreground(termenv.ANSIBrightGreen).Bold())
+		case "ua":
+			fmt.Println(termenv.String("󰒙  Босс переможений").Foreground(termenv.ANSIBrightGreen).Bold())
+		case "be":
+			fmt.Println(termenv.String("󰒙  Босс пераможаны").Foreground(termenv.ANSIBrightGreen).Bold())
+		default:
+			fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
+	}
+}
+
+func BuffStepsDialog(player *data.Player) {
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String(fmt.Sprintf("  %d шагов до другого локации", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+		case "ua":
+			fmt.Println(termenv.String(fmt.Sprintf("  %d крокiв до iншого локацiї", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+		case "be":
+			fmt.Println(termenv.String(fmt.Sprintf("  %d крокаў да iншага локацы", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+		default:
+			fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
+	}
+}

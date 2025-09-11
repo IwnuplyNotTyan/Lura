@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"Lura/data"
-	"Lura/module/buffs"
 	"Lura/module/rng"
 	"Lura/module/dialog"
 
@@ -117,7 +116,8 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			}
 			time.Sleep(time.Second)
 		}
-
+		
+		// After battle
 		dialog.ClearScreen()
 		player.Score += monster.Score
 		player.Coins += monster.Coins
@@ -135,10 +135,11 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 				takeWeapon(player, monster)
 			}
 		}
-		//} else if monster.ID == 17 {
-		//		takeWeapon(player, monster)
-		//}
-		if player.WeaponID == 7 {
+		// Mirror (7) weapon (Removed)
+		/*} else if monster.ID == 17 {
+				takeWeapon(player, monster)
+		}*/
+		/*if player.WeaponID == 7 {
 			if player.Time == 1 {
 				player.Damage = monster.Damage * rng.Rng()
 				player.WeaponID = 0
@@ -160,12 +161,12 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			} else {
 				player.Time = 1
 			}
-		}
+		}*/
 		if player.HP > 0 {
-		if player.Buffs == 4 {
-			if !player.Monster {
+		if player.Buffs == 4 || player.Loc == 2{
+			/*if !player.Monster {
 				buff.BuffsAction(player)
-			}
+			}*/
 			player.Buffs = 0
 			fmt.Println()
 			if player.Loc == 0 {
@@ -174,30 +175,14 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			} else if player.Loc == 1 {
 				player.Loc = 2
 				dialog.CatArt()
+			} else if player.Loc == 2 {
+				player.Loc = 0
+				dialog.BossDialog()
+				dialog.ForestArt()
 			}
-		} else if player.Loc == 2 {
-			player.Loc = 0
-			if data.Lang == "ru" {
-				fmt.Println(termenv.String("󰒙  Босс побежден").Foreground(termenv.ANSIBrightGreen).Bold())
-			} else if data.Lang == "ua" {
-				fmt.Println(termenv.String("󰒙  Босс переможений").Foreground(termenv.ANSIBrightGreen).Bold())
-			} else if data.Lang == "be" {
-				fmt.Println(termenv.String("󰒙  Босс пераможаны").Foreground(termenv.ANSIBrightGreen).Bold())
-			} else {
-				fmt.Println(termenv.String("󰒙  Boss defeated").Foreground(termenv.ANSIBrightGreen).Bold())
-			}
-			dialog.ForestArt()
 		} else {
 			player.Buffs += 1
-			if data.Lang == "ru" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Шагов до другого локации", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			} else if data.Lang == "ua" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокiв до iншого локацiї", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			} else if data.Lang == "be" {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Крокаў да iншага локацы", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			} else {
-				fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
-			}
+			dialog.BuffStepsDialog(player)
 		}}
 	}
 
