@@ -182,6 +182,33 @@ func FarDialog(monster *data.Monster) {
 	    }
 }
 
+func PlayerAttackDialog(monster *data.Monster, player *data.Player, playerDamage int) {
+		switch data.Lang {
+			case "ru":
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атаковал %s на %d урона! У него %d здоровья. Осталось %d выносливости.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
+			case "be":
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атакаваў %s на %d здароўя! Цяпер у яго %d ХП. Засталось %d вынослівасьці.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
+			case "ua": 
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
+			default:
+				fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
+		}
+
+}
+
+func TooFarDialog(player *data.Player) {
+		switch data.Lang {
+			case "ru":
+				fmt.Println(termenv.String("󰓥  Ты слишком далеко от монстра чтобы атаковать своим оружием!").Foreground(termenv.ANSIYellow))
+			case "ua":
+				fmt.Println(termenv.String("󰓥  Ти занадто далеко від монстра щоб атакувати своїм оружием!").Foreground(termenv.ANSIYellow))
+			case "be":
+				fmt.Println(termenv.String("󰓥  Ты занадта далёка ад монстра каб атакаваць сваім оружием!").Foreground(termenv.ANSIYellow))
+			default:
+				fmt.Println(termenv.String("󰓥  You are too far away from the monster to attack with your weapon!").Foreground(termenv.ANSIYellow))
+		}
+}
+
 func AttackDialog(monster *data.Monster, player *data.Player, monsterDamage int) {
 		switch data.Lang {
 			case "ru":

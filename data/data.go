@@ -169,7 +169,7 @@ func SeedData() {
 			{MonsterType: "Crystal guardian", HP: 100, Damage: 20, Score: 60, Coins: 13, ID: 11},
 			{MonsterType: "Golem", HP: 130, Damage: 10, Score: 60, Coins: 17, ID: 12},
 			{MonsterType: "Miner", HP: 60, Damage: 20, Score: 20, Coins: 14, ID: 13},
-			{MonsterType: "Aetherite titan", HP: 100, Damage: 20, Score: 70, Coins: 14},
+			{MonsterType: "Aetherite titan", HP: 100, Damage: 20, Score: 70, Coins: 14, ID: 14},
 		//	{MonsterType: "Lanter keeper", HP: 70, Damage: 10, score: 10, coins: 14, ID: 2},
 			{MonsterType: "Ghost", HP: 40, Damage: 5, Score: 4, Coins: 10, ID: 15},
 		}

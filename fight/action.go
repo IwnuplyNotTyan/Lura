@@ -1,13 +1,9 @@
 package fight
 
 import (
-	"fmt"
-
 	"Lura/data"
 	"Lura/module/dialog"
 	"Lura/module/rng"
-
-	"github.com/muesli/termenv"
 )
 
 func healPlayer(player *data.Player) {
@@ -58,15 +54,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 	isRangedWeapon := player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8
 
 	if !isRangedWeapon && player.Position != monster.Position-1 && player.Position != monster.Position {
-		if data.Lang == "ru" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты слишком далеко от %s чтобы атаковать своим %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
-		} else if data.Lang == "ua" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти занадто далеко від %s щоб атакувати своїм %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
-		} else if data.Lang == "be" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты занадта далёка ад %s каб атакаваць сваім %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
-		} else {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You're too far from %s to attack with your %s!", monster.MonsterType, player.WeaponType)).Foreground(termenv.ANSIYellow))
-		}
+		dialog.TooFarDialog(player)
 		return
 	}
 
@@ -91,15 +79,7 @@ func playerAttack(player *data.Player, monster *data.Monster, monsterDefending *
 		if player.WeaponID == 4 {
 			monster.HP -= playerDamage
 		}
-		if data.Lang == "ru" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атаковал %s на %d урона! У него %d здоровья. Осталось %d выносливости.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		} else if data.Lang == "be" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты атакаваў %s на %d здароўя! Цяпер у яго %d ХП. Засталось %d вынослівасьці.", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		} else if data.Lang == "ua" {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти атакував %s з силою %d! Тепер в нього %d здоров'я. У тебе залишилось %d витривалостi", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		} else {
-			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You attack the %s for %d damage! It now has %d HP. %d stamina remaining", monster.MonsterType, playerDamage, monster.HP, player.Stamina)).Foreground(termenv.ANSIBlue))
-		}
+		dialog.PlayerAttackDialog(monster, player, playerDamage)
 	}
 	} else {
 		dialog.NoStaminaDialog()
