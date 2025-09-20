@@ -5,8 +5,9 @@ import (
 	"time"
 
 	"Lura/data"
-	"Lura/module/rng"
+	buff "Lura/module/buffs"
 	"Lura/module/dialog"
+	"Lura/module/rng"
 
 	"github.com/charmbracelet/log"
 	"github.com/muesli/termenv"
@@ -39,16 +40,16 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			DisplayPositions(player, monster)
 			playerAction := SelectAttack(player)
 
-			if playerAction == "Defend" || playerAction == "Захищатися" || playerAction == "Абараняцца" || playerAction == "Защищаться" {
+			if playerAction == "D" {
 				playerDefending = true
 				dialog.BlockDialog()
 				if player.Position > 0 {
 					player.Position--
 				}
-			} else if playerAction == "Heal" || playerAction == "Лікуватися" || playerAction == "Вылечвацца" || playerAction == "Лечиться" {
+			} else if playerAction == "H" {
 				healPlayer(player)
 				playerDefending = false
-			} else if playerAction == "Attack" || playerAction == "Атакувати" || playerAction == "Атакаваць" || playerAction == "Атаковать" {
+			} else if playerAction == "A" {
 				if player.Position < monster.Position-1 {
 					if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
 						player.Position += 1
@@ -70,7 +71,7 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 				} else if player.WeaponID == 5 || player.WeaponID == 6 || player.WeaponID == 10 || player.WeaponID == 8 {
 					playerAttack(player, monster, &monsterDefending)
 				}
-			} else if playerAction == "Skip" || playerAction == "Пропустити" || playerAction == "Прапусціць" || playerAction == "Пропустить" {
+			} else if playerAction == "S" {
 				playerSkip(player)
 			}
 
@@ -163,23 +164,28 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 			}
 		}*/
 		if player.HP > 0 {
-		if player.Buffs == 4 || player.Loc == 2{
+		if player.Buffs == 4 {
 			/*if !player.Monster {
 				buff.BuffsAction(player)
 			}*/
 			player.Buffs = 0
+			buff.BuffsAction(player)
 			fmt.Println()
-			if player.Loc == 0 {
-				dialog.CaveArt()
-				player.Loc = 1
-			} else if player.Loc == 1 {
-				player.Loc = 2
-				dialog.CatArt()
-			} else if player.Loc == 2 {
-				player.Loc = 0
-				dialog.BossDialog()
-				dialog.ForestArt()
+			switch player.Loc {
+				case 0:
+					dialog.CaveArt()
+					player.Loc = 1
+				case 1:
+					player.Loc = 2
+					dialog.CatArt()
+				/*case 2:
+					player.Loc = 0
+					dialog.BossDialog()
+					dialog.ForestArt()*/
 			}
+		} else if player.Loc == 2 {
+			player.Loc = 0
+			dialog.BossDialog()
 		} else {
 			player.Buffs += 1
 			dialog.BuffStepsDialog(player)

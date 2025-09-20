@@ -12,26 +12,27 @@ import (
 
 func SelectAttack(player *data.Player) string {
 	var selectedAttack string
-	if data.Lang == "ua" {
-		Attack = "Атакувати"
-		Heal = "Лікуватися"
-		Defend = "Захищатися"
-		Skip = "Пропустити"
-	} else if data.Lang == "be" {
-		Attack = "Атакаваць"
-		Heal = "Вылечвацца"
-		Defend = "Абараняцца"
-		Skip = "Прапусціць"
-	} else if data.Lang == "ru" {
-		Attack = "Атаковать"
-		Heal = "Лечиться"
-		Defend = "Защищаться"
-		Skip = "Пропустить"
-	} else {
-		Attack = "Attack"
-		Defend = "Defend"
-		Heal = "Heal"
-		Skip = "Skip"
+	switch data.Lang {
+		case "ua":
+			Attack = "Атакувати"
+			Heal = "Лікуватися"
+			Defend = "Захищатися"
+			Skip = "Пропустити"
+		case "be":
+			Attack = "Атакаваць"
+			Heal = "Вылечвацца"
+			Defend = "Абараняцца"
+			Skip = "Прапусціць"
+		case "ru":
+			Attack = "Атаковать"
+			Heal = "Лечиться"
+			Defend = "Защищаться"
+			Skip = "Пропустить"
+		default:
+			Attack = "Attack"
+			Defend = "Defend"
+			Heal = "Heal"
+			Skip = "Skip"
 	}
 	
 	var f *huh.Form
@@ -41,10 +42,10 @@ func SelectAttack(player *data.Player) string {
 				huh.NewSelect[string]().
 					Title(" Select action").
 					Options(
-						huh.NewOption(Attack, Attack),
-						huh.NewOption(Defend, Defend),
-						huh.NewOption(Heal, Heal),
-						huh.NewOption(Skip, Skip),
+						huh.NewOption(Attack, "A"),
+						huh.NewOption(Defend, "D"),
+						huh.NewOption(Heal, "H"),
+						huh.NewOption(Skip, "S"),
 					).
 					Value(&selectedAttack),
 			),
