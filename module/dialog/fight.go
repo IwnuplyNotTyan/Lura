@@ -209,6 +209,19 @@ func TooFarDialog(player *data.Player) {
 		}
 }
 
+func NotCloseDialog(monster *data.Monster) {
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так близко к %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+		case "ua":
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти не так близько до %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+		case "be":
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+		default:
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
+	}
+}
+
 func AttackDialog(monster *data.Monster, player *data.Player, monsterDamage int) {
 		switch data.Lang {
 			case "ru":

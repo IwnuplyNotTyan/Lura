@@ -55,15 +55,7 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 						player.Position += 1
 					} else {
 						player.Position += 2
-						if data.Lang == "ru" {
-							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так близко к %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-						} else if data.Lang == "ua" {
-							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ти не так близько до %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-						} else if data.Lang == "be" {
-							fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ты не так блізка да %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-						} else {
-							fmt.Println(termenv.String(fmt.Sprintf("󰓥  You not so close to %s", monster.MonsterType)).Foreground(termenv.ANSIBrightRed))
-						}
+						dialog.NotCloseDialog(monster)
 					}
 				}
 				if player.Position == monster.Position-1 || player.Position == monster.Position {
