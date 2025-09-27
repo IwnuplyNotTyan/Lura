@@ -3,7 +3,7 @@ package rng
 import (
 	"math/rand"
 
-	"Lura/data"
+	"Lura/module/data"
 )
 
 func GetRandomWeapon() (string, int, int) {

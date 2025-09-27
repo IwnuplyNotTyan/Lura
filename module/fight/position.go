@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"Lura/data"
+	"Lura/module/data"
 )
 
 func DisplayPositions(player *data.Player, monster *data.Monster) {

@@ -1,7 +1,7 @@
 package mods
 
 import (
-	"Lura/data"
+	"Lura/module/data"
 
 	lua "github.com/yuin/gopher-lua"
 )

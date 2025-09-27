@@ -3,7 +3,7 @@ package dialog
 import (
 	"fmt"
 
-	"Lura/data"
+	"Lura/module/data"
 
 	"github.com/muesli/termenv"
 )

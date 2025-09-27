@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"Lura/data"
-	buff "Lura/module/buffs"
+	"Lura/module/data"
+	"Lura/module/buffs"
 	"Lura/module/dialog"
 	"Lura/module/rng"
 

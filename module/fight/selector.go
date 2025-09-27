@@ -3,7 +3,7 @@ package fight
 import (
 	"fmt"
 
-	"Lura/data"
+	"Lura/module/data"
 	"Lura/module/rng"
 	"Lura/module/dialog"
 

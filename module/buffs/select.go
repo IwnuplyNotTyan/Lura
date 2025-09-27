@@ -3,7 +3,7 @@ package buff
 import (
 	"fmt"
 
-	"Lura/data"
+	"Lura/module/data"
 
 	"github.com/charmbracelet/huh"
 )

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"Lura/data"
+	"Lura/module/data"
 	"Lura/module/dialog"
 	"Lura/module/mods"
 

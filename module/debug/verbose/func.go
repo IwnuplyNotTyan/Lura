@@ -1,7 +1,7 @@
 package v
 
 import (
-	"Lura/data"
+	"Lura/module/data"
 
 	"github.com/charmbracelet/log"
 )

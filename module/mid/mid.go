@@ -1,7 +1,7 @@
 package mid
 
 import (
-	"Lura/data"
+	"Lura/module/data"
 
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/huh"

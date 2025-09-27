@@ -1,7 +1,7 @@
 package fight
 
 import (
-	"Lura/data"
+	"Lura/module/data"
 	"Lura/module/rng"
 )
 

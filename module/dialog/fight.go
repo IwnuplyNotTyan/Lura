@@ -5,7 +5,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"Lura/data"
+	"Lura/module/data"
 	"Lura/assets"
 
 	"github.com/muesli/termenv"

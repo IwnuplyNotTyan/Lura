@@ -4,11 +4,11 @@ import (
 	"flag"
 	"fmt"
 
-	"Lura/data"
-	"Lura/fight"
+	"Lura/module/data"
+	"Lura/module/fight"
 	"Lura/module/rng"
 	"Lura/module/mods"
-	"Lura/debug/shell"
+	"Lura/module/debug/shell"
 	"Lura/module/dialog"
 
 	"github.com/charmbracelet/log"

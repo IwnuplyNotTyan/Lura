@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"Lura/data"
+	"Lura/module/data"
 	"Lura/module/inv"
 	"Lura/module/dialog"
 

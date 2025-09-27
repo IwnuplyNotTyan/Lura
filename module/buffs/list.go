@@ -3,7 +3,7 @@ package buff
 import (
 	"math/rand"
 
-	"Lura/data"
+	"Lura/module/data"
 )
 
 var (
