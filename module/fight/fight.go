@@ -72,7 +72,9 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 
 			if player.HP <= 0 || data.Tmp == 0 {
 				if player.Heart == 1 {
-					if player.Score > config.Score {
+					newScore := player.Score > config.Score
+					config.Language = data.Lang
+					if newScore {
 						config.Score = player.Score
 						if data.Lang == "ru" {
 							fmt.Println(termenv.String(fmt.Sprintf("  Новый рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())

@@ -30,12 +30,17 @@ func main() {
 	player := data.Player{}
 	cfg := data.TouchConfig(&player)
 
-	data.Lang = cfg.Language
-	if data.Lang == "" {
+	// Исправлено: правильная работа с языком
+	if cfg.Language == "" {
 		fmt.Println()
 		data.Lang = data.SelectLanguage()
 		cfg.Language = data.Lang
-		data.SaveConfig(data.GetConfigPath(), cfg)
+		if err := data.SaveConfig(data.GetConfigPath(), cfg); err != nil {
+			log.Printf("Error saving language config: %v", err)
+		}
+	} else {
+		// Используем язык из конфига
+		data.Lang = cfg.Language
 	}
 
 	data.SeedData()
@@ -47,10 +52,10 @@ func main() {
 	}
 
 	//if loadedMods == nil {
-	//	fmt.Print(termenv.String("  ").Foreground(termenv.ANSIWhite).Bold())
+	//	fmt.Print(termenv.String(" ✥ ").Foreground(termenv.ANSIWhite).Bold())
 	//}
 
-	//fmt.Print(termenv.String("  ").Foreground(termenv.ANSIMagenta).Bold())
+	//fmt.Print(termenv.String(" 🰕 ").Foreground(termenv.ANSIMagenta).Bold())
 
 	weaponType, weaponDamage, weaponID := rng.GetRandomWeapon()
 	hp := rng.RngHp()
@@ -74,7 +79,6 @@ func main() {
 			NextID: 1,
 		},
 	}
-	data.Tmp = -1
 
 	if *debugMode {
 		debug.DebugShell(L, &player, &data.Monster{})
@@ -83,5 +87,6 @@ func main() {
 	if *verboseMode {
 		data.Verbose = true
 	}
-	fight.Fight(&player, specificMonster, &data.Config{}, &data.Weapon{})
+	
+	fight.Fight(&player, specificMonster, &cfg, &data.Weapon{})
 }

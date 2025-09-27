@@ -33,8 +33,8 @@ func TouchConfig(player *Player) Config {
 
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		initialConfig := Config{
-			Language:     Lang,
-			Score:        player.Score,
+			Language:     "", 
+			Score:        0, 
 			Achievements: []string{},
 		}
 
