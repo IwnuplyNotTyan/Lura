@@ -96,15 +96,7 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 					player.MaxHP = player.MaxHP / 2
 					player.HP = player.MaxHP
 					player.Damage = player.Damage * 2
-					if data.Lang == "ru" {
-						fmt.Println(termenv.String(fmt.Sprintf("  Ваше сердце разбито! HP установлено на %d, Пошкоджение увеличено до %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
-					} else if data.Lang == "ua" {
-						fmt.Println(termenv.String(fmt.Sprintf("  Ваше серце розбито! HP встановлено на %d, Пошкодження збільшено до %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
-					} else if data.Lang == "be" {
-						fmt.Println(termenv.String(fmt.Sprintf("  Ваша сэрца разбіта! HP устаноўлена на %d, Пашкоджанні павялічаны да %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
-					} else {
-						fmt.Println(termenv.String(fmt.Sprintf("  Your heart is broken! HP set to %d, Damage increased to %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
-					}
+					dialog.BrokenHDialog(player)
 					player.Heart = 1
 					Fight(player, monster, config, weapon)
 				}

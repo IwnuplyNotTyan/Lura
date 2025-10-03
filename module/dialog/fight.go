@@ -263,4 +263,21 @@ func BuffStepsDialog(player *data.Player) {
 		default:
 			fmt.Println(termenv.String(fmt.Sprintf("  %d Step to another location", player.Buffs)).Foreground(termenv.ANSIBrightMagenta).Bold())
 	}
+
+}
+
+func BrokenHDialog(player *data.Player) {
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String(fmt.Sprintf("󰓥  Ваше сердце разбито! HP установлено на %d, Урон увеличен до %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
+		case "ua":
+
+			fmt.Println(termenv.String(fmt.Sprintf("  Ваше серце розбито! HP встановлено на %d, Пошкодження збільшено до %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
+		case "be":
+
+			fmt.Println(termenv.String(fmt.Sprintf("  Ваша сэрца разбіта! HP устаноўлена на %d, Пашкоджанні павялічаны да %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
+		default:
+
+			fmt.Println(termenv.String(fmt.Sprintf("  Your heart is broken! HP set to %d, Damage increased to %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
+	}
 }
