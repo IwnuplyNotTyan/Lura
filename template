@@ -1,6 +1,6 @@
 # Template file for 'Lura'
 pkgname=Lura
-version=1.3
+version=1.3.1
 revision=1
 build_style=go
 makedepends="go"
@@ -10,12 +10,12 @@ maintainer="binary linux <nrw58886@gmail.com>"
 license="MIT"
 homepage="https://github.com/IwnuplyNotTyan/Lura"
 distfiles="https://github.com/IwnuplyNotTyan/${pkgname}/archive/refs/tags/${version}.tar.gz"
-checksum="a217095ac0e04a0e629cfd57d350c97956bf9e6826d061baf4528a99bfbda329"
+checksum="00625f018c70992ea462309ac7309e9615fb07925e54eb46ad4e13e9c33c3e78"
 go_import_path="github.com/IwnuplyNotTyan/Lura"
 
 do_build() {
     go mod download
-    go build -o lura .
+    go build -o lura ./cmd/lura/main.go
 }
 
 do_install() {
