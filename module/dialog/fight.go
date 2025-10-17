@@ -281,3 +281,17 @@ func BrokenHDialog(player *data.Player) {
 			fmt.Println(termenv.String(fmt.Sprintf("  Your heart is broken! HP set to %d, Damage increased to %d.", player.HP, player.Damage)).Foreground(termenv.ANSIBrightRed).Bold())
 	}
 }
+
+func NewScoreDialog(player *data.Player) {
+	switch data.Lang {
+		case "ru":
+			fmt.Println(termenv.String(fmt.Sprintf("  Новый рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+		case "be":
+			fmt.Println(termenv.String(fmt.Sprintf("  Новы рэкорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+		case "ua":
+			fmt.Println(termenv.String(fmt.Sprintf("  Новий рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+		default:
+			fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
+
+	}
+}

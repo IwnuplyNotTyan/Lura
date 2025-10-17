@@ -76,15 +76,7 @@ func Fight(player *data.Player, monster *data.Monster, config *data.Config, weap
 					config.Language = data.Lang
 					if newScore {
 						config.Score = player.Score
-						if data.Lang == "ru" {
-							fmt.Println(termenv.String(fmt.Sprintf("  Новый рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
-						} else if data.Lang == "ua" {
-							fmt.Println(termenv.String(fmt.Sprintf("  Новий рекорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
-						} else if data.Lang == "be" {
-							fmt.Println(termenv.String(fmt.Sprintf("  Новы рэкорд, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
-						} else {
-							fmt.Println(termenv.String(fmt.Sprintf("  New High Score, %d", player.Score)).Foreground(termenv.ANSIBrightRed).Bold())
-						}
+						dialog.NewScoreDialog(player)
 						if err := data.SaveConfig(data.GetConfigPath(), *config); err != nil {
 							log.Printf("Error saving high score: %v", err)
 						}
